@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* lối tắc */
+.loitac {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+}
+
+.loitac .trochoi {
+    border: solid yellow 1px;
+    padding: 15px;
+    background-color: navy;
+}
+
+.trochoi {
+    position: relative;
+    transition: 1s ease-out;
+}
+
+.trochoi a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.trochoi a:hover {
+    color: navy;
+}
+
+.trochoi:hover {
+    background-color: white;
+}
+
+.trochoi .tctt {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: yellow;
+    bottom: 3%;
+    right: 1%;
+}
+
+/*  */
+
