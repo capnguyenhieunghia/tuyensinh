@@ -8,16 +8,14 @@
     const btnWheel = $('.btn--wheel');
     const showMsg = $('.msg');
 
-    //=====< Danh sách phần thưởng >=====
+    //=====< Danh sách phần thưởng (không có phần thưởng 0%) >=====
     const listGift = [
-        { text: 'Gấu bông ITC', chance: 5 }, //1%
-        { text: 'Quạt ITC', chance: 0 }, // 0%
-        { text: 'Quay lại lần nữa', chance: 10 }, //28%
-        { text: 'Bình nước ITC', chance: 5 }, //1%
-        { text: 'Balo ITC', chance: 0 }, //0%
-        { text: 'Chúc bạn may mắn lần sau', chance: 30 }, //45%
-        { text: 'Bút ITC', chance: 20 }, //10%
-        { text: 'Quay lại lần nữa', chance: 30 } //35%
+        { text: 'Gấu bông ITC', chance: 0 }, // 5%
+        { text: 'Quay lại lần nữa', chance: 15 }, // 10%
+        { text: 'Bình nước ITC', chance: 0 }, // 5%
+        { text: 'Chúc bạn may mắn lần sau', chance: 50 }, // 30%
+        { text: 'Bút ITC', chance: 5 }, // 20%
+        { text: 'Quay lại lần nữa', chance: 30 } // 30%
     ];
 
     const totalChance = 100;
@@ -30,7 +28,7 @@
         };
     });
 
-    const size = listGift.length;
+    const size = cumulativeGifts.length; // Cập nhật kích thước theo danh sách mới
     const rotate = 360 / size;
     const skewY = 90 - rotate;
 
@@ -63,21 +61,19 @@
         let cumulative = 0; // Biến để theo dõi tỷ lệ tích lũy
 
         for (let i = 0; i < cumulativeGifts.length; i++) {
-            if (cumulativeGifts[i].chance > 0) { // Kiểm tra xác suất
-                cumulative += cumulativeGifts[i].chance;
-                if (random < cumulative) {
-                    return { ...cumulativeGifts[i], index: i };
-                }
+            cumulative += cumulativeGifts[i].chance;
+            if (random < cumulative) {
+                return { ...cumulativeGifts[i], index: i };
             }
         }
 
-        return { text: 'Không có phần thưởng', index: -1 };
+        return { text: 'Không có phần thưởng', index: -1 }; // Không thể xảy ra nữa
     };
 
     const showGift = gift => {
         let timer = setTimeout(() => {
             isRotating = false;
-            showMsg.innerHTML = `👉 ${gift.text} 👈`;
+            showMsg.innerHTML = `${gift.text}`;
             clearTimeout(timer);
         }, timeRotate);
     };

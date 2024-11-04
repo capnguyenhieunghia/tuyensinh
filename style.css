@@ -4,50 +4,161 @@
     box-sizing: border-box;
 }
 
-
-/* lối tắc */
-.loitac {
+.game {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
-    width: 100%;
-    height: 100vh;
-    align-items: center;
-}
-
-.loitac .trochoi {
-    border: solid yellow 1px;
-    padding: 15px;
-    background-color: navy;
+    gap: 10px;
+    margin: 20px 0;
 }
 
 .trochoi {
+    border-radius: 5px;
     position: relative;
-    transition: 1s ease-out;
+    width: 45%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    background-image: url('./image/logoitc.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 .trochoi a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.trochoi a:hover {
-    color: navy;
-}
-
-.trochoi:hover {
-    background-color: white;
-}
-
-.trochoi .tctt {
+    bottom: 0;
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: yellow;
-    bottom: 3%;
-    right: 1%;
+    text-decoration: none;
+    background-color: navy;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 3px;
 }
 
-/*  */
+.mxh a {
+    text-decoration: none;
+    color: white;
+}
 
+.mxh-a {
+    background-color: navy;
+    border: solid black 1px;
+    padding: 5px 10px;
+    width: 30%;
+    text-align: center;
+    font-size: 18px;
+
+}
+
+.trungbay {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 300px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('./image/hinhtruong.jpg');
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.img-tb {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.img-tb img {
+    width: 70%;
+    height: 50%;
+    object-fit: contain;
+}
+
+.conten-tb {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    color: navy;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+}
+
+.footer {
+    margin: 20px 0 0 0;
+}
+
+.conten-tb img {
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+}
+
+.video {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+
+.vd {
+    /* position: relative; */
+    overflow: hidden;
+    /* Prevents overflow of iframe */
+}
+
+iframe {
+    pointer-events: none;
+    /* Disable all mouse events */
+}
+
+#carouselExampleIndicators {
+    width: 50%;
+}
+
+.hi {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 1201px) {
+    .trungbay {
+        height: 500px;
+        object-fit: contain;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .trochoi {
+        width: 25%;
+    }
+
+    .mxh-a {
+        width: 25%;
+    }
+}
+
+@media (max-width: 600px) {
+    iframe {
+        width: 350px;
+        height: 250px;
+    }
+
+    .hi {
+        display: none;
+    }
+
+    #carouselExampleIndicators {
+        width: 100%;
+    }
+}
