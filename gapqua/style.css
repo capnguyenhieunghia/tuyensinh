@@ -93,16 +93,18 @@ button:hover {
     .gift-container {
         gap: 40px;
     }
-     .gift{
+
+    .gift {
         width: 120px;
         height: 120px;
-     }
+    }
 
-     .result{
+    .result {
         font-size: 18px;
         text-align: center;
-     }
-     h2{
+    }
+
+    h2 {
         font-size: 15px;
-     }
+    }
 }

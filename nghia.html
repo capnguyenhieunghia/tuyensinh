@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiển thị Dữ liệu từ Google Sheets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            box-sizing: border-box;
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            font-size: 1.2em;
+        }
+
+        .card p {
+            margin: 0;
+            color: #555;
+        }
+
+        .winner-card {
+            margin-top: 20px;
+            padding: 16px;
+            border: 2px solid green;
+            border-radius: 5px;
+            background-color: #e8f5e9;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        /* Hộp thoại nhập mật khẩu */
+        #password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .modal-content input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .key {
+            padding: 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .key:hover {
+            background-color: #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="button" id="random-button">Quay Random Sinh Viên</button>
+    <div class="winner-card" id="winner-card" style="display: none;">
+        <h3>Danh sách học sinh</h3>
+        <p id="winner-name"></p>
+        <p id="winner-school"></p>
+    </div>
+    <h2>Dữ liệu từ Google Sheets</h2>
+    <div class="card-container" id="data-cards">
+        <!-- Dữ liệu sẽ được thêm vào đây -->
+    </div>
+
+    <!-- Hộp thoại nhập mật khẩu -->
+    <div id="password-modal">
+        <div class="modal-content">
+            <h3>Nhập Mật Khẩu</h3>
+            <input type="password" id="password-input" placeholder="Mật khẩu" />
+            <div class="keyboard">
+                <div class="key">1</div>
+                <div class="key">2</div>
+                <div class="key">3</div>
+                <div class="key">4</div>
+                <div class="key">5</div>
+                <div class="key">6</div>
+                <div class="key">7</div>
+                <div class="key">8</div>
+                <div class="key">9</div>
+                <div class="key">0</div>
+                <div class="key" id="clear-key">Xóa</div>
+                <div class="key" id="enter-key">Xác Nhận</div>
+            </div>
+            <button id="cancel-password">Hủy</button>
+        </div>
+    </div>
+
+    <script>
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/gviz/tq?tqx=out:csv';
+        let students = [];
+        const correctPassword = '123456'; // Mật khẩu đúng
+
+        fetch(sheetUrl)
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split('\n').slice(1); // Bỏ qua dòng tiêu đề
+                const cardContainer = document.querySelector('#data-cards');
+
+                rows.forEach(row => {
+                    const cols = row.split(',').map(col => col.replace(/"/g, '').trim());
+                    const name = cols[2]; // Họ và tên
+                    const school = cols[3]; // Trường
+
+                    if (name && school) {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        card.innerHTML = `<h3>${name}</h3><p>${school}</p>`;
+                        cardContainer.appendChild(card);
+                        students.push({ name, school });
+                    }
+                });
+            })
+            .catch(error => console.error('Có lỗi xảy ra:', error));
+
+        document.getElementById('random-button').addEventListener('click', () => {
+            document.getElementById('password-modal').style.display = 'flex'; // Hiển thị hộp thoại
+        });
+
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', () => {
+                const passwordInput = document.getElementById('password-input');
+                if (key.innerText === 'Xóa') {
+                    passwordInput.value = ''; // Xóa nội dung ô nhập
+                } else if (key.innerText === 'Xác Nhận') {
+                    const password = passwordInput.value;
+
+                    if (password === correctPassword) {
+                        document.getElementById('password-modal').style.display = 'none'; // Ẩn hộp thoại
+                        if (students.length > 0) {
+                            const randomIndex = Math.floor(Math.random() * students.length);
+                            const winner = students[randomIndex];
+
+                            document.getElementById('winner-name').textContent = winner.name;
+                            document.getElementById('winner-school').textContent = winner.school;
+                            document.getElementById('winner-card').style.display = 'block';
+
+                            alert(`Chúc mừng ${winner.name}! Bạn đã trúng thưởng.`);
+                        } else {
+                            alert('Chưa có sinh viên nào để quay thưởng!');
+                        }
+                    } else {
+                        alert('Mật khẩu không chính xác. Vui lòng thử lại.');
+                    }
+                } else {
+                    passwordInput.value += key.innerText; // Thêm ký tự vào ô nhập
+                }
+            });
+        });
+
+        document.getElementById('cancel-password').addEventListener('click', () => {
+            document.getElementById('password-modal').style.display = 'none'; // Ẩn hộp thoại
+        });
+    </script>
+
+</body>
+
+</html>
