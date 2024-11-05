@@ -25,6 +25,15 @@
     align-items: center;
     justify-content: center;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    opacity: 0;
+    /* Start hidden */
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.trochoi.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .trochoi a {
@@ -50,7 +59,6 @@
     width: 30%;
     text-align: center;
     font-size: 18px;
-
 }
 
 .trungbay {
@@ -58,12 +66,21 @@
     justify-content: center;
     width: 100%;
     height: 300px;
+    background-image: url('./image/hinhtruong.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url('./image/hinhtruong.jpg');
     flex-wrap: wrap;
     margin: 20px 0;
+    opacity: 0;
+    /* Start hidden */
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.trungbay.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .img-tb {
@@ -92,14 +109,14 @@
     padding: 10px;
 }
 
-.footer {
-    margin: 20px 0 0 0;
-}
-
 .conten-tb img {
     width: 100%;
     height: 80%;
     object-fit: cover;
+}
+
+.footer {
+    margin: 20px 0 0 0;
 }
 
 .video {
@@ -107,34 +124,80 @@
     display: flex;
     justify-content: center;
     margin: 20px 0;
+    opacity: 0;
+    /* Start hidden */
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
+.video.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 .vd {
-    /* position: relative; */
     overflow: hidden;
-    /* Prevents overflow of iframe */
 }
 
 iframe {
     pointer-events: none;
-    /* Disable all mouse events */
 }
 
 #carouselExampleIndicators {
     width: 50%;
 }
 
-.hi {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.carousel-item img {
+    height: 400px;
+    object-fit: contain;
 }
 
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+.thap {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    /* Stack elements vertically */
+    align-items: center;
+    /* Center align items */
+    /* gap: 20px; */
+    /* Space between items */
+}
+
+.tang {
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Optional: Add a background for visibility */
+    padding: 5px 10px;
+    /* Padding around the text */
+    /* border-radius: 5px; */
+    /* Rounded corners */
+    display: flex;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    /* Center text */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Optional: Add some shadow */
+    transition: 1s;
+}
+
+.tang:hover {
+    background-color: navy;
+    color: white;
+}
+
+/* Media Queries */
 @media (min-width: 1201px) {
     .trungbay {
         height: 500px;
-        object-fit: contain;
         width: 90%;
         margin: 0 auto;
     }
@@ -148,17 +211,21 @@ iframe {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 576px) {
+    .carousel-item img {
+        height: auto;
+    }
+
     iframe {
         width: 350px;
         height: 250px;
     }
 
-    .hi {
-        display: none;
+    #carouselExampleIndicators {
+        width: 100%;
     }
 
-    #carouselExampleIndicators {
+    .thap {
         width: 100%;
     }
 }
