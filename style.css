@@ -13,13 +13,12 @@
 }
 
 .trochoi {
-    border-radius: 5px;
+    padding: 10px;
     position: relative;
     width: 45%;
-    height: 150px;
+    height: 200px;
     display: flex;
     flex-direction: column;
-    background-image: url('./image/logoitc.png');
     background-position: center;
     background-repeat: no-repeat;
     align-items: center;
@@ -31,6 +30,42 @@
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
+.trochoi:nth-child(1) {
+    background-image: url('./image/hinhvongquaymayman.gif');
+    background-size: 200px;
+}
+
+.trochoi:nth-child(2) {
+    background-image: url('./image/anhchemhoaqua.jpg');
+    background-size: cover;
+}
+
+.trochoi:nth-child(3) {
+    background-image: url('./image/giai-cau-do-640.jpg');
+    background-size: cover;
+}
+
+.trochoi:nth-child(4) {
+    background-image: url('./image/giai-cau-do-640.jpg');
+    background-size: cover;
+}
+
+.trochoi:nth-child(5) {
+    background-image: url('./image/logo.png');
+}
+
+.trochoi:nth-child(6) {
+    background-image: url('./image/logo.png');
+}
+
+
+.trochoi img {
+    position: absolute;
+    width: 50px;
+    top: 1%;
+    left: 1%;
+}
+
 .trochoi.show {
     opacity: 1;
     transform: translateY(0);
@@ -40,11 +75,12 @@
     bottom: 0;
     position: absolute;
     text-decoration: none;
-    background-color: navy;
-    color: white;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: navy;
+    font-weight: bold;
     width: 100%;
     text-align: center;
-    padding: 3px;
+    padding: 5px;
 }
 
 .mxh a {
@@ -228,4 +264,33 @@ iframe {
     .thap {
         width: 100%;
     }
+
+    
+.trochoi:nth-child(1) {
+    background-image: url('./image/hinhvongquaymayman.gif');
+    background-size: 160px;
+}
+
+.trochoi:nth-child(2) {
+    background-image: url('./image/anhchemhoaqua.jpg');
+    background-size: cover;
+}
+
+.trochoi:nth-child(3) {
+    background-image: url('./image/giai-cau-do-640.jpg');
+    background-size: cover;
+}
+
+.trochoi:nth-child(4) {
+    background-image: url('./image/giai-cau-do-640.jpg');
+    background-size: cover;
+}
+
+.trochoi:nth-child(5) {
+    background-image: url('./image/logo.png');
+}
+
+.trochoi:nth-child(6) {
+    background-image: url('./image/logo.png');
+}
 }
