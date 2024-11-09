@@ -27,13 +27,16 @@
 
         .answers {
             width: 100%;
-            height: 300px;
-            gap: 25px;
-            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            align-items: center;
+            display: grid;
+            padding: 10px;
+            grid-template-columns: repeat(2, 1fr);
+            /* Two columns */
+            gap: 10px;
+            /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
+            justify-items: center;
+            /* Center items in each cell */
+            margin-top: 15px;
+            /* Add some space above the answers */
         }
 
         button {
@@ -43,13 +46,12 @@
             border-radius: 5px;
             padding: 12px 20px;
             height: 100px;
-            width: 50%;
-            margin: 5px;
+            width: 100%;
+            max-width: 650px;
+            /* Adjusted to fit in two columns */
             font-size: 1em;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
-            width: 100%;
-            max-width: 300px;
         }
 
         button:hover {
@@ -72,6 +74,8 @@
             button {
                 font-size: 0.9em;
                 padding: 10px;
+                max-width: 100%;
+                /* Full width on smaller screens */
             }
         }
     </style>
@@ -84,8 +88,9 @@
         <div class="question" id="question"></div>
         <div class="answers" id="answers"></div>
         <div id="result"></div>
-        <button id="next-button" style="width: 100%; display: flex; justify-content: center; align-items: center;">Câu hỏi tiếp theo</button>
     </div>
+    <button id="next-button" style="width: 100%; display: flex; justify-content: center; align-items: center;">Câu hỏi
+        tiếp theo</button>
 
     <script>
         const sheetID = '1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY';
