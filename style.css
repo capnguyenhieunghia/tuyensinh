@@ -265,32 +265,32 @@ iframe {
         width: 100%;
     }
 
-    
-.trochoi:nth-child(1) {
-    background-image: url('./image/hinhvongquaymayman.gif');
-    background-size: 160px;
-}
 
-.trochoi:nth-child(2) {
-    background-image: url('./image/anhchemhoaqua.jpg');
-    background-size: cover;
-}
+    .trochoi:nth-child(1) {
+        background-image: url('./image/hinhvongquaymayman.gif');
+        background-size: 160px;
+    }
 
-.trochoi:nth-child(3) {
-    background-image: url('./image/giai-cau-do-640.jpg');
-    background-size: cover;
-}
+    .trochoi:nth-child(2) {
+        background-image: url('./image/anhchemhoaqua.jpg');
+        background-size: cover;
+    }
 
-.trochoi:nth-child(4) {
-    background-image: url('./image/giai-cau-do-640.jpg');
-    background-size: cover;
-}
+    .trochoi:nth-child(3) {
+        background-image: url('./image/giai-cau-do-640.jpg');
+        background-size: cover;
+    }
 
-.trochoi:nth-child(5) {
-    background-image: url('./image/logo.png');
-}
+    .trochoi:nth-child(4) {
+        background-image: url('./image/giai-cau-do-640.jpg');
+        background-size: cover;
+    }
 
-.trochoi:nth-child(6) {
-    background-image: url('./image/logo.png');
-}
+    .trochoi:nth-child(5) {
+        background-image: url('./image/logo.png');
+    }
+
+    .trochoi:nth-child(6) {
+        background-image: url('./image/logo.png');
+    }
 }
