@@ -12,50 +12,52 @@
 
         h1 {
             color: #00695c;
-            margin-bottom: 20px;
+        }
+
+        #question-container {
+            display: flex;
+            width: 80%;
+            margin: 0 auto;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
 
         .question {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            text-align: center;
-            background-color: #ffffff;
-            border-radius: 8px;
+            width: 50%;
+            height: auto;
+            font-size: 18px;
             padding: 15px;
-            box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+            margin: 0 0 20px 0;
+            text-align: center;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
         }
 
         .answers {
-            width: 100%;
+            width: 50%;
             display: grid;
-            padding: 10px;
             grid-template-columns: repeat(2, 1fr);
-            /* Two columns */
             gap: 10px;
-            /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
             justify-items: center;
-            /* Center items in each cell */
-            margin-top: 15px;
-            /* Add some space above the answers */
         }
 
         button {
-            background-color: navy;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 12px 20px;
-            height: 100px;
             width: 100%;
-            max-width: 650px;
-            /* Adjusted to fit in two columns */
-            font-size: 1em;
+            height: 120px;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
+            color: navy;
+            font-size: 22px;
+            font-weight: bold;
+            padding: 15px;
+            background: none;
+            border: none;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
         }
 
         button:hover {
-            background-color: #004d40;
+            background-color: navy;
+            color: white;
             transform: translateY(-2px);
         }
 
@@ -66,35 +68,45 @@
             font-size: 22px;
         }
 
+        #next-button {
+            width: 100%;
+        }
+
         @media (max-width: 600px) {
             .question {
                 font-size: 1.2em;
+                width: 100%;
+            }
+
+            .answers {
+                width: 100%;
             }
 
             button {
                 font-size: 0.9em;
                 padding: 10px;
-                max-width: 100%;
-                /* Full width on smaller screens */
+                width: 100%;
             }
         }
     </style>
 </head>
 
 <body>
-
-    <h1>Trò chơi trả lời câu hỏi</h1>
+    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin: 0 0 10px 0;">
+        <img src="./image/logoitc.png" alt="" width="50px">
+        <h3>TRƯỜNG CĐ CNTT TP. HCM</h3>
+    </div>
+    <h4 style="text-align: center; color: navy;">TRÒ CHƠI TRẢ LỜI CÂU HỎI CÙNG HỌC SINH THPT</h4>
     <div id="question-container">
         <div class="question" id="question"></div>
         <div class="answers" id="answers"></div>
         <div id="result"></div>
     </div>
-    <button id="next-button" style="width: 100%; display: flex; justify-content: center; align-items: center;">Câu hỏi
-        tiếp theo</button>
+    <button id="next-button" style="width: 20%; display: flex; justify-content: center; align-items: center;">Câu hỏi tiếp theo</button>
 
     <script>
         const sheetID = '1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY';
-        const sheetName = 'traloicauhoi';
+        const sheetName = 'thpt'; // Thay đổi tên trang tính ở đây
         const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
         let questions = [];
@@ -138,15 +150,20 @@
                 questionElement.textContent = currentQuestion.question;
                 answersElement.innerHTML = '';
 
-                currentQuestion.answers.forEach((answer, index) => {
-                    const button = document.createElement('button');
-                    button.textContent = String.fromCharCode(65 + index) + '. ' + answer; // A, B, C, D
-                    button.onclick = () => checkAnswer(answer, currentQuestion.correctAnswer);
-                    answersElement.appendChild(button);
-                });
+                if (currentQuestion.answers.length > 0) {
+                    currentQuestion.answers.forEach((answer, index) => {
+                        const button = document.createElement('button');
+                        button.textContent = String.fromCharCode(65 + index) + '. ' + answer; // A, B, C, D
+                        button.onclick = () => checkAnswer(answer, currentQuestion.correctAnswer);
+                        answersElement.appendChild(button);
+                    });
 
-                resultElement.textContent = '';
-                nextButton.style.display = 'none'; // Ẩn nút "Câu hỏi tiếp theo" khi hiển thị câu hỏi
+                    resultElement.textContent = '';
+                    nextButton.style.display = 'none'; // Ẩn nút "Câu hỏi tiếp theo" khi hiển thị câu hỏi
+                } else {
+                    resultElement.textContent = 'Không có đáp án nào để chọn.';
+                    nextButton.style.display = 'block'; // Hiện nút "Câu hỏi tiếp theo"
+                }
             } else {
                 questionContainer.innerHTML = '<h2>Cảm ơn bạn đã tham gia!</h2>';
                 nextButton.style.display = 'none'; // Ẩn nút khi không còn câu hỏi

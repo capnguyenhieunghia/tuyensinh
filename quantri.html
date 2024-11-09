@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hiển thị Dữ liệu từ Google Sheets</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         th,
@@ -21,12 +27,22 @@
         th {
             background-color: #f2f2f2;
         }
+
+        #search {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 
 <body>
 
-    <h2>Dữ liệu từ Google Sheets</h2>
+    <h2 style="text-align: center;">DỮ LIỆU HSSV ĐÃ ĐĂNG KÝ</h2>
+    <a href="./home.html" style="color: navy; font-size: 18px;">Trang người dùng</a>
+    <input type="text" id="search" placeholder="Tìm kiếm theo tên hoặc SĐT..." onkeyup="filterTable()">
+
     <table id="data-table">
         <thead>
             <tr>
@@ -34,6 +50,7 @@
                 <th>SĐT</th>
                 <th>Họ và tên</th>
                 <th>Trường</th>
+                <th>Ngày sinh</th>
             </tr>
         </thead>
         <tbody>
@@ -61,6 +78,27 @@
                 });
             })
             .catch(error => console.error('Có lỗi xảy ra:', error));
+
+        function filterTable() {
+            const input = document.getElementById('search');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('data-table');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) { // Bắt đầu từ 1 để bỏ qua dòng tiêu đề
+                const cells = rows[i].getElementsByTagName('td');
+                let found = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].textContent.toLowerCase().includes(filter)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = found ? '' : 'none';
+            }
+        }
     </script>
 
 </body>
