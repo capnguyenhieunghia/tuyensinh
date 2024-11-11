@@ -4,6 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Chào mừng bạn đến với trường CĐ CNTT TP. HCM. Đăng nhập để tham gia các hoạt động và trò chơi.">
+    <meta name="keywords" content="CĐ CNTT, TP. HCM, đăng nhập, trò chơi, công nghệ thông tin">
+    <meta name="author" content="Trường CĐ CNTT TP. HCM">
+    <meta property="og:title" content="CĐ CNTT TP. HCM">
+    <meta property="og:description"
+        content="Chào mừng bạn đến với trường CĐ CNTT TP. HCM. Đăng nhập để tham gia các hoạt động và trò chơi.">
+    <meta property="og:image" content="./image/logoitc.png">
+    <meta property="og:url" content="itc.edu.vn">
     <title>CĐ CNTT TP. HCM</title>
     <style>
         * {
@@ -37,6 +46,11 @@
             margin-bottom: 8px;
         }
 
+        input {
+            outline: none;
+            color: navy;
+        }
+
         input[type="text"],
         input[type="submit"] {
             width: 100%;
@@ -47,13 +61,15 @@
         }
 
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: navy;
             color: white;
+            transition: 1s ease;
             cursor: pointer;
         }
 
         input[type="submit"]:hover {
             background-color: #45a049;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
 
         .message {
@@ -104,13 +120,18 @@
 </head>
 
 <body>
-    <h3 style="text-align: center;">CHÀO MỪNG BẠN ĐẾN VỚI <br> TRƯỜNG CĐ CNTT TP. HCM</h3>
+    <h3
+        style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 5px; margin: 10px 0 10px 0;">
+        <img src="./image/logoitc.png" alt="" width="50px">CHÀO MỪNG BẠN ĐẾN VỚI <br> TRƯỜNG CĐ CNTT TP. HCM
+    </h3>
     <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLSehBo4tBF8bMqJtFKvqEBSHOTL2tyEAf5qkLP0Bb9iZKNb-_A/viewform?embedded=true"
         frameborder="0" marginheight="0" marginwidth="0">Đang tải…</iframe>
     <div class="container" style="margin-top: 10px;">
         <h2>Đăng Nhập</h2>
         <form id="login-form">
+            <label for="name">Họ và tên:</label>
+            <input type="text" placeholder="Nhập họ tên của bạn" id="name" required>
             <label for="phone">Số điện thoại:</label>
             <input type="text" placeholder="Nhập SĐT" id="phone" required>
             <input type="submit" value="Đăng Nhập">
@@ -126,45 +147,48 @@
         <p>1. Vui lòng điền thông tin vào biểu mẫu ở trên.</p>
         <p>2. Nhập số điện thoại của bạn đúng với thông tin đã đăng ký.</p>
         <p>3. Nhấn nút "Đăng Nhập" để bắt đầu tham gia trò chơi.</p>
-        <p>4. Nếu có bất kỳ vấn đề nào, hãy liên hệ với quản trị viên.</p>
+        <p>4. Nếu có bất kỳ vấn đề nào, hãy liên hệ với <a href="tel: 0938861080">CĐ ITC</a>.</p>
     </div>
     <script>
         const sheetUrl = 'https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/gviz/tq?tqx=out:csv';
 
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+        }
+
         document.getElementById('login-form').addEventListener('submit', function (event) {
             event.preventDefault();
+            const nameInput = document.getElementById('name').value.trim();
             const phoneInput = document.getElementById('phone').value.trim();
             const loadingDiv = document.getElementById('loading');
             const messageDiv = document.getElementById('message');
 
-            // Hiện hiệu ứng loading
             loadingDiv.style.display = 'block';
-            messageDiv.textContent = ''; // Xóa thông điệp cũ
+            messageDiv.textContent = '';
 
             fetch(sheetUrl)
                 .then(response => response.text())
                 .then(data => {
-                    const rows = data.split('\n').slice(1); // Bỏ qua dòng tiêu đề
+                    const rows = data.split('\n').slice(1);
                     let found = false;
                     rows.forEach(row => {
                         const cols = row.split(',').map(col => col.replace(/"/g, '').trim());
-                        const phone = cols[1]; // Giả sử cột số điện thoại là cột thứ 2
+                        const phone = cols[1];
                         if (phone === phoneInput) {
                             found = true;
                         }
                     });
 
-                    // Ẩn hiệu ứng loading
                     loadingDiv.style.display = 'none';
 
                     if (found) {
-                        // Kiểm tra số điện thoại đặc biệt
+                        setCookie('username', nameInput, 7); // Lưu tên vào cookie
                         if (phoneInput === '0938861080') {
-                            window.location.href = 'quantri.html'; // Chuyển hướng đến trang admin
+                            window.location.href = 'quantri.html';
                         } else {
                             messageDiv.textContent = 'Đăng nhập thành công!';
                             messageDiv.style.color = 'green';
-                            // Chuyển hướng đến trang home.html sau 1 giây
                             setTimeout(() => {
                                 window.location.href = 'home.html';
                             }, 1000);
@@ -174,7 +198,7 @@
                     }
                 })
                 .catch(error => {
-                    loadingDiv.style.display = 'none'; // Ẩn hiệu ứng loading nếu có lỗi
+                    loadingDiv.style.display = 'none';
                     console.error('Có lỗi xảy ra:', error);
                     messageDiv.textContent = 'Đã xảy ra lỗi. Vui lòng thử lại!';
                 });
