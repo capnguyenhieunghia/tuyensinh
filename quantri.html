@@ -6,9 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hiển thị Dữ liệu từ Google Sheets</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
         }
 
         table {
@@ -20,8 +25,8 @@
         th,
         td {
             border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+            padding: 5px 0px;
+            text-align: center;
         }
 
         th {
@@ -29,20 +34,27 @@
         }
 
         #search {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 20px;
+            width: 300px;
+            padding: 10px;
             border: 1px solid #ddd;
+            outline: none;
         }
     </style>
 </head>
 
 <body>
 
-    <h2 style="text-align: center;">DỮ LIỆU HSSV ĐÃ ĐĂNG KÝ</h2>
-    <a href="./home.html" style="color: navy; font-size: 18px;">Trang người dùng</a>
+    <h2 style="text-align: center; margin: 10px 0;">DỮ LIỆU HSSV ĐÃ ĐĂNG KÝ</h2>
+    <div style="display: flex; justify-content: center; gap: 10px; margin: 10px 0;">
+        <a href="./home.html" style="color: navy; font-size: 15px;">Trang người dùng</a>
+        <a href="https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/edit?usp=sharing"
+            style="color: navy; font-size: 15px;">File
+            dữ liệu</a>
+        <a href="https://docs.google.com/spreadsheets/d/1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY/edit?usp=sharing"
+            style="color: navy; font-size: 15px;">File
+            câu hỏi</a>
+    </div>
     <input type="text" id="search" placeholder="Tìm kiếm theo tên hoặc SĐT..." onkeyup="filterTable()">
-
     <table id="data-table">
         <thead>
             <tr>
