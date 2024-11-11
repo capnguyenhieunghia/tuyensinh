@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CĐ ITC-Trò Chơi Chém Hoa Quả</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Tham gia trò chơi chém hoa quả vui nhộn tại CĐ ITC! Nâng cao điểm số và thách thức bản thân trong 60 giây!">
+    <meta name="keywords" content="trò chơi, chém hoa quả, CĐ ITC, game, vui nhộn, giải trí">
+    <meta name="author" content="Tên của bạn hoặc Tổ chức">
+
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="Trò Chơi Chém Hoa Quả CĐ ITC">
+    <meta property="og:description" content="Tham gia trò chơi chém hoa quả vui nhộn tại CĐ ITC!">
+    <meta property="og:image" content="URL đến hình ảnh đại diện của trò chơi">
+    <meta property="og:url" content="itc.edu.vn">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Trò Chơi Chém Hoa Quả CĐ ITC">
+    <meta name="twitter:description" content="Tham gia trò chơi chém hoa quả vui nhộn tại CĐ ITC!">
+    <meta name="twitter:image" content="URL đến hình ảnh đại diện của trò chơi">
+
+    <!-- Favicon -->
+    <link rel="icon" href="URL đến favicon" type="image/png">
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f8ff;
+            font-family: Arial, sans-serif;
+        }
+
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: #fff;
+            border: none;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        #timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        #dateTime {
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        #gameOver {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: red;
+        }
+
+        .slice {
+            position: absolute;
+            font-size: 40px;
+            pointer-events: none;
+            transition: transform 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="score">Điểm: 0</div>
+    <div id="timer">Thời gian: 60</div>
+    <div id="dateTime">Ngày: <span id="date"></span> | Thời gian: <span id="time"></span></div>
+    <div id="gameOver">Trò Chơi Kết Thúc! Điểm: <span id="finalScore"></span></div>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let score = 0;
+        let fruits = [];
+        const fruitImages = ['🍎', '🍌', '🍉', '🍇', '🍍', '🍓'];
+        let timer = 60;
+        let gameInterval;
+
+        function Fruit() {
+            this.x = Math.random() * canvas.width;
+            this.y = canvas.height;
+            this.size = 50;
+            this.image = fruitImages[Math.floor(Math.random() * fruitImages.length)];
+            this.speed = 2 + Math.random() * 3;
+
+            this.update = function () {
+                this.y -= this.speed;
+                if (this.y < -this.size) {
+                    this.reset();
+                }
+            };
+
+            this.reset = function () {
+                this.y = canvas.height;
+                this.x = Math.random() * canvas.width;
+            };
+
+            this.draw = function () {
+                ctx.font = '40px Arial';
+                ctx.fillText(this.image, this.x, this.y);
+            };
+        }
+
+        function spawnFruit() {
+            fruits.push(new Fruit());
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            fruits.forEach((fruit, index) => {
+                fruit.update();
+                fruit.draw();
+                if (fruit.y < 0) {
+                    fruits.splice(index, 1);
+                }
+            });
+            requestAnimationFrame(update);
+        }
+
+        function handleTouch(event) {
+            const touchX = event.touches[0].clientX;
+            const touchY = event.touches[0].clientY;
+            fruits.forEach((fruit, index) => {
+                if (touchX >= fruit.x && touchX <= fruit.x + fruit.size &&
+                    touchY >= fruit.y - fruit.size && touchY <= fruit.y) {
+                    score++;
+                    document.getElementById('score').innerText = 'Điểm: ' + score;
+                    createSliceEffect(fruit.x, fruit.y);
+                    fruits.splice(index, 1);
+                }
+            });
+        }
+
+        function createSliceEffect(x, y) {
+            const slice = document.createElement('div');
+            slice.className = 'slice';
+            slice.innerText = '💥';
+            slice.style.left = `${x}px`;
+            slice.style.top = `${y}px`;
+            document.body.appendChild(slice);
+            setTimeout(() => {
+                slice.style.transform = 'scale(0)';
+            }, 0);
+            setTimeout(() => {
+                slice.remove();
+            }, 500);
+        }
+
+        function updateTimer() {
+            timer--;
+            document.getElementById('timer').innerText = 'Thời gian: ' + timer;
+
+            if (timer <= 0) {
+                clearInterval(gameInterval);
+                endGame();
+            }
+        }
+
+        function endGame() {
+            document.getElementById('gameOver').style.display = 'block';
+            document.getElementById('finalScore').innerText = score;
+            canvas.style.display = 'none';
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateString = now.toLocaleDateString('vi-VN');
+            const timeString = now.toLocaleTimeString('vi-VN');
+            document.getElementById('date').innerText = dateString;
+            document.getElementById('time').innerText = timeString;
+        }
+
+        canvas.addEventListener('touchstart', handleTouch);
+        canvas.addEventListener('touchmove', handleTouch);
+        setInterval(spawnFruit, 1000);
+        gameInterval = setInterval(updateTimer, 1000);
+        update();
+        setInterval(updateDateTime, 1000); // Cập nhật thời gian mỗi giây
+
+        window.onload = function () {
+            alert("Chào mừng bạn đến với trò chơi Chém Hoa Quả tại TRƯỜNG CĐ CÔNG NGHỆ THÔNG TIN TP. HCM bắt đầu chơi nào!");
+            updateDateTime(); // Cập nhật ngay khi tải trang
+        };
+    </script>
+</body>
+
+</html>
