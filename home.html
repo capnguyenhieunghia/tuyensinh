@@ -38,7 +38,7 @@
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        const randomDelay = Math.random() * 500; // Random delay up to 500ms
+                        const randomDelay = Math.random() * 500;
                         setTimeout(() => {
                             entry.target.classList.add('show');
                         }, randomDelay);
@@ -61,7 +61,7 @@
         <div class="name" style="font-weight: bold; font-size: 15px; text-align: center;"> BỘ LAO ĐỘNG THƯƠNG BINH VÀ XÃ
             HỘI <br> TRƯỜNG CAO ĐẲNG CNTT TP. HCM</div>
     </div>
-    <h4 id="welcome-message" style="color: navy;"></h4>
+    <h4 id="welcome-message" style="color: navy; text-align: center;"></h4>
     <div class="#" style="display: flex; justify-content: center; flex-wrap: wrap; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;  padding: 10px;             background-image: url(./image/hinhtruong.jpg);
         background-size: cover;
         background-repeat: no-repeat;
