@@ -179,8 +179,9 @@ button {
 
 /* SIDE MENU */
 .menu {
+	width: 100%;
 	cursor: pointer;
-	width: 25px;
+	width: 30px;
 	display: none;
 }
 
@@ -200,17 +201,13 @@ button {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	/* background: #FA4B37; */
 }
 
 .side-menu ul li {
 	list-style: none;
-	/* background: #009900; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* border-bottom: 1px solid #fff; */
-	/* padding: 10px 0px; */
 }
 
 .side-menu ul li:hover a {
@@ -222,7 +219,6 @@ button {
 	color: #FFF;
 	width: 100%;
 	font-size: 1em;
-	/* background: #2E3D49; */
 	text-decoration: none;
 	padding: 15px 0px;
 }
@@ -242,11 +238,10 @@ button {
 }
 
 .user img {
-	width: 60px;
+	width: 50px;
 	border-radius: 50%;
 	border: 2px solid #fff;
 	filter: drop-shadow(0 10px 20px #0004);
-	margin-right: 30px;
 	cursor: pointer;
 }
 
