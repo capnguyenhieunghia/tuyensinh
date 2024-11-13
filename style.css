@@ -242,6 +242,7 @@ button {
 	border-radius: 50%;
 	border: 2px solid #fff;
 	filter: drop-shadow(0 10px 20px #0004);
+	margin-right: 30px;
 	cursor: pointer;
 }
 
@@ -698,7 +699,6 @@ footer .btn:hover {
 
 	.logo {
 		transition: 1s;
-		margin-left: 30%;
 	}
 
 	nav ul,
@@ -714,8 +714,7 @@ footer .btn:hover {
 	nav {
 		padding-bottom: 20px;
 		border-bottom: 1px solid #0005;
-		/* position: fixed; */
-		/* top: 0; */
+
 	}
 
 	.quote p,
