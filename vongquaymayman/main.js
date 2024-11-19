@@ -11,10 +11,10 @@
     //=====< Danh sách phần thưởng (không có phần thưởng 0%) >=====
     const listGift = [
         { text: 'Gấu bông ITC', chance: 0 }, // 5%
-        { text: 'Quay lại lần nữa', chance: 15 }, // 10%
+        { text: 'Quay lại lần nữa', chance: 18 }, // 10%
         { text: 'Bình nước ITC', chance: 0 }, // 5%
         { text: 'Chúc bạn may mắn lần sau', chance: 50 }, // 30%
-        { text: 'Bút ITC', chance: 5 }, // 20%
+        { text: 'Bút ITC', chance: 2 }, // 20%
         { text: 'Quay lại lần nữa', chance: 30 } // 30%
     ];
 
