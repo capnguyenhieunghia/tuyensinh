@@ -14,6 +14,7 @@
     <meta property="og:image" content="./image/logoitc.png">
     <meta property="og:url" content="itc.edu.vn">
     <title>CĐ CNTT TP. HCM</title>
+    <link rel="icon" href="./image/logoitc.png">
     <style>
         * {
             margin: 0;
@@ -23,22 +24,34 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url('./images/extra/backwallpaper.jpg');
+            background-image: url('./image/hinhtruong.jpg');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            margin: 0;
-            padding: 20px;
+            width: 100%;
+            height: 100vh;
+            padding: 0 10px;
         }
+
+        .dangnhap {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            align-items: center;
+            flex-direction: column;
+        }
+
 
         .container {
             max-width: 400px;
-            margin: auto;
             background: #fff8;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
         }
+
 
         h2 {
             text-align: center;
@@ -53,32 +66,41 @@
             outline: none;
             color: black;
             background: none;
+
         }
 
         input::placeholder {
-            color: black;
+            color: transparent;
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            background-position: center;
+            font-weight: bold;
         }
 
         input[type="text"],
         input[type="submit"] {
             width: 100%;
             padding: 10px;
-            margin: 8px 0;
+            margin: 10px 0;
             border: none;
             border-bottom: black solid 1px;
         }
 
         input[type="submit"] {
-            background-color: navy;
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
             color: white;
             transition: 1s ease;
             cursor: pointer;
+
         }
 
         input[type="submit"]:hover {
             background-color: white;
             color: navy;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 25px;
+
         }
 
         .message {
@@ -112,61 +134,42 @@
             }
         }
 
-        iframe {
-            width: 100%;
-            box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-            height: 350px;
-        }
 
-        .guide {
-            width: 35%;
-            margin: 20px 0;
-            background: #fff8;
-            border-left: 6px solid #2196F3;
-            padding: 10px;
-            color: navy;
-            font-size: 17px;
-        }
-
-        @media (max-width: 600px) {
-            .guide {
-                width: 100%;
-                font-size: 14px;
-            }
-        }
+        @media (max-width: 600px) {}
     </style>
 </head>
 
 <body>
-    <h3
-        style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 5px; margin: 10px 0 10px 0;">
-        <img src="./image/logoitc.png" alt="" width="50px">CHÀO MỪNG BẠN ĐẾN VỚI <br> TRƯỜNG CĐ CNTT TP. HCM
-    </h3>
-    <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLSehBo4tBF8bMqJtFKvqEBSHOTL2tyEAf5qkLP0Bb9iZKNb-_A/viewform?embedded=true"
-        frameborder="0" marginheight="0" marginwidth="0">Đang tải…</iframe>
-    <div class="container" style="margin-top: 10px;">
-        <h2 style="color: navy;">Đăng Nhập</h2>
-        <form id="login-form">
-            <input type="text" placeholder="Nhập họ tên của bạn" id="name" required autocomplete="off">
-            <input type="text" placeholder="Nhập SĐT" id="phone" required autocomplete="off">
-            <input type="submit" value="Đăng Nhập">
-            <div class="message" id="message"></div>
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                Đang kiểm tra...
+    <div class="dangnhap">
+        <div class="container" style="margin-top: 10px;">
+            <div
+                style="display: flex; gap: 10px; align-items: center; justify-content: center; object-fit: contain;position: relative;">
+                <img src="./image/logoitc.png" alt="logo" width="50px" style="position: absolute; right: 5%;">
+                <h2 style="margin: 10px 0; 	color: transparent;
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            background-position: center;">ĐĂNG NHẬP</h2>
             </div>
-        </form>
+            <form id="login-form">
+                <input type="text" placeholder="Họ và tên" id="name" required autocomplete="off">
+                <input type="text" placeholder="Số điện thoại" id="phone" required autocomplete="off">
+                <input type="submit" value="Đăng Nhập">
+                <div class="message" id="message"></div>
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    Đang kiểm tra...
+                </div>
+            </form>
+            <div style="text-align: end; width: 100%;"><a href="dangky.html" style="text-decoration: none;">Đăng ký
+                    thông
+                    tin</a></div>
+            <marquee behavior="" direction="" style="margin: 10px 0 0 0;">Chào mừng bạn đến với Trường Cao đẳng Công
+                nghệ thông tin Tp. Hồ Chí Minh</marquee>
+        </div>
+        <p style="font-size: 11px; height: 0; width: 100%; margin: 0; text-align: center; color: gray;">&copy; 2024
+            P. TS - TT Trường Cao đẳng Công nghệ thông tin TP. HCM</p>
     </div>
-    <div class="guide">
-        <h4>Hướng Dẫn Sử Dụng</h4>
-        <p>1. Vui lòng điền thông tin vào biểu mẫu ở trên.</p>
-        <p>2. Nhập số điện thoại của bạn đúng với thông tin đã đăng ký.</p>
-        <p>3. Nhấn nút "Đăng Nhập" để bắt đầu tham gia trò chơi.</p>
-        <p>4. Nếu có bất kỳ vấn đề nào, hãy liên hệ với <a href="tel: 0938861080">CĐ ITC</a>.</p>
-    </div>
-    <p style="font-size: 11px; height: 0; width: 100%; margin: 0; text-align: center; color: gray;">&copy; 2024
-        P. TS - TT Trường Cao đẳng Công nghệ thông tin TP. HCM</p>
     <script>
         const sheetUrl = 'https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/gviz/tq?tqx=out:csv';
 
@@ -212,7 +215,7 @@
                             }, 1000);
                         }
                     } else {
-                        messageDiv.textContent = 'Số điện thoại không hợp lệ!';
+                        messageDiv.textContent = 'Thông tin không hợp lệ!';
                     }
                 })
                 .catch(error => {
