@@ -250,31 +250,7 @@ marquee {
 }
 
 /* foorter */
-footer {
-    background-image: url('./image/hinhtruong.jpg');
-    padding: 20px;
-    width: 100%;
-}
 
-.ft-thongtin {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.ft-logo img {
-    max-width: 80px;
-    height: auto;
-    margin-bottom: 5px;
-}
-
-.contact p {
-    background: hsla(0, 0%, 100%, .4);
-    margin: 5px 0;
-    padding: 10px;
-    color: navy;
-}
 
 
 /*  */
