@@ -245,8 +245,8 @@ marquee {
     background: linear-gradient(250deg, #ec1d25, #0d296b);
     color: white;
     font-weight: bold;
-    padding: 7px 5px;
-    margin: 0;
+width: 80%;
+    margin: 0 auto;
 }
 
 /* foorter */
