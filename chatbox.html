@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Box Tự Động</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .chat-box {
+            width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            background-color: #e1f5fe;
+            align-self: flex-end;
+        }
+
+        .message.bot {
+            background-color: #f1f8e9;
+            align-self: flex-start;
+        }
+
+        .input-area {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+
+        .input-area input {
+            flex: 1;
+            border: solid 1px black;
+            padding: 10px;
+            border-radius: 0;
+            outline: none;
+        }
+
+        .input-area button {
+            border: none;
+            padding: 10px;
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
+            color: white;
+            cursor: pointer;
+            border-radius: 0;
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px 0;
+            max-height: 150px;
+            /* Giới hạn chiều cao của phần gợi ý */
+            overflow-x: auto;
+            /* Hiện thanh cuộn khi gợi ý vượt quá chiều cao */
+        }
+
+        .suggestion {
+            background-color: #e7f1ff;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 5px;
+            cursor: pointer;
+            white-space: nowrap;
+            /* Ngăn không cho gợi ý xuống dòng */
+            overflow: hidden;
+            /* Ẩn phần thừa */
+            text-overflow: ellipsis;
+            /* Hiện dấu "..." cho văn bản bị cắt */
+        }
+
+        .suggestion:hover {
+            background-color: #d0e7ff;
+        }
+    </style>
+</head>
+
+<body>
+    <h4>TRƯỜNG CAO ĐẲNG CÔNG NGHỆ THÔNG TIN TP. HỒ CHÍ MINH</h4>
+    <div class="chat-box">
+        <div class="messages" id="messages"></div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Nhập câu hỏi..." />
+            <button onclick="sendMessage()">Gửi tin nhắn</button>
+        </div>
+        <div class="suggestions" id="suggestions"></div>
+        <div style="position: absolute; top: 1%; left: 3%;"><img src="./image/logoitc.png" alt="" width="50px"></div>
+    </div>
+
+    <script>
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/gviz/tq?tqx=out:json';
+        let dataMap = {};
+        let suggestionsList = [];
+
+        // Lấy dữ liệu từ Google Sheets
+        fetch(SHEET_URL)
+            .then(response => response.text())
+            .then(data => {
+                const json = JSON.parse(data.substr(47).slice(0, -2));
+                const rows = json.table.rows;
+                if (rows.length) {
+                    // Lưu dữ liệu vào dataMap và gợi ý
+                    rows.forEach(row => {
+                        const question = row.c[0]?.v; // Cột 1: câu hỏi
+                        const answer = row.c[1]?.v; // Cột 2: câu trả lời
+                        if (question && answer) {
+                            dataMap[question.toLowerCase()] = answer; // Lưu vào map
+                            suggestionsList.push(question); // Thêm vào danh sách gợi ý
+                        }
+                    });
+                    displaySuggestions(); // Hiện gợi ý khi dữ liệu đã sẵn sàng
+                }
+            })
+            .catch(error => console.error('Lỗi:', error));
+
+        // Hiển thị gợi ý
+        function displaySuggestions() {
+            const suggestionsDiv = document.getElementById('suggestions');
+            suggestionsDiv.innerHTML = '';
+            suggestionsList.forEach(suggestion => {
+                const div = document.createElement('div');
+                div.className = 'suggestion';
+                div.textContent = suggestion;
+                div.onclick = () => {
+                    document.getElementById('userInput').value = suggestion;
+                    sendMessage();
+                };
+                suggestionsDiv.appendChild(div);
+            });
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value;
+            if (message.trim() === '') return;
+
+            // Hiển thị tin nhắn người dùng
+            displayMessage('Bạn: ' + message, 'user');
+            input.value = '';
+
+            // Phản hồi tự động
+            const response = autoReply(message.toLowerCase());
+            setTimeout(() => {
+                displayMessage('CĐ ITC: ' + response, 'bot');
+            }, 1000);
+        }
+
+        function displayMessage(message, sender) {
+            const messages = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + sender;
+            messageDiv.textContent = message;
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight; // Cuộn xuống tin nhắn mới
+        }
+
+        function autoReply(message) {
+            // Kiểm tra từ khóa trong dataMap
+            for (const question of Object.keys(dataMap)) {
+                if (message.includes(question)) {
+                    return dataMap[question]; // Trả về câu trả lời nếu tìm thấy từ khóa
+                }
+            }
+            return "Xin lỗi, tôi không hiểu câu hỏi của bạn.";
+        }
+    </script>
+
+</body>
+
+</html>
