@@ -12,6 +12,21 @@
             box-sizing: border-box;
         }
 
+        a {
+            text-decoration: none;
+            padding: 15px;
+            text-decoration: none;
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
+            color: transparent;
+            background-clip: text;
+            transition: 0.5s ease;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        a:hover {
+            box-shadow: none;
+        }
+
         body {
             font-family: Arial, sans-serif;
         }
@@ -56,17 +71,19 @@
 </head>
 
 <body>
-
-    <h2 style="text-align: center; margin: 10px 0;">DỮ LIỆU HSSV ĐÃ ĐĂNG KÝ</h2>
-    <div style="display: flex; justify-content: center; gap: 10px; margin: 10px 0;">
-        <a href="./home.html" style="color: navy; font-size: 15px;">Trang người dùng</a>
-        <a href="https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/edit?usp=sharing"
-            style="color: navy; font-size: 15px;">File
+    <div
+        style="display: flex; justify-content: space-evenly; gap: 2px; margin: 10px 0; flex-wrap: wrap; margin: 30px 40px;">
+        <a href="./qsitc/index.html">Trò chơi quay số</a>
+        <a
+            href="https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/edit?usp=drive_link">Data
+            chatbox</a>
+        <a href="./home.html">Trang người dùng</a>
+        <a href="https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/edit?usp=sharing">File
             dữ liệu</a>
-        <a href="https://docs.google.com/spreadsheets/d/1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY/edit?usp=sharing"
-            style="color: navy; font-size: 15px;">File
+        <a href="https://docs.google.com/spreadsheets/d/1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY/edit?usp=sharing">File
             câu hỏi</a>
     </div>
+    <h2 style="text-align: center; margin: 10px 0;">DỮ LIỆU HSSV ĐÃ ĐĂNG KÝ</h2>
     <input type="text" id="search" placeholder="Tìm kiếm theo tên hoặc SĐT..." onkeyup="filterTable()">
     <table id="data-table">
         <thead>
