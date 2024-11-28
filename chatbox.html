@@ -4,7 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Box Tự Động</title>
+    <meta name="description" content="Chat boxTrường CĐ CNTT TP.HCM">
+    <meta name="keywords" content="CĐ CNTT, TP. HCM, công nghệ thông tin">
+    <meta name="author" content="Trường CĐ CNTT TP. HCM">
+    <meta property="og:title" content="CĐ CNTT TP. HCM">
+    <meta property="og:description" content="Chat boxTrường CĐ CNTT TP.HCM">
+    <meta property="og:image" content="./image/logoitc.png">
+    <meta property="og:url" content="itc.edu.vn">
+    <title>Chat box - CĐ CNTT TP. HCM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="./image/logoitc.png">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,6 +35,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0 10px;
             position: relative;
         }
 
@@ -52,6 +64,9 @@
         .message.bot {
             background-color: #f1f8e9;
             align-self: flex-start;
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
+            color: transparent;
+            background-clip: text;
         }
 
         .input-area {
@@ -61,7 +76,8 @@
 
         .input-area input {
             flex: 1;
-            border: solid 1px black;
+            border: none;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
             padding: 10px;
             border-radius: 0;
             outline: none;
@@ -70,10 +86,21 @@
         .input-area button {
             border: none;
             padding: 10px;
+            text-decoration: none;
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
+            color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+            border-radius: 0;
+            margin-left: 10px;
+            font-size: 20px;
+            padding: 0 25px;
+        }
+
+        .input-area button:hover {
             background: linear-gradient(250deg, #ec1d25, #0d296b);
             color: white;
-            cursor: pointer;
-            border-radius: 0;
         }
 
         .suggestions {
@@ -81,39 +108,65 @@
             flex-wrap: wrap;
             margin: 10px 0;
             max-height: 150px;
-            /* Giới hạn chiều cao của phần gợi ý */
             overflow-x: auto;
-            /* Hiện thanh cuộn khi gợi ý vượt quá chiều cao */
         }
 
         .suggestion {
-            background-color: #e7f1ff;
-            border: 1px solid #007bff;
-            border-radius: 5px;
+            background: none;
+            border-bottom: 1px solid navy;
+            border-radius: 15px;
             padding: 5px 10px;
             margin: 5px;
             cursor: pointer;
             white-space: nowrap;
-            /* Ngăn không cho gợi ý xuống dòng */
             overflow: hidden;
-            /* Ẩn phần thừa */
             text-overflow: ellipsis;
-            /* Hiện dấu "..." cho văn bản bị cắt */
+            box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
         }
 
         .suggestion:hover {
-            background-color: #d0e7ff;
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
+            color: white;
+        }
+
+        .typing {
+            font-style: italic;
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
+            color: transparent;
+            background-clip: text;
+            display: none;
+            animation: bounce 1s infinite;
+            background-position: center;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
         }
     </style>
 </head>
 
 <body>
-    <h4>TRƯỜNG CAO ĐẲNG CÔNG NGHỆ THÔNG TIN TP. HỒ CHÍ MINH</h4>
     <div class="chat-box">
         <div class="messages" id="messages"></div>
-        <div class="input-area">
+        <div class="typing" id="typing">CĐ ITC đang trả lời...</div>
+        <div class="input-area" style="border: none;">
             <input type="text" id="userInput" placeholder="Nhập câu hỏi..." />
-            <button onclick="sendMessage()">Gửi tin nhắn</button>
+            <button onclick="sendMessage()"><i class="fa-regular fa-paper-plane"></i></button>
         </div>
         <div class="suggestions" id="suggestions"></div>
         <div style="position: absolute; top: 1%; left: 3%;"><img src="./image/logoitc.png" alt="" width="50px"></div>
@@ -123,29 +176,25 @@
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/gviz/tq?tqx=out:json';
         let dataMap = {};
         let suggestionsList = [];
-
-        // Lấy dữ liệu từ Google Sheets
         fetch(SHEET_URL)
             .then(response => response.text())
             .then(data => {
                 const json = JSON.parse(data.substr(47).slice(0, -2));
                 const rows = json.table.rows;
                 if (rows.length) {
-                    // Lưu dữ liệu vào dataMap và gợi ý
                     rows.forEach(row => {
-                        const question = row.c[0]?.v; // Cột 1: câu hỏi
-                        const answer = row.c[1]?.v; // Cột 2: câu trả lời
+                        const question = row.c[0]?.v.toLowerCase();
+                        const answer = row.c[1]?.v;
                         if (question && answer) {
-                            dataMap[question.toLowerCase()] = answer; // Lưu vào map
-                            suggestionsList.push(question); // Thêm vào danh sách gợi ý
+                            dataMap[question] = answer;
+                            suggestionsList.push(question);
                         }
                     });
-                    displaySuggestions(); // Hiện gợi ý khi dữ liệu đã sẵn sàng
+                    displaySuggestions();
                 }
             })
             .catch(error => console.error('Lỗi:', error));
 
-        // Hiển thị gợi ý
         function displaySuggestions() {
             const suggestionsDiv = document.getElementById('suggestions');
             suggestionsDiv.innerHTML = '';
@@ -165,14 +214,12 @@
             const input = document.getElementById('userInput');
             const message = input.value;
             if (message.trim() === '') return;
-
-            // Hiển thị tin nhắn người dùng
             displayMessage('Bạn: ' + message, 'user');
             input.value = '';
-
-            // Phản hồi tự động
+            showTypingIndicator();
             const response = autoReply(message.toLowerCase());
             setTimeout(() => {
+                hideTypingIndicator();
                 displayMessage('CĐ ITC: ' + response, 'bot');
             }, 1000);
         }
@@ -183,17 +230,64 @@
             messageDiv.className = 'message ' + sender;
             messageDiv.textContent = message;
             messages.appendChild(messageDiv);
-            messages.scrollTop = messages.scrollHeight; // Cuộn xuống tin nhắn mới
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typing').style.display = 'block';
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typing').style.display = 'none';
         }
 
         function autoReply(message) {
-            // Kiểm tra từ khóa trong dataMap
+            const expandedMessage = expandAbbreviations(message);
             for (const question of Object.keys(dataMap)) {
-                if (message.includes(question)) {
-                    return dataMap[question]; // Trả về câu trả lời nếu tìm thấy từ khóa
+                if (expandedMessage.includes(question)) {
+                    return dataMap[question];
                 }
             }
-            return "Xin lỗi, tôi không hiểu câu hỏi của bạn.";
+            const closestMatch = findClosestMatch(expandedMessage);
+            return closestMatch ? dataMap[closestMatch] : "Xin lỗi, tôi không hiểu câu hỏi của bạn.";
+        }
+
+        function expandAbbreviations(message) {
+            const abbreviations = {
+                "cđ": "cao đẳng",
+                "it": "information technology",
+                "tp": "thành phố"
+            };
+
+            Object.keys(abbreviations).forEach(abbr => {
+                const regex = new RegExp(`\\b${abbr}\\b`, 'gi');
+                message = message.replace(regex, abbreviations[abbr]);
+            });
+
+            return message;
+        }
+
+        function findClosestMatch(message) {
+            let closest = null;
+            let highestScore = 0;
+
+            for (const question of Object.keys(dataMap)) {
+                const score = getMatchScore(message, question);
+                if (score > highestScore) {
+                    highestScore = score;
+                    closest = question;
+                }
+            }
+
+            return highestScore > 0.5 ? closest : null;
+        }
+
+        function getMatchScore(message, question) {
+            const messageWords = message.split(' ');
+            const questionWords = question.split(' ');
+
+            const matches = messageWords.filter(word => questionWords.includes(word)).length;
+            return matches / questionWords.length;
         }
     </script>
 
