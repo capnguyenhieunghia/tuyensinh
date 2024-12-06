@@ -37,6 +37,15 @@
             padding: 0 10px;
         }
 
+        body .chatbot {
+            position: absolute;
+            background-color: white;
+            bottom: 10%;
+            border-radius: 50px;
+            right: 3%;
+        }
+
+
         .dangnhap {
             width: 100%;
             display: flex;
@@ -145,11 +154,15 @@
 </head>
 
 <body>
+    <div class="chatbot"><a href="./chatbox.html" title="Chatbot"><img
+                src="./image/robot-chat-or-chat-bot-logo-modern-conversation-automatic-technology-logo-design-template-vector-removebg-preview.png"
+                alt="" width="80px"></a></div>
     <div class="dangnhap">
         <div class="container" style="margin-top: 10px;">
             <div
                 style="display: flex; gap: 10px; align-items: center; justify-content: center; object-fit: contain;position: relative;">
-                <img src="./image/logoitc.png" alt="logo" width="50px" style="position: absolute; right: 5%;">
+                <a href="https://itc.edu.vn/" style="position: absolute; right: 5%;"> <img src="./image/logoitc.png"
+                        alt="logo" width="50px"></a>
                 <h2 style="margin: 10px 0; 	color: transparent;
             background: linear-gradient(250deg, #ec1d25, #0d296b);
             background-clip: text;
@@ -166,14 +179,10 @@
                     Đang kiểm tra...
                 </div>
             </form>
-            <div style="text-align: end; width: 100%;"><a href="dangky.html" style="text-decoration: none;">Đăng ký
+            <div style="text-align: end; width: 100%;"><a href="dangky.html"
+                    style="text-decoration: none; color: navy;">Đăng ký
                     thông tin</a> <br>
             </div>
-            <div style="  font-size: 18px; display: flex; justify-content: end; margin: 5px 0 0 0;  text-decoration: none;
-            background: linear-gradient(250deg, #ec1d25, #0d296b);
-            color: transparent;
-            background-clip: text;"><a href="./test.html" style="text-decoration: none;"><i
-                        class="fa-regular fa-comment"></i> Chat Box</a></div>
             <marquee behavior="" direction="" style="margin: 10px 0 0 0;">Chào mừng bạn đến với Trường Cao đẳng Công
                 nghệ thông tin Tp. Hồ Chí Minh</marquee>
         </div>

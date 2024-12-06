@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Chat boxTrường CĐ CNTT TP.HCM">
+    <meta name="description" content="Chat box Trường CĐ CNTT TP.HCM">
     <meta name="keywords" content="CĐ CNTT, TP. HCM, công nghệ thông tin">
     <meta name="author" content="Trường CĐ CNTT TP. HCM">
     <meta property="og:title" content="CĐ CNTT TP. HCM">
-    <meta property="og:description" content="Chat boxTrường CĐ CNTT TP.HCM">
+    <meta property="og:description" content="Chat box Trường CĐ CNTT TP.HCM">
     <meta property="og:image" content="./image/logoitc.png">
     <meta property="og:url" content="itc.edu.vn">
     <title>Chat box - CĐ CNTT TP. HCM</title>
@@ -22,21 +22,27 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
             height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
         }
 
         .chat-box {
-            width: 400px;
+            width: 90%;
+            max-width: 400px;
             border: 1px solid #ccc;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 0 10px;
+            padding: 10px;
             position: relative;
+        }
+
+        .chat-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: left;
         }
 
         .messages {
@@ -46,6 +52,12 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .messages::-webkit-scrollbar {
+            display: none;
         }
 
         .message {
@@ -54,53 +66,73 @@
             border-radius: 5px;
             position: relative;
             word-wrap: break-word;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
         }
 
         .message.user {
             background-color: #e1f5fe;
             align-self: flex-end;
+            box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
         }
 
         .message.bot {
-            background-color: #f1f8e9;
+            box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
             align-self: flex-start;
             background: linear-gradient(250deg, #ec1d25, #0d296b);
             color: transparent;
             background-clip: text;
         }
 
+        .timestamp {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 4px;
+            text-align: right;
+        }
+
         .input-area {
             display: flex;
-            border-top: 1px solid #ccc;
         }
 
         .input-area input {
             flex: 1;
             border: none;
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-            padding: 10px;
+            padding: 15px 10px;
             border-radius: 0;
             outline: none;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+            background: none;
         }
 
         .input-area button {
             border: none;
             padding: 10px;
-            text-decoration: none;
             background: linear-gradient(250deg, #ec1d25, #0d296b);
             color: transparent;
             background-clip: text;
             cursor: pointer;
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-            border-radius: 0;
             margin-left: 10px;
             font-size: 20px;
             padding: 0 25px;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }
 
         .input-area button:hover {
-            background: linear-gradient(250deg, #ec1d25, #0d296b);
+            background: #0d296b;
             color: white;
+            transition: 1s ease;
+        }
+
+        .typing {
+            font-style: italic;
+            display: none;
         }
 
         .suggestions {
@@ -112,16 +144,16 @@
         }
 
         .suggestion {
-            background: none;
-            border-bottom: 1px solid navy;
+            border: none;
             border-radius: 15px;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
             padding: 5px 10px;
             margin: 5px;
             cursor: pointer;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+            transition: 1s ease-in-out;
         }
 
         .suggestion:hover {
@@ -129,82 +161,103 @@
             color: white;
         }
 
-        .typing {
-            font-style: italic;
+        input::placeholder {
             background: linear-gradient(250deg, #ec1d25, #0d296b);
             color: transparent;
             background-clip: text;
-            display: none;
-            animation: bounce 1s infinite;
-            background-position: center;
+            font-size: 14px;
         }
 
-        @keyframes bounce {
-
-            0%,
-            20%,
-            50%,
-            80%,
-            100% {
-                transform: translateY(0);
-            }
-
-            40% {
-                transform: translateY(-10px);
-            }
-
-            60% {
-                transform: translateY(-5px);
-            }
+        .message-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em;
+            color: #888;
+            margin: 4px;
+            gap: 10px;
         }
 
-        .message {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        .message.user {
-            animation: slideInRight 0.3s forwards;
-        }
-
-        .message.bot {
-            animation: slideInLeft 0.3s forwards;
-        }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .sender {
+            text-align: left;
         }
     </style>
 </head>
 
 <body>
     <div class="chat-box">
+        <div class="chat-title">CHAT BOX CĐ CNTT</div>
         <div class="messages" id="messages"></div>
         <div class="typing" id="typing">CĐ ITC đang trả lời...</div>
-        <div class="input-area" style="border: none;">
-            <input type="text" id="userInput" placeholder="Nhập câu hỏi..." />
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder=" / Hiển thị gợi ý câu hỏi" />
             <button onclick="sendMessage()"><i class="fa-regular fa-paper-plane"></i></button>
         </div>
         <div class="suggestions" id="suggestions"></div>
-        <div style="position: absolute; top: 1%; left: 3%;"><img src="./image/logoitc.png" alt="" width="50px"></div>
     </div>
 
-    <script>
 
+    <script>
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/gviz/tq?tqx=out:json';
         let dataMap = {};
         let suggestionsList = [];
+        let placeholderText = " / Hiển thị gợi ý";
+
+        // Typing effect for placeholder
+        function typePlaceholder() {
+            const input = document.getElementById('userInput');
+            let index = 0;
+            input.placeholder = ''; // Clear initial placeholder
+
+            function type() {
+                if (index < placeholderText.length) {
+                    input.placeholder += placeholderText[index++];
+                    setTimeout(type, 100); // Adjust typing speed here
+                } else {
+                    setTimeout(deletePlaceholder, 1000); // Adjust pause before delete
+                }
+            }
+
+            function deletePlaceholder() {
+                if (input.placeholder.length > 0) {
+                    input.placeholder = input.placeholder.slice(0, -1);
+                    setTimeout(deletePlaceholder, 50); // Adjust deleting speed here
+                } else {
+                    index = 0; // Reset index for typing again
+                    setTimeout(type, 500); // Adjust pause before typing again
+                }
+            }
+
+            type();
+        }
+
+        // Cookie functions
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+        }
+
+        function getCookie(name) {
+            return document.cookie.split('; ').reduce((r, v) => {
+                const parts = v.split('=');
+                return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+            }, '');
+        }
+
+        function saveChatHistory() {
+            const messages = document.getElementById('messages').innerHTML;
+            setCookie('chatHistory', messages, 7);
+        }
+
+        function loadChatHistory() {
+            const chatHistory = getCookie('chatHistory');
+            if (chatHistory) {
+                document.getElementById('messages').innerHTML = chatHistory;
+                const messagesDiv = document.getElementById('messages');
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        }
+
+        // Fetch data
         fetch(SHEET_URL)
             .then(response => response.text())
             .then(data => {
@@ -219,15 +272,18 @@
                             suggestionsList.push(question);
                         }
                     });
-                    displaySuggestions();
+                    loadChatHistory(); // Load history after fetching data
                 }
             })
             .catch(error => console.error('Lỗi:', error));
 
-        function displaySuggestions() {
+        function displaySuggestions(inputValue) {
             const suggestionsDiv = document.getElementById('suggestions');
             suggestionsDiv.innerHTML = '';
-            suggestionsList.forEach(suggestion => {
+            const filteredSuggestions = suggestionsList.filter(suggestion =>
+                suggestion.startsWith(inputValue.slice(1).toLowerCase())
+            );
+            filteredSuggestions.forEach(suggestion => {
                 const div = document.createElement('div');
                 div.className = 'suggestion';
                 div.textContent = suggestion;
@@ -244,30 +300,37 @@
             const message = input.value;
             if (message.trim() === '') return;
 
-            displayMessage('Bạn: ' + message, 'user');
+            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            displayMessage(message, 'user', timestamp);
             input.value = '';
             showTypingIndicator();
+
             const response = autoReply(message.toLowerCase());
-
-            // Lưu lịch sử tin nhắn vào localStorage
-            const messages = JSON.parse(localStorage.getItem('messages')) || [];
-            messages.push({ sender: 'user', text: message });
-
             setTimeout(() => {
                 hideTypingIndicator();
-                displayMessage('CĐ ITC: ' + response, 'bot');
-                messages.push({ sender: 'bot', text: response });
-                localStorage.setItem('messages', JSON.stringify(messages)); // Cập nhật lịch sử
+                displayMessage(response, 'bot', timestamp);
+                saveChatHistory(); // Save history after sending a message
             }, 1000);
         }
 
-        function displayMessage(message, sender) {
+        function displayMessage(message, sender, timestamp) {
             const messages = document.getElementById('messages');
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message ' + sender;
-            messageDiv.textContent = message;
+
+            // Convert URLs to clickable links
+            const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            const formattedMessage = message.replace(urlPattern, '<a href="$1" target="_blank" style="color: navy; text-decoration: underline;">$1</a>');
+
+            messageDiv.innerHTML = `
+                <div>${formattedMessage}</div>
+                <div class="message-footer">
+                    <span class="sender">${sender === 'user' ? 'Bạn' : 'CĐ ITC'}</span>
+                    <span class="timestamp">${timestamp}</span>
+                </div>
+            `;
             messages.appendChild(messageDiv);
-            messages.scrollTop = messages.scrollHeight;
+            messages.scrollTop = messages.scrollHeight; // Auto-scroll
         }
 
         function showTypingIndicator() {
@@ -279,61 +342,31 @@
         }
 
         function autoReply(message) {
-            const expandedMessage = expandAbbreviations(message);
             for (const question of Object.keys(dataMap)) {
-                if (expandedMessage.includes(question)) {
+                if (message.includes(question)) {
                     return dataMap[question];
                 }
             }
-            const closestMatch = findClosestMatch(expandedMessage);
-            return closestMatch ? dataMap[closestMatch] : "Xin lỗi, tôi không hiểu câu hỏi của bạn.";
+            return "Xin lỗi, tôi không hiểu câu hỏi của bạn, vui lòng liên hệ với CĐ CNTT Tp. HCM, qua số hotline: 093 886 1080.";
         }
 
-        function expandAbbreviations(message) {
-            const abbreviations = {
-                "cđ": "cao đẳng",
-                "it": "information technology",
-                "tp": "thành phố"
-            };
-
-            Object.keys(abbreviations).forEach(abbr => {
-                const regex = new RegExp(`\\b${abbr}\\b`, 'gi');
-                message = message.replace(regex, abbreviations[abbr]);
-            });
-
-            return message;
-        }
-
-        function findClosestMatch(message) {
-            let closest = null;
-            let highestScore = 0;
-
-            for (const question of Object.keys(dataMap)) {
-                const score = getMatchScore(message, question);
-                if (score > highestScore) {
-                    highestScore = score;
-                    closest = question;
-                }
+        // Add event listener for input changes
+        document.getElementById('userInput').addEventListener('input', function () {
+            const inputValue = this.value;
+            if (inputValue.startsWith('/')) {
+                displaySuggestions(inputValue);
+            } else {
+                document.getElementById('suggestions').innerHTML = ''; // Hide suggestions if not starting with '/'
             }
+        });
 
-            return highestScore > 0.5 ? closest : null;
-        }
-
-        function getMatchScore(message, question) {
-            const messageWords = message.split(' ');
-            const questionWords = question.split(' ');
-
-            const matches = messageWords.filter(word => questionWords.includes(word)).length;
-            return matches / questionWords.length;
-        }
-
+        // Load chat history on page load
         window.onload = function () {
-            const messages = JSON.parse(localStorage.getItem('messages')) || [];
-            messages.forEach(msg => {
-                displayMessage(msg.sender === 'user' ? 'Bạn: ' + msg.text : 'CĐ ITC: ' + msg.text, msg.sender);
-            });
+            loadChatHistory();
+            typePlaceholder(); // Start typing effect for placeholder
         };
     </script>
+
 
 </body>
 
