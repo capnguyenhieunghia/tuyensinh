@@ -4,39 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Chat boxTrường CĐ CNTT TP.HCM">
+    <meta name="description" content="Chat box Trường CĐ CNTT TP.HCM">
     <meta name="keywords" content="CĐ CNTT, TP. HCM, công nghệ thông tin">
     <meta name="author" content="Trường CĐ CNTT TP. HCM">
-    <meta property="og:title" content="CĐ CNTT TP. HCM">
-    <meta property="og:description" content="Chat boxTrường CĐ CNTT TP.HCM">
-    <meta property="og:image" content="./image/logoitc.png">
-    <meta property="og:url" content="itc.edu.vn">
-    <title>Chat box - CĐ CNTT TP. HCM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
         integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="./image/logoitc.png">
+    <title>Chat box - CĐ CNTT TP. HCM</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
         }
 
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ec1d25;
+            color: white;
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+        }
+
         .chat-box {
-            width: 400px;
+            width: 90%;
+            max-width: 400px;
             border: 1px solid #ccc;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 0 10px;
-            position: relative;
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            display: none;
+            background-color: #fff;
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
 
         .messages {
@@ -46,6 +56,13 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .messages::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari and Opera */
         }
 
         .message {
@@ -62,45 +79,36 @@
         }
 
         .message.bot {
-            background-color: #f1f8e9;
-            align-self: flex-start;
             background: linear-gradient(250deg, #ec1d25, #0d296b);
             color: transparent;
             background-clip: text;
+            align-self: flex-start;
+            padding: 10px;
+            border-radius: 5px;
         }
 
         .input-area {
             display: flex;
-            border-top: 1px solid #ccc;
+            justify-content: center;
+            gap: 5px;
         }
 
         .input-area input {
             flex: 1;
-            border: none;
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+            border: 1px solid #ccc;
             padding: 10px;
-            border-radius: 0;
+            border-radius: 5px 0 0 5px;
             outline: none;
         }
 
         .input-area button {
             border: none;
-            padding: 10px;
-            text-decoration: none;
-            background: linear-gradient(250deg, #ec1d25, #0d296b);
-            color: transparent;
-            background-clip: text;
-            cursor: pointer;
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-            border-radius: 0;
-            margin-left: 10px;
-            font-size: 20px;
-            padding: 0 25px;
-        }
-
-        .input-area button:hover {
+            padding: 10px 20px;
             background: linear-gradient(250deg, #ec1d25, #0d296b);
             color: white;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            font-size: 20px;
         }
 
         .suggestions {
@@ -119,9 +127,7 @@
             margin: 5px;
             cursor: pointer;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+            transition: background 0.3s;
         }
 
         .suggestion:hover {
@@ -131,80 +137,60 @@
 
         .typing {
             font-style: italic;
-            background: linear-gradient(250deg, #ec1d25, #0d296b);
-            color: transparent;
-            background-clip: text;
             display: none;
-            animation: bounce 1s infinite;
-            background-position: center;
         }
 
-        @keyframes bounce {
-
-            0%,
-            20%,
-            50%,
-            80%,
-            100% {
-                transform: translateY(0);
+        @media (max-width: 600px) {
+            .chat-box {
+                width: 320px;
+                /* bottom: 10px; */
+                margin-bottom: -50px;
+                z-index: 0;
             }
 
-            40% {
-                transform: translateY(-10px);
+            .message.user {
+                background-color: #e1f5fe;
+                align-self: flex-end;
+                font-size: 14px;
             }
 
-            60% {
-                transform: translateY(-5px);
+            .message.bot {
+                background: linear-gradient(250deg, #ec1d25, #0d296b);
+                color: transparent;
+                background-clip: text;
+                align-self: flex-start;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 14px;
             }
-        }
 
-        .message {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        .message.user {
-            animation: slideInRight 0.3s forwards;
-        }
-
-        .message.bot {
-            animation: slideInLeft 0.3s forwards;
-        }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .chat-icon {
+                z-index: 1;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="chat-box">
+    <div class="chat-icon" onclick="toggleChatBox()">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+
+    <div class="chat-box" id="chatBox">
         <div class="messages" id="messages"></div>
         <div class="typing" id="typing">CĐ ITC đang trả lời...</div>
-        <div class="input-area" style="border: none;">
+        <div class="input-area">
             <input type="text" id="userInput" placeholder="Nhập câu hỏi..." />
             <button onclick="sendMessage()"><i class="fa-regular fa-paper-plane"></i></button>
         </div>
         <div class="suggestions" id="suggestions"></div>
-        <div style="position: absolute; top: 1%; left: 3%;"><img src="./image/logoitc.png" alt="" width="50px"></div>
     </div>
 
     <script>
-
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/gviz/tq?tqx=out:json';
         let dataMap = {};
         let suggestionsList = [];
+
         fetch(SHEET_URL)
             .then(response => response.text())
             .then(data => {
@@ -239,6 +225,11 @@
             });
         }
 
+        function toggleChatBox() {
+            const chatBox = document.getElementById('chatBox');
+            chatBox.style.display = (chatBox.style.display === 'none' || chatBox.style.display === '') ? 'block' : 'none';
+        }
+
         function sendMessage() {
             const input = document.getElementById('userInput');
             const message = input.value;
@@ -249,15 +240,9 @@
             showTypingIndicator();
             const response = autoReply(message.toLowerCase());
 
-            // Lưu lịch sử tin nhắn vào localStorage
-            const messages = JSON.parse(localStorage.getItem('messages')) || [];
-            messages.push({ sender: 'user', text: message });
-
             setTimeout(() => {
                 hideTypingIndicator();
                 displayMessage('CĐ ITC: ' + response, 'bot');
-                messages.push({ sender: 'bot', text: response });
-                localStorage.setItem('messages', JSON.stringify(messages)); // Cập nhật lịch sử
             }, 1000);
         }
 
@@ -279,52 +264,12 @@
         }
 
         function autoReply(message) {
-            const expandedMessage = expandAbbreviations(message);
             for (const question of Object.keys(dataMap)) {
-                if (expandedMessage.includes(question)) {
+                if (message.includes(question)) {
                     return dataMap[question];
                 }
             }
-            const closestMatch = findClosestMatch(expandedMessage);
-            return closestMatch ? dataMap[closestMatch] : "Xin lỗi, tôi không hiểu câu hỏi của bạn.";
-        }
-
-        function expandAbbreviations(message) {
-            const abbreviations = {
-                "cđ": "cao đẳng",
-                "it": "information technology",
-                "tp": "thành phố"
-            };
-
-            Object.keys(abbreviations).forEach(abbr => {
-                const regex = new RegExp(`\\b${abbr}\\b`, 'gi');
-                message = message.replace(regex, abbreviations[abbr]);
-            });
-
-            return message;
-        }
-
-        function findClosestMatch(message) {
-            let closest = null;
-            let highestScore = 0;
-
-            for (const question of Object.keys(dataMap)) {
-                const score = getMatchScore(message, question);
-                if (score > highestScore) {
-                    highestScore = score;
-                    closest = question;
-                }
-            }
-
-            return highestScore > 0.5 ? closest : null;
-        }
-
-        function getMatchScore(message, question) {
-            const messageWords = message.split(' ');
-            const questionWords = question.split(' ');
-
-            const matches = messageWords.filter(word => questionWords.includes(word)).length;
-            return matches / questionWords.length;
+            return "Xin lỗi, tôi không hiểu câu hỏi của bạn.";
         }
 
         window.onload = function () {
@@ -334,7 +279,6 @@
             });
         };
     </script>
-
 </body>
 
 </html>
