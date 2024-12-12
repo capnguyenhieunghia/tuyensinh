@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hiển thị Dữ liệu từ Google Sheets</title>
+    <title>QT</title>
     <style>
         * {
             margin: 0;
@@ -12,19 +12,22 @@
             box-sizing: border-box;
         }
 
-        a {
-            text-decoration: none;
-            padding: 15px;
-            text-decoration: none;
-            background: linear-gradient(250deg, #ec1d25, #0d296b);
-            color: transparent;
-            background-clip: text;
-            transition: 0.5s ease;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        body {
+            background-image: url('./image/logoitc.png');
+            background-repeat: no-repeat;
+            background-size: 100px;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        a:hover {
-            box-shadow: none;
+        select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            color: navy;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }
 
         body {
@@ -35,6 +38,8 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            padding: 5px;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }
 
         th,
@@ -43,6 +48,10 @@
             padding: 5px 0px;
             text-align: center;
             font-size: 11px;
+        }
+
+        td:nth-child(3) {
+            color: red;
         }
 
         th {
@@ -54,6 +63,7 @@
             padding: 10px;
             border: 1px solid #ddd;
             outline: none;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }
 
         @media (min-width: 1201px) {
@@ -65,27 +75,41 @@
                 text-align: center;
                 font-size: 16px;
             }
-
         }
     </style>
 </head>
 
 <body>
-    <div
-        style="display: flex; justify-content: space-evenly; gap: 2px; margin: 10px 0; flex-wrap: wrap; margin: 30px 40px;">
-        <a href="./boctham.html">Bốc thăm trúng thưởng</a>
-        <a
-            href="https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/edit?usp=drive_link">Data
-            chatbox</a>
-        <a href="./home.html">Trang người dùng</a>
-        <a href="https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/edit?usp=sharing">File
-            dữ liệu</a>
-        <a href="https://docs.google.com/spreadsheets/d/1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY/edit?usp=sharing">File
-            câu hỏi</a>
-        <a href="./chatbox.html">Chatbox thử nghiệm</a>
+    <h2 style="text-align: center; margin: 20px 0;">DỮ LIỆU HSSV ĐÃ ĐĂNG KÝ</h2>
+    <div style="display: flex; justify-content: start; align-items: center; flex-wrap: wrap; gap: 10px; padding: 5px;">
+        <div> <input type="text" id="search" placeholder="Tìm kiếm theo tên hoặc SĐT..." onkeyup="filterTable()"></div>
+        <div style="display: flex; justify-content: center; gap: 10px; margin: 10px 0; flex-wrap: wrap; ">
+            <select id="navigation" onchange="navigate()">
+                <option value="">Chọn trang</option>
+                <option value="./boctham.html">Bốc thăm trúng thưởng</option>
+                <option
+                    value="https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/edit?usp=drive_link">
+                    Data chatbox</option>
+                <option value="./home.html">Trang người dùng</option>
+                <option
+                    value="https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/edit?usp=sharing">
+                    File dữ liệu</option>
+                <option
+                    value="https://docs.google.com/spreadsheets/d/1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY/edit?usp=sharing">
+                    File câu hỏi</option>
+                <option value="./index.html">
+                    Đăng xuất</option>
+                <option value="./chemhoaqua.html">
+                    Trò chơi chém hoa quả</option>
+                <option value="./vq/index.html">
+                    Vòng quay may mắn</option>
+                <option value="./thcs.html">
+                    THCS</option>
+                <option value="./thpt.html">
+                    THPT</option>
+            </select>
+        </div>
     </div>
-    <h2 style="text-align: center; margin: 10px 0;">DỮ LIỆU HSSV ĐÃ ĐĂNG KÝ</h2>
-    <input type="text" id="search" placeholder="Tìm kiếm theo tên hoặc SĐT..." onkeyup="filterTable()">
     <table id="data-table">
         <thead>
             <tr>
@@ -100,8 +124,10 @@
             <!-- Dữ liệu sẽ được thêm vào đây -->
         </tbody>
     </table>
-    <p style="font-size: 10px; height: 0; width: 100%; margin: 0; text-align: center; color: gray;">&copy; 2024
-        P. TS - TT Trường Cao đẳng Công nghệ thông tin TP. HCM</p>
+    <p
+        style="font-size: 10px; height: 0; width: 100%; margin: 0; text-align: center; color: gray; position: absolute; bottom: 5%;">
+        &copy; 2024 P. TS -
+        TT Trường Cao đẳng Công nghệ thông tin TP. HCM</p>
     <script>
         const sheetUrl = 'https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/gviz/tq?tqx=out:csv';
 
@@ -141,6 +167,14 @@
                 }
 
                 rows[i].style.display = found ? '' : 'none';
+            }
+        }
+
+        function navigate() {
+            const select = document.getElementById('navigation');
+            const url = select.value;
+            if (url) {
+                window.location.href = url;
             }
         }
     </script>
