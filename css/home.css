@@ -2,6 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Arial', Times, serif;
+    font-family: sans-serif;
 }
 
 /* all */
@@ -17,6 +19,83 @@ header {
     background-repeat: no-repeat;
     background-size: cover;
     margin: 0 0 100px 0;
+    position: relative;
+}
+
+body {
+    padding: 0 5px;
+}
+
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    font-size: 1em;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+.sd-mobile {
+    display: none;
+    padding: 5px;
+    background: #fff8;
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    width: 100%;
+}
+
+.sd-mb {
+    /* background-color: navy; */
+    backdrop-filter: blur(20px);
+    padding: 5px 15px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+
+.sd-mb:hover {
+    background: linear-gradient(250deg, #ec1d25, #0d296b);
+    transition: 1s ease-in-out;
+    color: white;
+}
+
+.sd-mb a {
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    /* font-weight: bold; */
+}
+
+.sd-mb a i {
+    background: linear-gradient(250deg, #ec1d25, #0d296b);
+    color: transparent;
+    background-clip: text;
+}
+
+.chatbot {
+    text-align: end;
+    display: flex;
+    flex-direction: column;
+    /* text-align: center; */
+    width: 100%;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 0 0;
 }
 
 header #welcome-message {
@@ -37,12 +116,12 @@ header #welcome-message {
     justify-content: center;
     align-items: center;
     text-align: center;
+    margin: -100px 0 0 0;
 }
 
 .hd-content .content {
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-    padding: 10px;
+    background: #fff8;
+    padding: 10px 15px;
 }
 
 .hd-trungbay {
@@ -148,20 +227,30 @@ header #welcome-message {
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
+.gm:hover.gm p {
+    display: block;
+}
+
 .gm p {
+
+    display: none;
     position: absolute;
     bottom: -8%;
     text-align: center;
     width: 100%;
-    padding: 5px;
+    padding: 5px 0 5px 0;
     width: 30px;
     height: 100%;
-    left: 0;
+    left: 45%;
     background: linear-gradient(250deg, #ec1d25, #0d296b);
     color: white;
     writing-mode: vertical-rl;
-    transform: rotate(180deg);
+    transform: rotate(240deg);
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
+
+
 
 .gm img {
     width: 100%;
@@ -231,11 +320,13 @@ header #welcome-message {
 
 /* maquee */
 marquee {
-    background: linear-gradient(250deg, #ec1d25, #0d296b);
-    color: white;
+    /* background: linear-gradient(250deg, #ec1d25, #0d296b); */
+    color: navy;
     font-weight: bold;
-    width: 87%;
-    margin: 0 auto;
+    width: 100%;
+    padding: 3px 0;
+    font-size: 13px;
+    margin: 0;
 }
 
 .container {
@@ -243,9 +334,9 @@ marquee {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
     transition: transform 0.2s;
-    margin: 30px 0;
+    margin: 20px 0;
 }
 
 .container:hover {
@@ -275,7 +366,7 @@ textarea:focus {
 }
 
 button {
-    background: linear-gradient(250deg, #ec1d25, #0d296b);
+    background: navy;
     color: white;
     border: none;
     padding: 12px;
@@ -284,6 +375,10 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background: linear-gradient(250deg, #ec1d25, #0d296b);
 }
 
 button:hover {
@@ -302,9 +397,29 @@ button:active {
         gap: 10px;
     }
 
+    .logo {
+        display: none;
+    }
+
+    .hd-content {
+        margin: 0;
+    }
+
+    header {
+        height: 50vh;
+        margin: 0 0 80px 0;
+    }
+
+    #welcome-message {
+        font-size: 12px;
+        background: linear-gradient(250deg, #ec1d25, #0d296b);
+        color: transparent;
+        background-clip: text;
+    }
+
     .nd-trungbay {
-        width: 200px;
-        height: 140px;
+        width: 115px;
+        height: 120px;
         position: relative;
     }
 
@@ -325,6 +440,7 @@ button:active {
 
     .nganh-dt {
         width: 170px;
+        height: 100px;
     }
 
     .nganh-dt img {
@@ -332,8 +448,8 @@ button:active {
     }
 
     .gm {
-        width: 165px;
-        height: 150px;
+        width: 150px;
+        height: 120px;
     }
 
     .gm p {
@@ -348,6 +464,14 @@ button:active {
     .bdt {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .content h1 {
+        font-size: 16px;
+    }
+
+    .sd-mobile {
+        display: block;
     }
 }
 
