@@ -40,7 +40,6 @@ header #welcome-message {
 }
 
 .hd-content .content {
-    /* background: hsla(0, 0%, 100%, .4); */
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     padding: 10px;
@@ -76,10 +75,6 @@ header #welcome-message {
     font-size: 20px;
     background-position: center;
 }
-
-/* .nd-trungbay:hover {
-    transform: scale(1.1);
-} */
 
 .nd-trungbay .tb-hinh {
     width: 100%;
@@ -136,7 +131,6 @@ header #welcome-message {
 
 /*  */
 /* mini gmae */
-.mini-game {}
 
 .game {
     display: flex;
@@ -166,9 +160,7 @@ header #welcome-message {
     background: linear-gradient(250deg, #ec1d25, #0d296b);
     color: white;
     writing-mode: vertical-rl;
-    /* Makes text vertical */
     transform: rotate(180deg);
-    /* Optional to flip text */
 }
 
 .gm img {
@@ -187,8 +179,6 @@ header #welcome-message {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* padding: 20px; */
-    /* background-color: #f9f9f9; */
 }
 
 .bdt {
@@ -244,7 +234,7 @@ marquee {
     background: linear-gradient(250deg, #ec1d25, #0d296b);
     color: white;
     font-weight: bold;
-    width: 80%;
+    width: 87%;
     margin: 0 auto;
 }
 
