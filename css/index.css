@@ -60,7 +60,6 @@ label {
     transition: 0.2s ease all;
     pointer-events: none;
     font-size: 15px;
-    /* Prevents label from being clickable */
 }
 
 input {
