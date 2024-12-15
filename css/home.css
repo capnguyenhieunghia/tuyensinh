@@ -411,14 +411,9 @@ button:active {
 /*  */
 /* Styles cho mobile */
 @media (max-width: 789px) {
-
-    html {
-        width: 100%;
-    }
-
     .hd-trungbay {
         gap: 10px;
-        bottom: 22.5%;
+        bottom: 25%;
     }
 
     .logochu {
