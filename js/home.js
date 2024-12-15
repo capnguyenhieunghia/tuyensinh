@@ -28,3 +28,4 @@ const createSnowflake = () => {
 };
 
 setInterval(createSnowflake, 2000);
+

@@ -5,25 +5,51 @@
     font-family: 'Arial', Times, serif;
     font-family: sans-serif;
 }
+html, body {
+    overflow-x: hidden;
+}
 
 /* all */
 /* Header */
 header {
     position: relative;
     width: 100%;
-    height: 85vh;
+    height: 100vh;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-    background-attachment: fixed;
-    background-image: url('https://img4.thuthuatphanmem.vn/uploads/2020/07/05/anh-nen-background-cong-nghe_035953114.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 0 0 100px 0;
-    position: relative;
+    /* margin: 0 0 100px 0; */
 }
 
-body {
-    padding: 0 5px;
+header .logo {
+    position: absolute;
+    top: 30%;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+
+}
+
+.logochu {
+    display: flex;
+    flex-direction: column;
+    font-size: 85px;
+    border-radius: 15px;
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    padding: 20px;
+    /* background: #fff6; */
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+}
+
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .snowflake {
@@ -58,7 +84,6 @@ body {
 }
 
 .sd-mb {
-    /* background-color: navy; */
     backdrop-filter: blur(20px);
     padding: 5px 15px;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
@@ -75,7 +100,6 @@ body {
     text-decoration: none;
     color: black;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    /* font-weight: bold; */
 }
 
 .sd-mb a i {
@@ -88,14 +112,7 @@ body {
     text-align: end;
     display: flex;
     flex-direction: column;
-    /* text-align: center; */
     width: 100%;
-}
-
-.logo {
-    display: flex;
-    justify-content: center;
-    padding: 10px 0 0 0;
 }
 
 header #welcome-message {
@@ -103,25 +120,11 @@ header #welcome-message {
     top: 0;
     padding: 10px;
     left: 4%;
-    background: #fff8;
     text-align: center;
     font-weight: bold;
-    color: navy;
-}
-
-.hd-content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin: -100px 0 0 0;
-}
-
-.hd-content .content {
-    background: #fff8;
-    padding: 10px 15px;
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    color: transparent;
+    background-clip: text;
 }
 
 .hd-trungbay {
@@ -130,14 +133,14 @@ header #welcome-message {
     justify-content: center;
     gap: 60px;
     position: absolute;
-    bottom: -15%;
+    bottom: 10%;
 }
 
 .nd-trungbay {
     width: 300px;
     height: 200px;
-    background: #fff8;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    background: #fff1;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     border-radius: 10px;
     transition: transform 0.3s ease;
     display: flex;
@@ -148,7 +151,7 @@ header #welcome-message {
 
 .nd-trungbay a {
     text-decoration: none;
-    background: linear-gradient(250deg, #ec1d25, #0d296b);
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
     color: transparent;
     background-clip: text;
     font-size: 20px;
@@ -170,18 +173,39 @@ header #welcome-message {
     text-align: center;
 }
 
+.connector {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 4px;
+    height: 50px;
+    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    transform: translateX(-50%);
+}
+
+.connector1 {
+    position: absolute;
+    top: 50%;
+    left: 36.1%;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.connector2 {
+    position: absolute;
+    top: 50%;
+    right: 36.1%;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+
 /*  */
 /* Ngành đào tạo */
 .nganhdaotao {
-    width: 100%;
     height: auto;
-    border: solid blueviolet 1px;
     margin: 0 0 20px 0;
-    background-attachment: fixed;
-    background-image: url('https://isinhvien.com/wp-content/uploads/2022/01/Nganh-cong-nghe-thong-tin.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
 }
 
 .nd-nganhdaotao {
@@ -210,18 +234,30 @@ header #welcome-message {
 
 /*  */
 /* mini gmae */
+.mini-game {
+    background-position: center;
+    background-attachment: fixed;
+    padding: 20px 0 50px 0;
+    background-image: url('https://pub-static.fotor.com/assets/bg/ca5fa97f-7696-414b-bc87-9b5205b27575.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 .game {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 10px;
+    align-items: center;
 }
 
 .gm {
+    height: auto;
     position: relative;
-    width: 300px;
-    height: 200px;
+    width: 200px;
+    background: #fff1;
+    height: 150px;
     transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
@@ -232,30 +268,22 @@ header #welcome-message {
 }
 
 .gm p {
-
-    display: none;
     position: absolute;
-    bottom: -8%;
-    text-align: center;
     width: 100%;
-    padding: 5px 0 5px 0;
-    width: 30px;
-    height: 100%;
-    left: 45%;
-    background: linear-gradient(250deg, #ec1d25, #0d296b);
-    color: white;
-    writing-mode: vertical-rl;
-    transform: rotate(240deg);
+    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    color: transparent;
+    background-clip: text;
+    font-weight: bold;
     text-align: center;
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+    padding: 5px 0;
+    top: 80%;
+
 }
-
-
 
 .gm img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .gm:hover {
@@ -392,22 +420,37 @@ button:active {
 
 /*  */
 /* Styles cho mobile */
-@media (max-width: 600px) {
+@media (max-width: 789px) {
+
+    html {
+        width: 100%;
+    }
+
     .hd-trungbay {
         gap: 10px;
+        bottom: 22.5%;
     }
 
-    .logo {
-        display: none;
+    .logochu {
+        font-size: 70px;
     }
 
-    .hd-content {
-        margin: 0;
+    .connector {
+        height: 32px;
+    }
+
+    .connector1 {
+        left: 31.5%;
+        width: 11px;
+    }
+
+    .connector2 {
+        right: 31.5%;
+        width: 11px;
     }
 
     header {
-        height: 50vh;
-        margin: 0 0 80px 0;
+        height: 100vh;
     }
 
     #welcome-message {
