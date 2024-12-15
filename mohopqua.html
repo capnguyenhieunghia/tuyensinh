@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chọn Hộp Quà</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .boxes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 800px;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            background-color: #4CAF50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .box:hover {
+            transform: scale(1.1);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        .opened {
+            background-color: #ff9800;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="boxes">
+        <!-- Tạo 10 hộp quà -->
+        <div class="box" onclick="chooseGift(this, 1)">Hộp 1</div>
+        <div class="box" onclick="chooseGift(this, 2)">Hộp 2</div>
+        <div class="box" onclick="chooseGift(this, 3)">Hộp 3</div>
+        <div class="box" onclick="chooseGift(this, 4)">Hộp 4</div>
+        <div class="box" onclick="chooseGift(this, 5)">Hộp 5</div>
+        <div class="box" onclick="chooseGift(this, 6)">Hộp 6</div>
+        <div class="box" onclick="chooseGift(this, 7)">Hộp 7</div>
+        <div class="box" onclick="chooseGift(this, 8)">Hộp 8</div>
+        <div class="box" onclick="chooseGift(this, 9)">Hộp 9</div>
+        <div class="box" onclick="chooseGift(this, 10)">Hộp 10</div>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function chooseGift(boxElement, boxNumber) {
+            const gifts = [
+                { name: "Xe đạp", probability: 10 },
+                { name: "Điện thoại", probability: 20 },
+                { name: "Sách", probability: 30 },
+                { name: "Bánh kẹo", probability: 40 },
+                { name: "Balo", probability: 15 },
+                { name: "Laptop", probability: 5 },
+                { name: "Máy ảnh", probability: 10 },
+                { name: "Tai nghe", probability: 25 },
+                { name: "Giày", probability: 20 },
+                { name: "Đồng hồ", probability: 10 },
+            ];
+
+            const randomNum = Math.random() * 100;
+            let cumulativeProbability = 0;
+            let selectedGift = "Không có quà!";
+
+            for (const gift of gifts) {
+                cumulativeProbability += gift.probability;
+                if (randomNum <= cumulativeProbability) {
+                    selectedGift = gift.name;
+                    break;
+                }
+            }
+
+            // Thay đổi lớp để mô phỏng mở hộp
+            boxElement.classList.add('opened');
+            boxElement.innerText = "Đã mở!";
+
+            // Hiển thị phần quà nhận được
+            setTimeout(() => {
+                document.getElementById('result').innerText = `Bạn nhận được từ Hộp ${boxNumber}: ${selectedGift}`;
+            }, 1000); // Đợi 1 giây trước khi hiển thị kết quả
+        }
+    </script>
+
+</body>
+
+</html>

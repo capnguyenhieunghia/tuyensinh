@@ -422,16 +422,19 @@ button:active {
 
     .connector {
         height: 32px;
+        background: none;
     }
 
     .connector1 {
         left: 31.5%;
         width: 11px;
+        background: none;
     }
 
     .connector2 {
         right: 31.5%;
         width: 11px;
+        background: none;
     }
 
     header {

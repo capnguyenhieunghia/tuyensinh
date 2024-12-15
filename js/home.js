@@ -12,4 +12,3 @@ function getCookie(name) {
     }, '');
 }
 
-
