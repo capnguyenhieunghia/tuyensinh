@@ -9,7 +9,7 @@
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #000;
+            background-color: black;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,10 +18,14 @@
 
         #gameCanvas {
             position: relative;
-            width: 400px;
-            height: 600px;
-            background-color: #222;
-            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background-image: url('https://cellphones.com.vn/sforum/wp-content/uploads/2023/12/hinh-nen-vu-tru-3.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            touch-action: none;
         }
 
         .star {
@@ -42,7 +46,7 @@
             border-radius: 50%;
             width: 20px;
             height: 20px;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+            background: linear-gradient(to bottom, rgba(211, 222, 93, 0.8), rgba(255, 255, 255, 0));
             animation: fade 1s forwards;
             left: 50%;
             transform: translateX(-50%);
@@ -57,17 +61,20 @@
 
         #player {
             position: absolute;
-            background-color: red;
-            width: 30px;
-            height: 30px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
+            background-image: url('./image/phihanhgia.png');
+            background-size: cover;
+            border: solid yellow 1px;
+            transition: left 0.1s ease; /* Smooth movement */
         }
 
         .button {
             position: absolute;
             width: 50px;
             height: 50px;
-            background-color: #555;
+            background: #fff8;
             color: white;
             border: none;
             border-radius: 5px;
@@ -75,12 +82,34 @@
             font-size: 20px;
         }
 
+        .button:hover {
+            background: linear-gradient(250deg, #ec1d25, #0d296b);
+        }
+
         #leftButton {
-            left: -70px;
+            left: 10px;
+            bottom: 100px;
         }
 
         #rightButton {
-            right: -70px;
+            right: 10px;
+            bottom: 100px;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 20px;
+        }
+
+        #timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -90,12 +119,16 @@
         <div id="player"></div>
         <button id="leftButton" class="button">←</button>
         <button id="rightButton" class="button">→</button>
+        <div id="score">Điểm: 0</div>
+        <div id="timer">Thời gian: 60</div>
     </div>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const player = document.getElementById('player');
         const leftButton = document.getElementById('leftButton');
         const rightButton = document.getElementById('rightButton');
+        const scoreDisplay = document.getElementById('score');
+        const timerDisplay = document.getElementById('timer');
         const canvasWidth = canvas.offsetWidth;
         const canvasHeight = canvas.offsetHeight;
 
@@ -104,24 +137,25 @@
         let stars = [];
         let score = 0;
         let gameOver = false;
+        let timeLeft = 60;
 
         player.style.left = playerX + 'px';
         player.style.top = playerY + 'px';
 
-        document.addEventListener('mousemove', (event) => {
-            const mouseX = event.clientX - canvas.getBoundingClientRect().left;
-            if (mouseX >= 0 && mouseX <= canvasWidth - 30) {
-                playerX = mouseX;
+        document.addEventListener('touchmove', (event) => {
+            const touchX = event.touches[0].clientX - canvas.getBoundingClientRect().left;
+            if (touchX >= 0 && touchX <= canvasWidth - 30) {
+                playerX = touchX;
                 player.style.left = playerX + 'px';
             }
         });
 
-        leftButton.addEventListener('click', () => {
+        leftButton.addEventListener('touchstart', () => {
             playerX = Math.max(0, playerX - 30);
             player.style.left = playerX + 'px';
         });
 
-        rightButton.addEventListener('click', () => {
+        rightButton.addEventListener('touchstart', () => {
             playerX = Math.min(canvasWidth - 30, playerX + 30);
             player.style.left = playerX + 'px';
         });
@@ -143,7 +177,7 @@
 
                 const trail = document.createElement('div');
                 trail.className = 'trail';
-                trail.style.left = star.style.left; // Giữ nguyên vị trí ngang
+                trail.style.left = star.style.left;
                 trail.style.top = star.style.top;
                 canvas.appendChild(trail);
                 setTimeout(() => {
@@ -154,6 +188,7 @@
                     stars.splice(i, 1);
                     canvas.removeChild(star);
                     score++;
+                    scoreDisplay.textContent = 'Điểm: ' + score;
                 }
 
                 if (isColliding(star)) {
@@ -176,6 +211,17 @@
             );
         }
 
+        function updateTimer() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                timerDisplay.textContent = 'Thời gian: ' + timeLeft;
+            } else {
+                gameOver = true;
+                alert('Thời gian đã hết! Điểm số của bạn: ' + score);
+                document.location.reload();
+            }
+        }
+
         function gameLoop() {
             if (!gameOver) {
                 moveStars();
@@ -184,6 +230,7 @@
         }
 
         setInterval(createStar, 1000);
+        setInterval(updateTimer, 1000);
         gameLoop();
     </script>
 </body>

@@ -35,7 +35,7 @@ function showSlides() {
     if (slideIndex > Math.floor(totalSlides / 3)) {
         slideIndex = 0; // Reset to first slide
     }
-    const offset = -slideIndex * (100 / 3); // Tính toán độ dịch chuyển
+    const offset = -slideIndex * (100 / 4); // Tính toán độ dịch chuyển
     slides.style.transform = `translateX(${offset}%)`;
 
     // Thay đổi hình ảnh mỗi 6 giây

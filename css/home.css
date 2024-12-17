@@ -204,7 +204,7 @@ header #welcome-message {
 /*  */
 .slideshow-container {
     position: relative;
-    max-width: 90%;
+    max-width: 100%;
     margin: auto;
     overflow: hidden;
     display: flex;
@@ -218,7 +218,7 @@ header #welcome-message {
 }
 
 .slide {
-    width: 350px;
+    width: 250px;
     height: 200px;
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
