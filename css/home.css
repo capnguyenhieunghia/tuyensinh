@@ -9,6 +9,43 @@
 html,
 body {
     overflow-x: hidden;
+    position: relative;
+    background-color: #FFFFFFD4;
+}
+
+#popup {
+    width: 40%;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff8;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    z-index: 1000;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+#close {
+    cursor: pointer;
+    color: red;
+    margin-top: 5px;
+}
+
+.crs-mb {
+    display: none;
 }
 
 /* all */
@@ -164,60 +201,35 @@ header #welcome-message {
     text-align: center;
 }
 
-.connector {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    width: 4px;
-    height: 50px;
-    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-    transform: translateX(-50%);
-}
-
-.connector1 {
-    position: absolute;
-    top: 50%;
-    left: 36.1%;
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-}
-
-.connector2 {
-    position: absolute;
-    top: 50%;
-    right: 36.1%;
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-}
-
 /*  */
-/* Ngành đào tạo */
-.nganhdaotao {
-    height: auto;
-    margin: 0 0 20px 0;
-}
-
-.nd-nganhdaotao {
-    padding: 20px 0;
+.slideshow-container {
+    position: relative;
+    max-width: 90%;
+    margin: auto;
+    overflow: hidden;
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
 }
 
-.nganh-dt {
-    width: 300px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-    border-radius: 5px;
+.slides {
+    display: flex;
+    transition: transform 0.7s ease-in-out;
+    padding: 10px 5px;
+    gap: 14px;
+}
+
+.slide {
+    width: 350px;
     height: 200px;
-    background: hsla(0, 0%, 100%, .7);
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    transition: transform 0.5s ease;
 }
 
-.nganh-dt img {
+.slide:hover {
+    transform: scale(1.05);
+}
+
+.slide-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -349,16 +361,19 @@ marquee {
 
 .container {
     max-width: 500px;
-    background: white;
+    background: #fff8;
+    backdrop-filter: blur(5px);
     padding: 20px;
     border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
     transition: transform 0.2s;
     margin: 20px 0;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 
 .container:hover {
     transform: translateY(-5px);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
 }
 
 h2 {
@@ -371,10 +386,20 @@ textarea {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    outline: none;
+    border: none;
     font-size: 16px;
     transition: border-color 0.3s;
+}
+
+input{
+    border-bottom: dashed 2px;
+    border-image: linear-gradient(250deg, #ec1d25, #0d296b) 1;
+}
+
+textarea{
+    border: solid 2px;
+    border-image: linear-gradient(250deg, #ec1d25, #0d296b) 1;
 }
 
 input:focus,
@@ -411,6 +436,12 @@ button:active {
 /*  */
 /* Styles cho mobile */
 @media (max-width: 789px) {
+    .slideshow-container {
+        max-width: 100%;
+    }
+    #popup {
+        width: 100%;
+    }
     .hd-trungbay {
         gap: 10px;
         bottom: 25%;
@@ -420,25 +451,12 @@ button:active {
         font-size: 70px;
     }
 
-    .connector {
-        height: 32px;
-        background: none;
-    }
-
-    .connector1 {
-        left: 31.5%;
-        width: 11px;
-        background: none;
-    }
-
-    .connector2 {
-        right: 31.5%;
-        width: 11px;
-        background: none;
+    .crs-mb {
+        display: block;
     }
 
     header {
-        height: 100vh;
+        display: none;
     }
 
     #welcome-message {

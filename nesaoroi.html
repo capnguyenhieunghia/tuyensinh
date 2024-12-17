@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò Chơi Né Sao Rơi</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #gameCanvas {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background-color: #222;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            background-image: url('./image/ngoisao.png');
+            background-position: center;
+            background-size: contain;
+            box-shadow: 0 0 5px rgba(217, 246, 69, 0.8);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .trail {
+            position: absolute;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+            animation: fade 1s forwards;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes fade {
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        #player {
+            position: absolute;
+            background-color: red;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .button {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        #leftButton {
+            left: -70px;
+        }
+
+        #rightButton {
+            right: -70px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="gameCanvas">
+        <div id="player"></div>
+        <button id="leftButton" class="button">←</button>
+        <button id="rightButton" class="button">→</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const player = document.getElementById('player');
+        const leftButton = document.getElementById('leftButton');
+        const rightButton = document.getElementById('rightButton');
+        const canvasWidth = canvas.offsetWidth;
+        const canvasHeight = canvas.offsetHeight;
+
+        let playerX = canvasWidth / 2 - 15;
+        let playerY = canvasHeight - 50;
+        let stars = [];
+        let score = 0;
+        let gameOver = false;
+
+        player.style.left = playerX + 'px';
+        player.style.top = playerY + 'px';
+
+        document.addEventListener('mousemove', (event) => {
+            const mouseX = event.clientX - canvas.getBoundingClientRect().left;
+            if (mouseX >= 0 && mouseX <= canvasWidth - 30) {
+                playerX = mouseX;
+                player.style.left = playerX + 'px';
+            }
+        });
+
+        leftButton.addEventListener('click', () => {
+            playerX = Math.max(0, playerX - 30);
+            player.style.left = playerX + 'px';
+        });
+
+        rightButton.addEventListener('click', () => {
+            playerX = Math.min(canvasWidth - 30, playerX + 30);
+            player.style.left = playerX + 'px';
+        });
+
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * (canvasWidth - 40) + 'px';
+            star.style.top = '0px';
+            canvas.appendChild(star);
+            stars.push(star);
+        }
+
+        function moveStars() {
+            for (let i = stars.length - 1; i >= 0; i--) {
+                const star = stars[i];
+                const starTop = parseFloat(star.style.top);
+                star.style.top = starTop + 3 + 'px';
+
+                const trail = document.createElement('div');
+                trail.className = 'trail';
+                trail.style.left = star.style.left; // Giữ nguyên vị trí ngang
+                trail.style.top = star.style.top;
+                canvas.appendChild(trail);
+                setTimeout(() => {
+                    canvas.removeChild(trail);
+                }, 1000);
+
+                if (starTop > canvasHeight) {
+                    stars.splice(i, 1);
+                    canvas.removeChild(star);
+                    score++;
+                }
+
+                if (isColliding(star)) {
+                    gameOver = true;
+                    alert('Game Over! Điểm số của bạn: ' + score);
+                    document.location.reload();
+                }
+            }
+        }
+
+        function isColliding(star) {
+            const starRect = star.getBoundingClientRect();
+            const playerRect = player.getBoundingClientRect();
+
+            return !(
+                starRect.top > playerRect.bottom ||
+                starRect.bottom < playerRect.top ||
+                starRect.right < playerRect.left ||
+                starRect.left > playerRect.right
+            );
+        }
+
+        function gameLoop() {
+            if (!gameOver) {
+                moveStars();
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        setInterval(createStar, 1000);
+        gameLoop();
+    </script>
+</body>
+
+</html>
