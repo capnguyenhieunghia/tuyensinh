@@ -151,21 +151,25 @@ function hideTypingIndicator() {
 }
 
 function autoReply(message) {
-    const normalizedMessage = message.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, ""); // Normalize message
+    const normalizedMessage = message.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
+    const arithmeticMatch = message.match(/(\d+)\s*(cộng|trừ|nhân|x|chia|[\+\-\*\/])\s*(\d+)/);
+    if (arithmeticMatch) {
+        const num1 = parseFloat(arithmeticMatch[1]);
+        const operator = arithmeticMatch[2];
+        const num2 = parseFloat(arithmeticMatch[3]);
+        return calculate(num1, operator, num2);
+    }
+
     let bestMatch = null;
     let bestScore = 0;
 
     for (const question of Object.keys(dataMap)) {
-        const keywords = question.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").split(' '); // Normalize question
+        const keywords = question.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").split(' ');
         const messageWords = normalizedMessage.split(' ');
-
-        // Tính toán độ tương đồng Jaccard
         const intersection = keywords.filter(word => messageWords.includes(word)).length;
         const union = new Set([...keywords, ...messageWords]).size;
 
         const similarityScore = intersection / union;
-
-        // Kiểm tra nếu đây là câu hỏi tốt nhất cho đến nay
         if (similarityScore > bestScore) {
             bestScore = similarityScore;
             bestMatch = dataMap[question];
@@ -175,10 +179,31 @@ function autoReply(message) {
     return bestMatch || "Xin lỗi, tôi không hiểu câu hỏi của bạn. Vui lòng liên hệ với CĐ CNTT Tp. HCM qua số hotline: 093 886 1080.";
 }
 
+function calculate(num1, operator, num2) {
+    switch (operator) {
+        case 'cộng':
+        case '+':
+            return (num1 + num2).toString();
+        case 'trừ':
+        case '-':
+            return (num1 - num2).toString();
+        case 'nhân':
+        case 'x':
+        case '*':
+            return (num1 * num2).toString();
+        case 'chia':
+        case '/':
+            if (num2 === 0) return "Không thể chia cho 0.";
+            return (num1 / num2).toString();
+        default:
+            return "Phép toán không hợp lệ.";
+    }
+}
+
 document.getElementById('userInput').addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
-        event.preventDefault(); // Ngăn chặn hành động mặc định (gửi biểu mẫu)
-        sendMessage(); // Gọi hàm sendMessage
+        event.preventDefault();
+        sendMessage();
     }
 });
 
