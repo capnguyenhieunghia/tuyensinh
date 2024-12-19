@@ -124,10 +124,26 @@ function displayMessage(message, sender, timestamp) {
                 <div class="message-footer">
                     <span class="sender">${sender === 'user' ? 'Bạn' : 'CĐ ITC'}</span>
                     <span class="timestamp">${timestamp}</span>
+                    ${sender === 'bot' ? '<button class="speak-button" onclick="speakText(\'' + message.replace(/'/g, "\\'") + '\')">🔊 Phát âm</button>' : ''}
                 </div>
             `;
     messages.appendChild(messageDiv);
     messages.scrollTop = messages.scrollHeight;
+}
+
+function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices();
+
+    // Tìm giọng nói tiếng Việt
+    const vietnameseVoice = voices.find(voice => voice.lang === 'VN');
+
+    // Nếu tìm thấy giọng nói tiếng Việt, sử dụng nó
+    if (vietnameseVoice) {
+        utterance.voice = vietnameseVoice;
+    }
+
+    window.speechSynthesis.speak(utterance);
 }
 
 function showTypingIndicator() {
@@ -165,8 +181,8 @@ function autoReply(message) {
 
 document.getElementById('userInput').addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
-        event.preventDefault(); // Prevent the default action (form submission)
-        sendMessage(); // Call the sendMessage function
+        event.preventDefault(); // Ngăn chặn hành động mặc định (gửi biểu mẫu)
+        sendMessage(); // Gọi hàm sendMessage
     }
 });
 

@@ -11,7 +11,7 @@
     <meta property="og:description" content="Chat box Trường CĐ CNTT TP.HCM">
     <meta property="og:image" content="./image/logoitc.png">
     <meta property="og:url" content="itc.edu.vn">
-    <title>Chat box beta - CĐ CNTT TP. HCM</title>
+    <title>Chat box - CĐ CNTT TP. HCM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
         integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -27,39 +27,11 @@
         <div class="input-area">
             <input type="text" id="userInput" placeholder=" / Hiển thị gợi ý câu hỏi" />
             <button onclick="sendMessage()"><i class="fa-regular fa-paper-plane"></i></button>
-            <button onclick="startDictation()"><i class="fa-solid fa-microphone"></i></button>
         </div>
         <div class="suggestions" id="suggestions"></div>
     </div>
 
     <script src="./js/chatbot.js"></script>
-    <script>
-        function startDictation() {
-            if (window.SpeechRecognition || window.webkitSpeechRecognition) {
-                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                recognition.lang = 'vi-VN';
-                recognition.interimResults = true; // Bật chế độ kết quả tạm thời
-                recognition.maxAlternatives = 1;
-
-                recognition.start();
-
-                recognition.onresult = function (event) {
-                    const transcript = event.results[0][0].transcript;
-                    document.getElementById('userInput').value = transcript; // Cập nhật văn bản trong ô input
-                };
-
-                recognition.onerror = function (event) {
-                    console.error("Speech recognition error detected: " + event.error);
-                };
-
-                recognition.onend = function () {
-                    console.log("Speech recognition service disconnected");
-                };
-            } else {
-                alert('Trình duyệt của bạn không hỗ trợ chức năng nhận diện giọng nói.');
-            }
-        }
-    </script>
 </body>
 
 </html>

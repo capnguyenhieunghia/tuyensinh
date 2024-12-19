@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhận Diện Giọng Nói</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #transcript {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            height: 100px;
+            overflow-y: auto;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1>Nhận Diện Giọng Nói</h1>
+        <button id="start-btn">Bắt Đầu Ghi Âm</button>
+        <div id="transcript" contenteditable="true"></div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('start-btn');
+        const transcriptDiv = document.getElementById('transcript');
+
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'vi-VN';
+        recognition.interimResults = true;
+
+        recognition.onresult = (event) => {
+            const results = event.results;
+            const transcript = results[results.length - 1][0].transcript;
+            transcriptDiv.innerHTML += transcript + ' ';
+        };
+
+        recognition.onend = () => {
+            startBtn.disabled = false;
+        };
+
+        startBtn.addEventListener('click', () => {
+            transcriptDiv.innerHTML = ''; // Clear previous transcript
+            recognition.start();
+            startBtn.disabled = true;
+        });
+    </script>
+</body>
+
+</html>
