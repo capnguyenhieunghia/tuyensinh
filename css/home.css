@@ -10,7 +10,7 @@ html,
 body {
     overflow-x: hidden;
     position: relative;
-    background-color: #FFFFFFD4;
+    /* background-color: #FFFFFFD4; */
 }
 
 
@@ -131,7 +131,7 @@ header #welcome-message {
     justify-content: center;
     gap: 60px;
     position: absolute;
-    bottom: 10%;
+    bottom: 5%;
 }
 
 .nd-trungbay {
@@ -171,38 +171,62 @@ header #welcome-message {
     text-align: center;
 }
 
-/*  */
-.slideshow-container {
-    position: relative;
-    max-width: 100%;
-    margin: auto;
-    overflow: hidden;
-    display: flex;
+/* ndt */
+.nganhdaotao {
+    padding: 5px;
 }
 
-.slides {
-    display: flex;
-    transition: transform 0.7s ease-in-out;
-    padding: 10px 5px;
-    gap: 14px;
+.nganhdt {
+    width: 80%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns on desktop */
+    gap: 10px;
 }
 
-.slide {
-    width: 250px;
-    height: 200px;
-    box-sizing: border-box;
+.ndt {
+    perspective: 1000px;
+    border: 1px solid #ccc;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    transition: transform 0.5s ease;
+    align-items: center;
 }
 
-.slide:hover {
-    transform: scale(1.05);
+.ndt-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
 }
 
-.slide-image {
+.ndt:hover .ndt-image-container {
+    transform: rotateY(180deg);
+
+}
+
+.ndt:hover .ndt-image-container {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50px;
+    filter: blur(0.1px);
+}
+
+
+.ndt-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    /* Ensure images cover the area */
+    backface-visibility: hidden;
+    /* Hide back face during flip */
+}
+
+@media (max-width: 768px) {
+    .nganhdt {
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+    }
 }
 
 /*  */
@@ -265,16 +289,18 @@ header #welcome-message {
 }
 
 /* bậc đào tạo */
+
 .bacdaotao {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 5px;
 }
 
 .bdt {
     display: flex;
     align-items: center;
-    background-color: #ffffff;
+    background-color: #FFFFFFD4;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 25px;
@@ -283,6 +309,24 @@ header #welcome-message {
     width: 100%;
     max-width: 800px;
     transition: transform 0.2s;
+}
+
+.bdt-h:nth-child(1) {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.bdt-h:nth-child(2) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.bdt-h:nth-child(3) {
+    width: 100%;
+    display: flex;
+    justify-content: start;
 }
 
 .bdt:hover {
@@ -398,7 +442,7 @@ textarea:focus {
     outline: none;
 }
 
-button {
+#emailForm button {
     background: navy;
     color: white;
     border: none;
@@ -410,17 +454,29 @@ button {
     transition: background-color 0.3s, transform 0.2s;
 }
 
-button:hover {
-    background: linear-gradient(250deg, #ec1d25, #0d296b);
-}
 
-button:hover {
-    background-color: #218838;
+#emailForm button:hover {
+    background: linear-gradient(250deg, #ec1d25, #0d296b);
     transform: translateY(-2px);
 }
 
-button:active {
+#emailForm button:active {
     transform: translateY(0);
+}
+
+.tdp {
+    border-bottom: 3px dashed transparent;
+    border-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%) 1;
+    width: 20%;
+    font-size: 24px;
+    position: relative;
+    margin: 30px 0;
+    text-align: center;
+    background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+    font-weight: bold;
+    background-clip: text;
+    color: transparent;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
 }
 
 /*  */
@@ -430,9 +486,9 @@ button:active {
         max-width: 100%;
     }
 
-    .hd-trungbay {
-        gap: 10px;
-        bottom: 25%;
+    .tdp {
+        width: 55%;
+        font-size: 18px;
     }
 
     .logochu {
@@ -452,36 +508,6 @@ button:active {
         background: linear-gradient(250deg, #ec1d25, #0d296b);
         color: transparent;
         background-clip: text;
-    }
-
-    .nd-trungbay {
-        width: 115px;
-        height: 120px;
-        position: relative;
-    }
-
-    .nd-trungbay .tb-nd {
-        position: absolute;
-        top: 82%;
-        width: 100%;
-        text-align: center;
-    }
-
-    .nd-trungbay a {
-        font-size: 15px;
-    }
-
-    .nd-nganhdaotao {
-        gap: 10px;
-    }
-
-    .nganh-dt {
-        width: 160px;
-        height: 100px;
-    }
-
-    .nganh-dt img {
-        object-fit: contain;
     }
 
     .gm {

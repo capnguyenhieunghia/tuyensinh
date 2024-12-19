@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trò Chơi Né Sao Rơi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="description" content="Né sao CĐ ITC, Tuyển sinh Cao đẳng Công nghệ Thông tin TP. HCM.">
     <style>
         body {
             margin: 0;
@@ -67,7 +71,8 @@
             background-image: url('./image/phihanhgia.png');
             background-size: cover;
             border: solid yellow 1px;
-            transition: left 0.1s ease; /* Smooth movement */
+            transition: left 0.1s ease;
+            /* Smooth movement */
         }
 
         .button {
@@ -117,8 +122,8 @@
 <body>
     <div id="gameCanvas">
         <div id="player"></div>
-        <button id="leftButton" class="button">←</button>
-        <button id="rightButton" class="button">→</button>
+        <button id="leftButton" class="button"><i class="fa-solid fa-arrow-left"></i></button>
+        <button id="rightButton" class="button"><i class="fa-solid fa-arrow-right"></i></button>
         <div id="score">Điểm: 0</div>
         <div id="timer">Thời gian: 60</div>
     </div>
