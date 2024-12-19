@@ -138,12 +138,29 @@ function hideTypingIndicator() {
 }
 
 function autoReply(message) {
+    const lowerCaseMessage = message.toLowerCase();
+    let bestMatch = null;
+
     for (const question of Object.keys(dataMap)) {
-        if (message.includes(question)) {
-            return dataMap[question];
+        const keywords = question.toLowerCase().split(' ');
+        let matchCount = 0;
+
+        // Count how many keywords are in the user's message
+        for (const keyword of keywords) {
+            if (lowerCaseMessage.includes(keyword)) {
+                matchCount++;
+            }
+        }
+
+        // Update bestMatch if this question has more matches
+        if (matchCount > 0) {
+            if (!bestMatch || matchCount > bestMatch.count) {
+                bestMatch = { question, answer: dataMap[question], count: matchCount };
+            }
         }
     }
-    return "Xin lỗi, tôi không hiểu câu hỏi của bạn, vui lòng liên hệ với CĐ CNTT Tp. HCM, qua số hotline: 093 886 1080.";
+
+    return bestMatch ? bestMatch.answer : "Xin lỗi, tôi không hiểu câu hỏi của bạn, vui lòng liên hệ với CĐ CNTT Tp. HCM, qua số hotline: 093 886 1080.";
 }
 
 document.getElementById('userInput').addEventListener('input', function () {
