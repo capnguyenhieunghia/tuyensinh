@@ -124,7 +124,7 @@ function displayMessage(message, sender, timestamp) {
                 <div class="message-footer">
                     <span class="sender">${sender === 'user' ? 'Bạn' : 'CĐ ITC'}</span>
                     <span class="timestamp">${timestamp}</span>
-                    ${sender === 'bot' ? '<button class="speak-button" onclick="speakText(\'' + message.replace(/'/g, "\\'") + '\')">🔊 Phát âm</button>' : ''}
+                    ${sender === 'bot' ? '<button class="speak-button" onclick="speakText(\'' + message.replace(/'/g, "\\'") + '\')">🎵</button>' : ''}
                 </div>
             `;
     messages.appendChild(messageDiv);
@@ -134,11 +134,7 @@ function displayMessage(message, sender, timestamp) {
 function speakText(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     const voices = window.speechSynthesis.getVoices();
-
-    // Tìm giọng nói tiếng Việt
     const vietnameseVoice = voices.find(voice => voice.lang === 'VN');
-
-    // Nếu tìm thấy giọng nói tiếng Việt, sử dụng nó
     if (vietnameseVoice) {
         utterance.voice = vietnameseVoice;
     }

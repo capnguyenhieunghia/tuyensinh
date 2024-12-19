@@ -23,7 +23,7 @@
     <div class="chat-container">
         <div class="chat-header"><img src="./image/logoitc.png" alt="" width="40px"></div>
         <div class="messages" id="messages"></div>
-        <div class="typing" id="typing" style="display: none;">CĐ ITC đang trả lời...</div>
+        <div class="typing" id="typing" style="display: none; margin-left: 10px; font-size: 14px;">CĐ ITC đang trả lời...</div>
         <div class="input-area">
             <input type="text" id="userInput" placeholder=" / Hiển thị gợi ý câu hỏi" />
             <button onclick="sendMessage()"><i class="fa-regular fa-paper-plane"></i></button>
@@ -38,14 +38,17 @@
             if (window.SpeechRecognition || window.webkitSpeechRecognition) {
                 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                 recognition.lang = 'vi-VN';
-                recognition.interimResults = true; // Bật chế độ kết quả tạm thời
+                recognition.interimResults = true;
                 recognition.maxAlternatives = 1;
 
                 recognition.start();
 
                 recognition.onresult = function (event) {
                     const transcript = event.results[0][0].transcript;
-                    document.getElementById('userInput').value = transcript; // Cập nhật văn bản trong ô input
+                    document.getElementById('userInput').value = transcript;
+
+
+                    setTimeout(sendMessage, 2000);
                 };
 
                 recognition.onerror = function (event) {

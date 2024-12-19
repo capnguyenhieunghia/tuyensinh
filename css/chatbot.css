@@ -56,7 +56,7 @@ body {
 .message {
     max-width: 75%;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     position: relative;
     word-wrap: break-word;
     opacity: 0;
@@ -76,17 +76,14 @@ body {
 }
 
 .message.bot {
-    background: linear-gradient(250deg, #ec1d25, #0d296b);
-    color: transparent;
-    background-clip: text;
-    align-self: flex-start;
-    /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; */
+    background-color: #fff9;
+    color: #0d296b;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 
 .timestamp {
     font-size: 0.7em;
-   color: grey;
+    color: grey;
     background-position: center;
     margin-top: 4px;
     text-align: right;
@@ -94,7 +91,7 @@ body {
 
 .sender {
     font-size: 0.7em;
-   color: grey;
+    color: grey;
     background-position: center;
     margin-top: 4px;
     text-align: right;
@@ -127,11 +124,11 @@ input::placeholder {
 
 .input-area button {
     border: none;
-    background: linear-gradient(250deg, #ec1d25, #0d296b);
+    background: #1a4c8d;
     color: white;
     cursor: pointer;
-    padding: 10px 25px;
-    border-radius: 20px;
+    padding: 10px 15px;
+    border-radius: 10px;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     margin-left: 10px;
     font-size: 1em;
@@ -140,7 +137,7 @@ input::placeholder {
 }
 
 .input-area button:hover {
-    background: #1a4c8d;
+    background: linear-gradient(250deg, #ec1d25, #0d296b);
     transition: 1s ease-in-out;
 }
 
@@ -148,7 +145,6 @@ input::placeholder {
     display: flex;
     flex-wrap: wrap;
     margin: 10px 0;
-    max-height: 100px;
     overflow-x: auto;
 }
 
@@ -165,6 +161,20 @@ input::placeholder {
 .suggestion:hover {
     background: #0d296b;
     color: white;
+}
+
+.speak-button {
+    font-size: 10px;
+    margin: 0 2px;
+    padding: 0 10px;
+    background: none;
+    border: none;
+
+}
+
+.speak-button:hover {
+    background-color: white;
+    border: #0d296b dashed 1px;
 }
 
 @media (max-width: 768px) {
@@ -184,5 +194,8 @@ input::placeholder {
 
     .chat-container {
         border-radius: 0;
+        background: none;
+        box-shadow: none;
     }
+    
 }
