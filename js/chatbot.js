@@ -2,6 +2,7 @@ const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh
 let dataMap = {};
 let suggestionsList = [];
 let placeholderText = " / Hiển thị gợi ý";
+
 function typePlaceholder() {
     const input = document.getElementById('userInput');
     let index = 0;
@@ -62,7 +63,7 @@ fetch(SHEET_URL)
         const rows = json.table.rows;
         if (rows.length) {
             rows.forEach(row => {
-                const question = row.c[0]?.v.toLowerCase();
+                const question = row.c[0]?.v.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, ""); // Remove punctuation
                 const answer = row.c[1]?.v;
                 if (question && answer) {
                     dataMap[question] = answer;
@@ -78,7 +79,7 @@ function displaySuggestions(inputValue) {
     const suggestionsDiv = document.getElementById('suggestions');
     suggestionsDiv.innerHTML = '';
     const filteredSuggestions = suggestionsList.filter(suggestion =>
-        suggestion.startsWith(inputValue.slice(1).toLowerCase())
+        suggestion.startsWith(inputValue.slice(1).toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "")) // Remove punctuation
     );
     filteredSuggestions.forEach(suggestion => {
         const div = document.createElement('div');
@@ -102,7 +103,7 @@ function sendMessage() {
     input.value = '';
     showTypingIndicator();
 
-    const response = autoReply(message.toLowerCase());
+    const response = autoReply(message);
     setTimeout(() => {
         hideTypingIndicator();
         displayMessage(response, 'bot', timestamp);
@@ -119,12 +120,12 @@ function displayMessage(message, sender, timestamp) {
     const formattedMessage = message.replace(urlPattern, '<a href="$1" target="_blank" style="color: navy; text-decoration: underline;">$1</a>');
 
     messageDiv.innerHTML = `
-        <div>${formattedMessage}</div>
-        <div class="message-footer">
-            <span class="sender">${sender === 'user' ? 'Bạn' : 'CĐ ITC'}</span>
-            <span class="timestamp">${timestamp}</span>
-        </div>
-    `;
+                <div>${formattedMessage}</div>
+                <div class="message-footer">
+                    <span class="sender">${sender === 'user' ? 'Bạn' : 'CĐ ITC'}</span>
+                    <span class="timestamp">${timestamp}</span>
+                </div>
+            `;
     messages.appendChild(messageDiv);
     messages.scrollTop = messages.scrollHeight;
 }
@@ -138,30 +139,36 @@ function hideTypingIndicator() {
 }
 
 function autoReply(message) {
-    const lowerCaseMessage = message.toLowerCase();
+    const normalizedMessage = message.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, ""); // Normalize message
     let bestMatch = null;
+    let bestScore = 0;
 
     for (const question of Object.keys(dataMap)) {
-        const keywords = question.toLowerCase().split(' ');
-        let matchCount = 0;
+        const keywords = question.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").split(' '); // Normalize question
+        const messageWords = normalizedMessage.split(' ');
 
-        // Count how many keywords are in the user's message
-        for (const keyword of keywords) {
-            if (lowerCaseMessage.includes(keyword)) {
-                matchCount++;
-            }
-        }
+        // Tính toán độ tương đồng Jaccard
+        const intersection = keywords.filter(word => messageWords.includes(word)).length;
+        const union = new Set([...keywords, ...messageWords]).size;
 
-        // Update bestMatch if this question has more matches
-        if (matchCount > 0) {
-            if (!bestMatch || matchCount > bestMatch.count) {
-                bestMatch = { question, answer: dataMap[question], count: matchCount };
-            }
+        const similarityScore = intersection / union;
+
+        // Kiểm tra nếu đây là câu hỏi tốt nhất cho đến nay
+        if (similarityScore > bestScore) {
+            bestScore = similarityScore;
+            bestMatch = dataMap[question];
         }
     }
 
-    return bestMatch ? bestMatch.answer : "Xin lỗi, tôi không hiểu câu hỏi của bạn, vui lòng liên hệ với CĐ CNTT Tp. HCM, qua số hotline: 093 886 1080.";
+    return bestMatch || "Xin lỗi, tôi không hiểu câu hỏi của bạn. Vui lòng liên hệ với CĐ CNTT Tp. HCM qua số hotline: 093 886 1080.";
 }
+
+document.getElementById('userInput').addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the default action (form submission)
+        sendMessage(); // Call the sendMessage function
+    }
+});
 
 document.getElementById('userInput').addEventListener('input', function () {
     const inputValue = this.value;
