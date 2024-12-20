@@ -3,6 +3,7 @@ let dataMap = {};
 let suggestionsList = [];
 const placeholderText = "Tôi sẽ trả lời các câu hỏi liên quan đến trường CĐ CNTT TP. HCM, hãy đặt câu hỏi ngay";
 let isMicUsed = false; // Biến để theo dõi việc sử dụng mic
+let isSpeaking = false; // Biến để theo dõi việc bot đang nói
 
 function typePlaceholder() {
     const input = document.getElementById('userInput');
@@ -110,8 +111,8 @@ function sendMessage() {
         saveChatHistory();
         checkAndAddNewQuestion(message, response);
 
-        // Chỉ phát âm thanh nếu mic được sử dụng
-        if (isMicUsed) {
+        // Chỉ phát âm thanh nếu mic được sử dụng và bot không đang nói
+        if (isMicUsed && !isSpeaking) {
             speakText(response);
         }
 
@@ -141,7 +142,19 @@ function displayMessage(message, sender, timestamp) {
 function speakText(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     const vietnameseVoice = window.speechSynthesis.getVoices().find(voice => voice.lang === 'VN');
-    if (vietnameseVoice) utterance.voice = vietnameseVoice;
+
+    if (vietnameseVoice) {
+        utterance.voice = vietnameseVoice;
+    }
+
+    utterance.onstart = () => {
+        isSpeaking = true; // Đặt isSpeaking thành true khi bắt đầu nói
+    };
+
+    utterance.onend = () => {
+        isSpeaking = false; // Đặt isSpeaking thành false khi kết thúc nói
+    };
+
     window.speechSynthesis.speak(utterance);
 }
 
@@ -204,9 +217,11 @@ document.getElementById('userInput').addEventListener('input', function () {
 });
 
 document.getElementById('micButton').addEventListener('click', function () {
-    isMicUsed = true;
-    const input = document.getElementById('userInput');
-    sendMessage();
+    if (!isSpeaking) { // Chỉ cho phép sử dụng mic khi bot không đang nói
+        isMicUsed = true;
+        const input = document.getElementById('userInput');
+        sendMessage();
+    }
 });
 
 window.onload = function () {
