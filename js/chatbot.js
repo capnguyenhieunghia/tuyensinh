@@ -164,6 +164,15 @@ function autoReply(message) {
     let bestMatch = null;
     let bestScore = 0;
 
+
+    const relatedQuestions = suggestionsList.filter(suggestion =>
+        suggestion.includes(normalizedMessage)
+    );
+    if (relatedQuestions.length > 1) {
+        const suggestions = relatedQuestions.join(', ');
+        return `Bạn muốn tham khảo những câu hỏi nào liên quan: ${suggestions}?`;
+    }
+
     for (const question of Object.keys(dataMap)) {
         const keywords = question.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").split(' ');
         const messageWords = normalizedMessage.split(' ');

@@ -260,7 +260,7 @@ input::placeholder {
     .chat-container {
         border-radius: 0;
         background: none;
-        height: 100vh;
+        height: 90vh;
         box-shadow: none;
     }
 
