@@ -1,9 +1,11 @@
+//Cáp Nguyễn Hiếu Nghĩa
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/gviz/tq?tqx=out:json';
 let dataMap = {};
 let suggestionsList = [];
 const placeholderText = "Tôi sẽ trả lời các câu hỏi liên quan đến trường CĐ CNTT TP. HCM, hãy đặt câu hỏi ngay";
-let isMicUsed = false; // Biến để theo dõi việc sử dụng mic
-let isSpeaking = false; // Biến để theo dõi việc bot đang nói
+let isMicUsed = false;
+let isSpeaking = false;
+let isListening = false;
 
 function typePlaceholder() {
     const input = document.getElementById('userInput');
@@ -31,6 +33,7 @@ function typePlaceholder() {
 
     type();
 }
+
 function startDictation() {
     const micButton = document.getElementById('micButton');
     micButton.classList.add('active');
@@ -38,25 +41,29 @@ function startDictation() {
     if (window.SpeechRecognition || window.webkitSpeechRecognition) {
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'vi-VN';
-        recognition.interimResults = true;
+        recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
         recognition.start();
+        isListening = true;
 
         recognition.onresult = function (event) {
             const transcript = event.results[0][0].transcript;
-            document.getElementById('userInput').value = transcript;
-
-            setTimeout(sendMessage, 4000);
+            sendMessage(transcript);
+            recognition.stop();
+            isListening = false;
         };
 
         recognition.onerror = function (event) {
             console.error("Speech recognition error detected: " + event.error);
+            recognition.stop();
+            isListening = false;
         };
 
         recognition.onend = function () {
             micButton.classList.remove('active');
             console.log("Speech recognition service disconnected");
+            isListening = false;
         };
     } else {
         alert('Trình duyệt của bạn không hỗ trợ chức năng nhận diện giọng nói.');
@@ -70,6 +77,7 @@ function openSearchModal() {
 function closeSearchModal() {
     document.getElementById('searchModal').style.display = "none";
 }
+
 window.onclick = function (event) {
     if (event.target == document.getElementById('searchModal')) {
         closeSearchModal();
@@ -131,30 +139,30 @@ function displaySuggestions(inputValue) {
         div.className = 'suggestion';
         div.textContent = suggestion;
         div.onclick = () => {
-            document.getElementById('userInput').value = suggestion;
-            sendMessage();
+            sendMessage(suggestion);
         };
         suggestionsDiv.appendChild(div);
     });
 }
 
-function sendMessage() {
+function sendMessage(message) {
     const input = document.getElementById('userInput');
-    const message = input.value.trim();
-    if (!message) return;
+    const normalizedMessage = message.trim();
+    if (!normalizedMessage) return;
 
     const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    displayMessage(message, 'user', timestamp);
+    displayMessage(normalizedMessage, 'user', timestamp);
     input.value = '';
+
     showTypingIndicator();
 
-    const response = autoReply(message);
+    const response = autoReply(normalizedMessage);
     setTimeout(() => {
         hideTypingIndicator();
         displayMessage(response, 'bot', timestamp);
         saveChatHistory();
-        checkAndAddNewQuestion(message, response);
-        if (isMicUsed && !isSpeaking) {
+        checkAndAddNewQuestion(normalizedMessage, response);
+        if (!isMicUsed && !isSpeaking) {
             speakText(response);
         }
         isMicUsed = false;
@@ -245,7 +253,7 @@ function addNewQuestion(question, answer) {
 document.getElementById('userInput').addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
-        sendMessage();
+        sendMessage(input.value); // Gửi câu hỏi từ ô nhập liệu
     }
 });
 
@@ -259,10 +267,9 @@ document.getElementById('userInput').addEventListener('input', function () {
 });
 
 document.getElementById('micButton').addEventListener('click', function () {
-    if (!isSpeaking) {
+    if (!isSpeaking && !isListening) { // Kiểm tra trạng thái nghe
         isMicUsed = true;
-        const input = document.getElementById('userInput');
-        sendMessage();
+        startDictation(); // Bắt đầu nhận diện giọng nói
     }
 });
 
