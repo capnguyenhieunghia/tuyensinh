@@ -110,7 +110,33 @@ function sendMessage() {
         checkAndAddNewQuestion(message, response);
     }, 1000);
 }
+function isValidMessage(message) {
+    const invalidPattern = /[()~`%$^='"!@|{}[_:#*&$0-9]/;
+    return !invalidPattern.test(message);
+}
 
+function sendMessage() {
+    const input = document.getElementById('userInput');
+    const message = input.value.trim();
+
+    if (!message || !isValidMessage(message)) {
+        alert("Tin nhắn không hợp lệ! Vui lòng không sử dụng ký tự đặc biệt (#, *, &, $) và số.");
+        return;
+    }
+
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    displayMessage(message, 'user', timestamp);
+    input.value = '';
+    showTypingIndicator();
+
+    const response = autoReply(message);
+    setTimeout(() => {
+        hideTypingIndicator();
+        displayMessage(response, 'bot', timestamp);
+        saveChatHistory();
+        checkAndAddNewQuestion(message, response);
+    }, 1000);
+}
 function displayMessage(message, sender, timestamp) {
     const messages = document.getElementById('messages');
     const messageDiv = document.createElement('div');

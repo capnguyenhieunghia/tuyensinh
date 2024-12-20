@@ -100,7 +100,7 @@ body {
 }
 
 .chat-container {
-    width: 100%;
+    width: 100vh;
     max-width: 800px;
     background: #fff2;
     height: 90vh;
@@ -139,7 +139,7 @@ body {
 }
 
 .message {
-    max-width: 60%;
+    max-width: 80%;
     padding: 10px;
     border-radius: 5px;
     position: relative;
@@ -163,6 +163,7 @@ body {
 }
 
 .message.bot {
+
     background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
     color: navy;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
@@ -190,7 +191,6 @@ body {
     justify-content: center;
     flex-direction: column;
     gap: 10px;
-    /* background: #f9f9f9; */
 }
 
 .input-area input {
@@ -245,7 +245,6 @@ input::placeholder {
     margin: 0 1px;
     padding: 0px 10px;
     background: none;
-    /* border: #0d296b dashed 1px; */
     border: none;
 
 }
@@ -273,7 +272,7 @@ input::placeholder {
     .chat-container {
         border-radius: 0;
         background: none;
-        height: 90vh;
+        height: 100vh;
         box-shadow: none;
     }
 
