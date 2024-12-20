@@ -1,7 +1,7 @@
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/gviz/tq?tqx=out:json';
 let dataMap = {};
 let suggestionsList = [];
-let placeholderText = " / Hiển thị gợi ý";
+let placeholderText = "Tôi là chatbot tư vấn của CĐ CNTT TP. HCM, hãy đặt câu hỏi ngay";
 
 function typePlaceholder() {
     const input = document.getElementById('userInput');
@@ -49,6 +49,13 @@ function saveChatHistory() {
 
 function loadChatHistory() {
     const chatHistory = getCookie('chatHistory');
+    const storedDataMap = getCookie('dataMap');
+
+    if (storedDataMap) {
+        dataMap = JSON.parse(storedDataMap);
+        suggestionsList = Object.keys(dataMap);
+    }
+
     if (chatHistory) {
         document.getElementById('messages').innerHTML = chatHistory;
         const messagesDiv = document.getElementById('messages');
@@ -63,7 +70,7 @@ fetch(SHEET_URL)
         const rows = json.table.rows;
         if (rows.length) {
             rows.forEach(row => {
-                const question = row.c[0]?.v.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, ""); // Remove punctuation
+                const question = row.c[0]?.v.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
                 const answer = row.c[1]?.v;
                 if (question && answer) {
                     dataMap[question] = answer;
@@ -79,7 +86,7 @@ function displaySuggestions(inputValue) {
     const suggestionsDiv = document.getElementById('suggestions');
     suggestionsDiv.innerHTML = '';
     const filteredSuggestions = suggestionsList.filter(suggestion =>
-        suggestion.startsWith(inputValue.slice(1).toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "")) // Remove punctuation
+        suggestion.startsWith(inputValue.slice(1).toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, ""))
     );
     filteredSuggestions.forEach(suggestion => {
         const div = document.createElement('div');
@@ -108,6 +115,7 @@ function sendMessage() {
         hideTypingIndicator();
         displayMessage(response, 'bot', timestamp);
         saveChatHistory();
+        checkAndAddNewQuestion(message, response);
     }, 1000);
 }
 
@@ -152,13 +160,6 @@ function hideTypingIndicator() {
 
 function autoReply(message) {
     const normalizedMessage = message.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
-    const arithmeticMatch = message.match(/(\d+)\s*(cộng|trừ|nhân|x|chia|[\+\-\*\/])\s*(\d+)/);
-    if (arithmeticMatch) {
-        const num1 = parseFloat(arithmeticMatch[1]);
-        const operator = arithmeticMatch[2];
-        const num2 = parseFloat(arithmeticMatch[3]);
-        return calculate(num1, operator, num2);
-    }
 
     let bestMatch = null;
     let bestScore = 0;
@@ -179,25 +180,20 @@ function autoReply(message) {
     return bestMatch || "Xin lỗi, tôi không hiểu câu hỏi của bạn. Vui lòng liên hệ với CĐ CNTT Tp. HCM qua số hotline: 093 886 1080.";
 }
 
-function calculate(num1, operator, num2) {
-    switch (operator) {
-        case 'cộng':
-        case '+':
-            return (num1 + num2).toString();
-        case 'trừ':
-        case '-':
-            return (num1 - num2).toString();
-        case 'nhân':
-        case 'x':
-        case '*':
-            return (num1 * num2).toString();
-        case 'chia':
-        case '/':
-            if (num2 === 0) return "Không thể chia cho 0.";
-            return (num1 / num2).toString();
-        default:
-            return "Phép toán không hợp lệ.";
+function checkAndAddNewQuestion(message, response) {
+    if (response === "Xin lỗi, tôi không hiểu câu hỏi của bạn.") {
+        const userWantsToAdd = confirm("Bạn có muốn thêm câu hỏi này không?");
+        if (userWantsToAdd) {
+            const answer = prompt("Vui lòng nhập câu trả lời:");
+            addNewQuestion(message, answer);
+        }
     }
+}
+
+function addNewQuestion(question, answer) {
+    dataMap[question] = answer;
+    suggestionsList.push(question);
+    setCookie('dataMap', JSON.stringify(dataMap), 7);
 }
 
 document.getElementById('userInput').addEventListener('keypress', function (event) {

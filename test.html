@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trích xuất Âm thanh từ Video</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        input {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trích xuất Âm thanh từ Video</h1>
+    <input type="file" id="videoInput" accept="video/*" />
+    <button onclick="extractAudio()">Trích xuất Âm thanh</button>
+    <audio id="audioOutput" controls></audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg.js/0.10.0/ffmpeg.min.js"></script>
+    <script>
+        async function extractAudio() {
+            const videoFile = document.getElementById('videoInput').files[0];
+            if (!videoFile) {
+                alert('Vui lòng chọn video.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async function(event) {
+                const videoData = new Uint8Array(event.target.result);
+                const { createFFmpeg, fetchFile } = FFmpeg;
+                const ffmpeg = createFFmpeg({ log: true });
+
+                await ffmpeg.load();
+                ffmpeg.FS('writeFile', 'input.mp4', videoData);
+                await ffmpeg.run('-i', 'input.mp4', 'output.mp3');
+                const audioData = ffmpeg.FS('readFile', 'output.mp3');
+
+                const audioBlob = new Blob([audioData.buffer], { type: 'audio/mp3' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                document.getElementById('audioOutput').src = audioUrl;
+            };
+            reader.readAsArrayBuffer(videoFile);
+        }
+    </script>
+</body>
+</html>
