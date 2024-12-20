@@ -4,6 +4,42 @@
     box-sizing: border-box;
 }
 
+.mic-effect {
+    position: relative;
+    display: inline-block;
+}
+
+.mic-effect:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+    animation: pulse 1.5s infinite;
+    opacity: 0;
+    z-index: -1;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -118,6 +154,7 @@ body {
     }
 }
 
+
 .message.user {
     background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
     color: navy;
@@ -200,30 +237,6 @@ input::placeholder {
 .input-area button:hover {
     background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
     transition: 0.5s ease-in-out;
-    color: white;
-}
-
-.suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 10px 0;
-    max-height: 100px;
-    overflow-x: auto;
-}
-
-.suggestion {
-    background: #f1f1f1;
-    border-radius: 15px;
-    padding: 8px 12px;
-    margin: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-
-}
-
-
-.suggestion:hover {
-    background: #0d296b;
     color: white;
 }
 

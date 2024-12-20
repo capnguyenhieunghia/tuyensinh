@@ -1,12 +1,13 @@
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/gviz/tq?tqx=out:json';
 let dataMap = {};
 let suggestionsList = [];
-const placeholderText = "Tôi sẽ trả lời các câu hỏi liên quan đến trường CĐ CNTT TP. HCM, hãy đặt câu hỏi ngay";
+let placeholderText = "Tôi là chatbot tư vấn của CĐ CNTT TP. HCM, hãy đặt câu hỏi ngay";
 
 function typePlaceholder() {
     const input = document.getElementById('userInput');
     let index = 0;
     input.placeholder = '';
+
 
     function type() {
         if (index < placeholderText.length) {
@@ -31,7 +32,8 @@ function typePlaceholder() {
 }
 
 function setCookie(name, value, days) {
-    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${new Date(Date.now() + days * 864e5).toUTCString()}; path=/`;
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
 }
 
 function getCookie(name) {
@@ -42,7 +44,8 @@ function getCookie(name) {
 }
 
 function saveChatHistory() {
-    setCookie('chatHistory', document.getElementById('messages').innerHTML, 7);
+    const messages = document.getElementById('messages').innerHTML;
+    setCookie('chatHistory', messages, 7);
 }
 
 function loadChatHistory() {
@@ -52,9 +55,11 @@ function loadChatHistory() {
         dataMap = JSON.parse(storedDataMap);
         suggestionsList = Object.keys(dataMap);
     }
+
     if (chatHistory) {
         document.getElementById('messages').innerHTML = chatHistory;
-        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+        const messagesDiv = document.getElementById('messages');
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 }
 
@@ -62,23 +67,26 @@ fetch(SHEET_URL)
     .then(response => response.text())
     .then(data => {
         const json = JSON.parse(data.substr(47).slice(0, -2));
-        json.table.rows.forEach(row => {
-            const question = row.c[0]?.v.toLowerCase().replace(/[.,/#!$%^&*;:{}=-_`~()]/g, "");
-            const answer = row.c[1]?.v;
-            if (question && answer) {
-                dataMap[question] = answer;
-                suggestionsList.push(question);
-            }
-        });
-        loadChatHistory();
+        const rows = json.table.rows;
+        if (rows.length) {
+            rows.forEach(row => {
+                const question = row.c[0]?.v.toLowerCase().replace(/[.,/#!$%^&*;:{}=-_`~()]/g, "");
+                const answer = row.c[1]?.v;
+                if (question && answer) {
+                    dataMap[question] = answer;
+                    suggestionsList.push(question);
+                }
+            });
+            loadChatHistory();
+        }
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => console.error('Lỗi:', error));
 
 function displaySuggestions(inputValue) {
     const suggestionsDiv = document.getElementById('suggestions');
     suggestionsDiv.innerHTML = '';
     const filteredSuggestions = suggestionsList.filter(suggestion =>
-        suggestion.startsWith(inputValue.toLowerCase().replace(/[.,/#!$%^&*;:{}=-_`~()]/g, ""))
+        suggestion.startsWith(inputValue.slice(1).toLowerCase().replace(/[.,/#!$%^&*;:{}=-_`~()]/g, ""))
     );
     filteredSuggestions.forEach(suggestion => {
         const div = document.createElement('div');
@@ -94,8 +102,8 @@ function displaySuggestions(inputValue) {
 
 function sendMessage() {
     const input = document.getElementById('userInput');
-    const message = input.value.trim();
-    if (!message) return;
+    const message = input.value;
+    if (message.trim() === '') return;
 
     const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     displayMessage(message, 'user', timestamp);
@@ -114,25 +122,30 @@ function sendMessage() {
 function displayMessage(message, sender, timestamp) {
     const messages = document.getElementById('messages');
     const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}`;
-    const formattedMessage = message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: navy; text-decoration: underline;">$1</a>');
+    messageDiv.className = 'message ' + sender;
+    const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    const formattedMessage = message.replace(urlPattern, '<a href="$1" target="_blank" style="color: navy; text-decoration: underline;">$1</a>');
 
     messageDiv.innerHTML = `
-        <div>${formattedMessage}</div>
-        <div class="message-footer">
-            <span class="sender">${sender === 'user' ? 'Bạn' : 'CĐ ITC'}</span>
-            <span class="timestamp">${timestamp}</span>
-            ${sender === 'bot' ? `<button class="speak-button" onclick="speakText('${message.replace(/'/g, "\\'")}')">🎵</button>` : ''}
-        </div>`;
-
+            <div>${formattedMessage}</div>
+            <div class="message-footer">
+                <span class="sender">${sender === 'user' ? 'Bạn' : 'CĐ ITC'}</span>
+                <span class="timestamp">${timestamp}</span>
+                ${sender === 'bot' ? '<button class="speak-button" onclick="speakText(\'' + message.replace(/'/g, "\\'") + '\')">🎵</button>' : ''}
+            </div>
+        `;
     messages.appendChild(messageDiv);
     messages.scrollTop = messages.scrollHeight;
 }
 
 function speakText(text) {
     const utterance = new SpeechSynthesisUtterance(text);
-    const vietnameseVoice = window.speechSynthesis.getVoices().find(voice => voice.lang === 'VN');
-    if (vietnameseVoice) utterance.voice = vietnameseVoice;
+    const voices = window.speechSynthesis.getVoices();
+    const vietnameseVoice = voices.find(voice => voice.lang === 'VN');
+    if (vietnameseVoice) {
+        utterance.voice = vietnameseVoice;
+    }
+
     window.speechSynthesis.speak(utterance);
 }
 
@@ -146,26 +159,30 @@ function hideTypingIndicator() {
 
 function autoReply(message) {
     const normalizedMessage = message.toLowerCase().replace(/[.,/#!$%^&*;:{}=-_`~()]/g, "");
-    let bestMatch = null, bestScore = 0;
 
-    for (const question in dataMap) {
-        const keywords = question.split(' ');
+    let bestMatch = null;
+    let bestScore = 0;
+
+    for (const question of Object.keys(dataMap)) {
+        const keywords = question.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").split(' ');
         const messageWords = normalizedMessage.split(' ');
         const intersection = keywords.filter(word => messageWords.includes(word)).length;
         const union = new Set([...keywords, ...messageWords]).size;
-        const similarityScore = intersection / union;
 
+        const similarityScore = intersection / union;
         if (similarityScore > bestScore) {
             bestScore = similarityScore;
             bestMatch = dataMap[question];
         }
     }
+
     return bestMatch || "Xin lỗi, tôi không hiểu câu hỏi của bạn. Vui lòng liên hệ với CĐ CNTT Tp. HCM qua số hotline: 093 886 1080.";
 }
 
 function checkAndAddNewQuestion(message, response) {
     if (response === "Xin lỗi, tôi không hiểu câu hỏi của bạn.") {
-        if (confirm("Bạn có muốn thêm câu hỏi này không?")) {
+        const userWantsToAdd = confirm("Bạn có muốn thêm câu hỏi này không?");
+        if (userWantsToAdd) {
             const answer = prompt("Vui lòng nhập câu trả lời:");
             addNewQuestion(message, answer);
         }
@@ -187,7 +204,7 @@ document.getElementById('userInput').addEventListener('keypress', function (even
 
 document.getElementById('userInput').addEventListener('input', function () {
     const inputValue = this.value;
-    if (inputValue.length > 0) {
+    if (inputValue.startsWith('/')) {
         displaySuggestions(inputValue);
     } else {
         document.getElementById('suggestions').innerHTML = '';
@@ -197,4 +214,4 @@ document.getElementById('userInput').addEventListener('input', function () {
 window.onload = function () {
     loadChatHistory();
     typePlaceholder();
-};
+}; 

@@ -3,49 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trích xuất Âm thanh từ Video</title>
+    <title>Máy Tính</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+        .calculator {
+            width: 220px;
+            margin: 50px auto;
             padding: 20px;
+            border: 2px solid #000;
+            border-radius: 10px;
         }
-        input {
-            margin: 10px 0;
+        .calculator input {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        .calculator button {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .calculator button.clear {
+            width: 110px;
         }
     </style>
 </head>
 <body>
-    <h1>Trích xuất Âm thanh từ Video</h1>
-    <input type="file" id="videoInput" accept="video/*" />
-    <button onclick="extractAudio()">Trích xuất Âm thanh</button>
-    <audio id="audioOutput" controls></audio>
+    <div class="calculator">
+        <input type="text" id="display" disabled />
+        <div>
+            <button onclick="appendNumber(7)">7</button>
+            <button onclick="appendNumber(8)">8</button>
+            <button onclick="appendNumber(9)">9</button>
+            <button onclick="chooseOperation('+')">+</button>
+        </div>
+        <div>
+            <button onclick="appendNumber(4)">4</button>
+            <button onclick="appendNumber(5)">5</button>
+            <button onclick="appendNumber(6)">6</button>
+            <button onclick="chooseOperation('-')">-</button>
+        </div>
+        <div>
+            <button onclick="appendNumber(1)">1</button>
+            <button onclick="appendNumber(2)">2</button>
+            <button onclick="appendNumber(3)">3</button>
+            <button onclick="chooseOperation('*')">*</button>
+        </div>
+        <div>
+            <button onclick="appendNumber(0)">0</button>
+            <button onclick="clearDisplay()" class="clear">C</button>
+            <button onclick="computeResult()">=</button>
+            <button onclick="chooseOperation('/')">/</button>
+        </div>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg.js/0.10.0/ffmpeg.min.js"></script>
     <script>
-        async function extractAudio() {
-            const videoFile = document.getElementById('videoInput').files[0];
-            if (!videoFile) {
-                alert('Vui lòng chọn video.');
-                return;
+        let currentInput = '';
+        let operation = '';
+        let previousInput = '';
+
+        function appendNumber(number) {
+            currentInput += number.toString();
+            updateDisplay(currentInput);
+        }
+
+        function chooseOperation(op) {
+            if (currentInput === '') return;
+            if (previousInput !== '') {
+                computeResult();
+            }
+            operation = op;
+            previousInput = currentInput;
+            currentInput = '';
+        }
+
+        function computeResult() {
+            let result;
+            const prev = parseFloat(previousInput);
+            const current = parseFloat(currentInput);
+            if (isNaN(prev) || isNaN(current)) return;
+            
+            switch (operation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    if (current === 0) {
+                        alert("Không thể chia cho 0!");
+                        return;
+                    }
+                    result = prev / current;
+                    break;
+                default:
+                    return;
             }
 
-            const reader = new FileReader();
-            reader.onload = async function(event) {
-                const videoData = new Uint8Array(event.target.result);
-                const { createFFmpeg, fetchFile } = FFmpeg;
-                const ffmpeg = createFFmpeg({ log: true });
+            currentInput = result.toString();
+            operation = '';
+            previousInput = '';
+            updateDisplay(currentInput);
+        }
 
-                await ffmpeg.load();
-                ffmpeg.FS('writeFile', 'input.mp4', videoData);
-                await ffmpeg.run('-i', 'input.mp4', 'output.mp3');
-                const audioData = ffmpeg.FS('readFile', 'output.mp3');
+        function clearDisplay() {
+            currentInput = '';
+            previousInput = '';
+            operation = '';
+            updateDisplay('');
+        }
 
-                const audioBlob = new Blob([audioData.buffer], { type: 'audio/mp3' });
-                const audioUrl = URL.createObjectURL(audioBlob);
-                document.getElementById('audioOutput').src = audioUrl;
-            };
-            reader.readAsArrayBuffer(videoFile);
+        function updateDisplay(value) {
+            document.getElementById('display').value = value;
         }
     </script>
 </body>
