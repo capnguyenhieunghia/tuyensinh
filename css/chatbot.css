@@ -2,6 +2,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Times New Roman', Times;
+    font-family: sans-serif;
+    
 }
 
 .mic-effect {
@@ -109,6 +112,16 @@ body {
     display: flex;
     flex-direction: column;
     padding: 3px 0;
+}
+
+.chat-container::before{
+    content: "Phiên bản đang phát triển";
+    background-color: #30cfd0;
+    padding: 5px;
+    width: fit-content;
+    color: #0d296b;
+    font-size: 9px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .chat-header {
@@ -246,7 +259,6 @@ input::placeholder {
     margin: 0 1px;
     padding: 0px 10px;
     background: none;
-    /* border: #0d296b dashed 1px; */
     border: none;
 
 }

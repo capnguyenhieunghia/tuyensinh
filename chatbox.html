@@ -11,7 +11,7 @@
     <meta property="og:description" content="Chat box Trường CĐ CNTT TP.HCM">
     <meta property="og:image" content="./image/logoitc.png">
     <meta property="og:url" content="itc.edu.vn">
-    <title>Chat box beta - CĐ CNTT TP. HCM</title>
+    <title>Chat box thử nghiệm - CĐ CNTT TP. HCM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
         integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -51,52 +51,6 @@
         </div>
     </div>
     <script src="./js/chatbot.js"></script>
-    <script>
-        function startDictation() {
-            const micButton = document.getElementById('micButton');
-            micButton.classList.add('active');
-
-            if (window.SpeechRecognition || window.webkitSpeechRecognition) {
-                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                recognition.lang = 'vi-VN';
-                recognition.interimResults = true;
-                recognition.maxAlternatives = 1;
-
-                recognition.start();
-
-                recognition.onresult = function (event) {
-                    const transcript = event.results[0][0].transcript;
-                    document.getElementById('userInput').value = transcript;
-
-                    setTimeout(sendMessage, 3300);
-                };
-
-                recognition.onerror = function (event) {
-                    console.error("Speech recognition error detected: " + event.error);
-                };
-
-                recognition.onend = function () {
-                    micButton.classList.remove('active');
-                    console.log("Speech recognition service disconnected");
-                };
-            } else {
-                alert('Trình duyệt của bạn không hỗ trợ chức năng nhận diện giọng nói.');
-            }
-        }
-
-        function openSearchModal() {
-            document.getElementById('searchModal').style.display = "block";
-        }
-
-        function closeSearchModal() {
-            document.getElementById('searchModal').style.display = "none";
-        }
-        window.onclick = function (event) {
-            if (event.target == document.getElementById('searchModal')) {
-                closeSearchModal();
-            }
-        }
-    </script>
 </body>
 
 </html>

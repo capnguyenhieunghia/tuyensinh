@@ -31,6 +31,50 @@ function typePlaceholder() {
 
     type();
 }
+function startDictation() {
+    const micButton = document.getElementById('micButton');
+    micButton.classList.add('active');
+
+    if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'vi-VN';
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 1;
+
+        recognition.start();
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('userInput').value = transcript;
+
+            setTimeout(sendMessage, 4000);
+        };
+
+        recognition.onerror = function (event) {
+            console.error("Speech recognition error detected: " + event.error);
+        };
+
+        recognition.onend = function () {
+            micButton.classList.remove('active');
+            console.log("Speech recognition service disconnected");
+        };
+    } else {
+        alert('Trình duyệt của bạn không hỗ trợ chức năng nhận diện giọng nói.');
+    }
+}
+
+function openSearchModal() {
+    document.getElementById('searchModal').style.display = "block";
+}
+
+function closeSearchModal() {
+    document.getElementById('searchModal').style.display = "none";
+}
+window.onclick = function (event) {
+    if (event.target == document.getElementById('searchModal')) {
+        closeSearchModal();
+    }
+}
 
 function setCookie(name, value, days) {
     document.cookie = `${name}=${encodeURIComponent(value)}; expires=${new Date(Date.now() + days * 864e5).toUTCString()}; path=/`;
@@ -110,13 +154,9 @@ function sendMessage() {
         displayMessage(response, 'bot', timestamp);
         saveChatHistory();
         checkAndAddNewQuestion(message, response);
-
-        // Chỉ phát âm thanh nếu mic được sử dụng và bot không đang nói
         if (isMicUsed && !isSpeaking) {
             speakText(response);
         }
-
-        // Đặt lại isMicUsed về false sau khi gửi tin nhắn
         isMicUsed = false;
     }, 1000);
 }
@@ -148,11 +188,13 @@ function speakText(text) {
     }
 
     utterance.onstart = () => {
-        isSpeaking = true; // Đặt isSpeaking thành true khi bắt đầu nói
+        isSpeaking = true;
+        document.getElementById('micButton').disabled = true;
     };
 
     utterance.onend = () => {
-        isSpeaking = false; // Đặt isSpeaking thành false khi kết thúc nói
+        isSpeaking = false;
+        document.getElementById('micButton').disabled = false;
     };
 
     window.speechSynthesis.speak(utterance);
@@ -217,7 +259,7 @@ document.getElementById('userInput').addEventListener('input', function () {
 });
 
 document.getElementById('micButton').addEventListener('click', function () {
-    if (!isSpeaking) { // Chỉ cho phép sử dụng mic khi bot không đang nói
+    if (!isSpeaking) {
         isMicUsed = true;
         const input = document.getElementById('userInput');
         sendMessage();
