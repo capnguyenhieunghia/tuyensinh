@@ -2,7 +2,7 @@
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/gviz/tq?tqx=out:json';
 let dataMap = {};
 let suggestionsList = [];
-const placeholderText = "Tôi sẽ trả lời các câu hỏi liên quan đến trường CĐ CNTT TP. HCM, hãy đặt câu hỏi ngay";
+const placeholderText = "Hãy đặt cho CĐ ITC.";
 let isMicUsed = false;
 let isSpeaking = false;
 let isListening = false;
@@ -253,7 +253,8 @@ function addNewQuestion(question, answer) {
 document.getElementById('userInput').addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
-        sendMessage(input.value); // Gửi câu hỏi từ ô nhập liệu
+        sendMessage(this.value);
+        this.value = ''; // Xóa ô nhập liệu sau khi gửi
     }
 });
 
