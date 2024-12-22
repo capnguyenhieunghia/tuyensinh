@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đổi Điểm Trò Chơi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .game-list {
+            margin: 20px 0;
+        }
+
+        select,
+        input,
+        button {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        #reward {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        #currentTime {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Đổi Điểm Trò Chơi</h1>
+    <div id="welcome-message" style="font-size: 16px; text-align: center;"></div>
+    <div id="currentTime"></div>
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+        <select id="gameSelect">
+            <option value="">Chọn trò chơi</option>
+            <option value="1">Chém hoa quả</option>
+            <option value="2">Đập chuột</option>
+            <option value="3">Trả lời câu hỏi</option>
+        </select>
+
+        <input type="number" id="pointsInput" placeholder="Nhập điểm" />
+        <button onclick="showReward()">Tra cứu</button>
+    </div>
+    <div id="reward">
+        <h2>Phần Quà:</h2>
+        <p id="rewardText"></p>
+    </div>
+    <script>
+        function showReward() {
+            const gameSelect = document.getElementById('gameSelect');
+            const points = parseInt(document.getElementById('pointsInput').value);
+            const selectedGame = gameSelect.value;
+            let rewardText = '';
+
+            if (selectedGame === "1") {
+                if (points >= 40 && points < 60) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 chiếc bút ITC';
+                } else if (points >= 61 && points < 90) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 Quạt ITC';
+                } else if (points >= 90 && points < 100) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 Bình nước';
+                } else if (points >= 100 && points < 200) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 Phần quà đặc biệt';
+                } else {
+                    rewardText = 'Không có quà cho số điểm này!';
+                }
+            } else if (selectedGame === "2") {
+                if (points >= 40 && points < 90) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 chiếc bút ITC';
+                } else if (points >= 90 && points < 199) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 Quạt ITC';
+                } else if (points >= 200 && points < 250) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 Bình nước';
+                } else if (points >= 250 && points < 400) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 Phần quà đặc biệt';
+                } else {
+                    rewardText = 'Không có quà cho số điểm này!';
+                }
+            } else if (selectedGame === "3") {
+                if (points >= 40 && points < 60) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 chiếc bút ITC';
+                } else if (points >= 61 && points < 90) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 Quạt ITC';
+                } else if (points >= 90 && points < 100) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 Bình nước';
+                } else if (points >= 100 && points < 200) {
+                    rewardText = 'Chúc mừng bạn đã nhận được: 1 Phần quà đặc biệt';
+                } else {
+                    rewardText = 'Không có quà cho số điểm này!';
+                }
+            } else {
+                rewardText = 'Vui lòng chọn trò chơi!';
+            }
+
+            document.getElementById('rewardText').innerText = rewardText;
+            document.getElementById('reward').style.display = 'block'; // Hiển thị phần quà
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            document.getElementById('currentTime').innerText = now.toLocaleString('vi-VN', options);
+        }
+
+        setInterval(updateTime, 1000); // Cập nhật thời gian mỗi giây
+        updateTime(); // Gọi hàm ngay lần đầu để hiển thị thời gian ngay lập tức
+        // 
+        document.addEventListener('DOMContentLoaded', function () {
+            const username = getCookie('username');
+            const welcomeMessage = username ? `Xin chào: ${username}` : 'Xin chào!';
+            document.getElementById('welcome-message').innerText = welcomeMessage;
+
+        });
+
+        function getCookie(name) {
+            return document.cookie.split('; ')
+                .reduce((r, v) => {
+                    const parts = v.split('=');
+                    return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+                }, '');
+        }
+    </script>
+
+</body>
+
+</html>

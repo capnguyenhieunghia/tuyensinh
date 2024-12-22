@@ -33,7 +33,7 @@ document.getElementById('login-form').addEventListener('submit', function (event
             if (found) {
                 setCookie('username', nameInput, 7);
                 if (phoneInput === '0938861080') {
-                    window.location.href = 'quantri.html';
+                    window.location.href = './page/quantri.html';
                 } else {
                     messageDiv.textContent = 'Đăng nhập thành công!';
                     messageDiv.style.color = 'green';

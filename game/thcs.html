@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò chơi trả lời câu hỏi</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            position: relative;
+        }
+
+        body .htt1 {
+            position: absolute;
+            top: 50%;
+        }
+
+        body .htt1 img {
+            width: 150px;
+        }
+
+        h1 {
+            color: #00695c;
+        }
+
+        #question-container {
+            display: flex;
+            width: 80%;
+            margin: 0 auto;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .question {
+            width: 50%;
+            height: auto;
+            font-size: 18px;
+            padding: 15px;
+
+            margin: 0 0 20px 0;
+            text-align: center;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        }
+
+        .answers {
+            width: 50%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            justify-items: center;
+        }
+
+        button {
+            width: 100%;
+            height: 120px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            color: navy;
+            font-size: 22px;
+            font-weight: bold;
+            padding: 15px;
+            background: none;
+            border: none;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        }
+
+        button:hover {
+            background-color: navy;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        #next-button {
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            .question {
+                font-size: 1.2em;
+                width: 100%;
+            }
+
+            .answers {
+                width: 100%;
+            }
+
+            button {
+                font-size: 0.9em;
+                padding: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin: 0 0 10px 0 ;"><img
+            src="./image/logoitc.png" alt="" width="50px">
+        <h3>TRƯỜNG CĐ CNTT TP. HCM</h3>
+    </div>
+    <h4 style="text-align: center; color: navy;">TRÒ CHƠI TRẢ LỜI CÂU HỎI CÙNG HỌC SINH THCS</h4>
+    <div id="question-container">
+        <div class="question" id="question"></div>
+        <div class="answers" id="answers"></div>
+        <div id="result"></div>
+    </div>
+    <button id="next-button" style="width: 20%; display: flex; justify-content: center; align-items: center;">Câu hỏi
+        tiếp theo</button>
+
+    <script>
+        const sheetID = '1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY';
+        const sheetName = 'traloicauhoi';
+        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+
+        let questions = [];
+        let currentQuestionIndex = 0;
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+                const rows = jsonData.table.rows;
+
+                rows.forEach(row => {
+                    const questionData = {
+                        question: row.c[0] ? row.c[0].v : '',
+                        answers: [],
+                        correctAnswer: row.c[5] ? row.c[5].v : ''
+                    };
+
+                    // Kiểm tra và thêm đáp án, bỏ qua đáp án có dấu "x"
+                    for (let i = 1; i <= 4; i++) {
+                        if (row.c[i] && !row.c[i].v.includes('x')) {
+                            questionData.answers.push(row.c[i].v);
+                        }
+                    }
+
+                    questions.push(questionData);
+                });
+                showQuestion();
+            })
+            .catch(error => console.error('Lỗi khi tải dữ liệu:', error));
+
+        function showQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const questionElement = document.getElementById('question');
+            const answersElement = document.getElementById('answers');
+            const resultElement = document.getElementById('result');
+            const nextButton = document.getElementById('next-button');
+
+            if (currentQuestionIndex < questions.length) {
+                const currentQuestion = questions[currentQuestionIndex];
+                questionElement.textContent = currentQuestion.question;
+                answersElement.innerHTML = '';
+
+                if (currentQuestion.answers.length > 0) {
+                    currentQuestion.answers.forEach((answer, index) => {
+                        const button = document.createElement('button');
+                        button.textContent = String.fromCharCode(65 + index) + '. ' + answer; // A, B, C, D
+                        button.onclick = () => checkAnswer(answer, currentQuestion.correctAnswer);
+                        answersElement.appendChild(button);
+                    });
+
+                    resultElement.textContent = '';
+                    nextButton.style.display = 'none'; // Ẩn nút "Câu hỏi tiếp theo" khi hiển thị câu hỏi
+                } else {
+                    resultElement.textContent = 'Không có đáp án nào để chọn.';
+                    nextButton.style.display = 'block'; // Hiện nút "Câu hỏi tiếp theo"
+                }
+            } else {
+                questionContainer.innerHTML = '<h2>Cảm ơn bạn đã tham gia!</h2>';
+                nextButton.style.display = 'none'; // Ẩn nút khi không còn câu hỏi
+            }
+        }
+
+        function checkAnswer(selectedAnswer, correctAnswer) {
+            const resultElement = document.getElementById('result');
+            const nextButton = document.getElementById('next-button');
+
+            // So sánh đáp án chọn với đáp án đúng
+            if (selectedAnswer.trim() === correctAnswer.trim()) {
+                resultElement.textContent = 'Đáp án đúng!';
+            } else {
+                resultElement.textContent = 'Đáp án đúng là: ' + correctAnswer;
+            }
+
+            nextButton.style.display = 'block'; // Hiện nút "Câu hỏi tiếp theo"
+        }
+
+        document.getElementById('next-button').onclick = function () {
+            currentQuestionIndex++;
+            showQuestion();
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        padding: 5px;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 5px 0px;
+        text-align: center;
+        font-size: 11px;
+    }
+
+    td:nth-child(3) {
+        color: red;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    #search {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        outline: none;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    }
+
+    @media (min-width: 1201px) {
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 5px 0px;
+            text-align: center;
+            font-size: 16px;
+        }
+    }
+</style>
+<div> <input type="text" id="search" placeholder="Tìm kiếm theo tên hoặc SĐT..." onkeyup="filterTable()"></div>
+<table id="data-table">
+    <thead>
+        <tr>
+            <th>Dấu thời gian</th>
+            <th>SĐT</th>
+            <th>Họ và tên</th>
+            <th>Trường</th>
+            <th>Ngày sinh</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Dữ liệu sẽ được thêm vào đây -->
+    </tbody>
+</table>
+<p
+    style="font-size: 10px; height: 0; width: 100%; margin: 0; text-align: center; color: gray; position: absolute; bottom: 5%;">
+    &copy; 2024 P. TS -
+    TT Trường Cao đẳng Công nghệ thông tin TP. HCM</p>
+<script>
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/gviz/tq?tqx=out:csv';
+
+    fetch(sheetUrl)
+        .then(response => response.text())
+        .then(data => {
+            const rows = data.split('\n').slice(1); // Bỏ qua dòng tiêu đề
+            const tbody = document.querySelector('#data-table tbody');
+            rows.forEach(row => {
+                const cols = row.split(',').map(col => col.replace(/"/g, '').trim()); // Loại bỏ dấu ngoặc kép và khoảng trắng
+                const tr = document.createElement('tr');
+                cols.forEach(col => {
+                    const td = document.createElement('td');
+                    td.textContent = col;
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Có lỗi xảy ra:', error));
+
+    function filterTable() {
+        const input = document.getElementById('search');
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById('data-table');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) { // Bắt đầu từ 1 để bỏ qua dòng tiêu đề
+            const cells = rows[i].getElementsByTagName('td');
+            let found = false;
+
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j].textContent.toLowerCase().includes(filter)) {
+                    found = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = found ? '' : 'none';
+        }
+    }
+
+    function navigate() {
+        const select = document.getElementById('navigation');
+        const url = select.value;
+        if (url) {
+            window.location.href = url;
+        }
+    }
+</script>
