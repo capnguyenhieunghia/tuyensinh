@@ -19,8 +19,8 @@
     left: -10px;
     right: -10px;
     bottom: -10px;
-    border-radius: 50%;
-    background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+    border-radius: 100%;
+    background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
     animation: pulse 1.5s infinite;
     opacity: 0;
     z-index: -1;
@@ -142,6 +142,7 @@ body {
 }
 
 .chd-img {
+    display: none;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     width: 45px;
     height: 45px;
@@ -293,6 +294,10 @@ input::placeholder {
 }
 
 @media (max-width: 768px) {
+    .chd-img {
+        display: block;
+    }
+
     .messages {
         background-image: none;
     }

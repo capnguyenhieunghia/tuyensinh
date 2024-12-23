@@ -1,7 +1,8 @@
 let SHEET_URL;
 let dataMap = {};
 let suggestionsList = [];
-const placeholderText = "Hãy đặt cho CĐ ITC.";
+let notifications = [];
+const placeholderText = "Hãy đặt câu hỏi cho CĐ ITC.";
 let isMicUsed = false;
 let isSpeaking = false;
 let isListening = false;
@@ -119,6 +120,16 @@ function loadChatHistory() {
         document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
     }
 }
+
+function loadNotifications() {
+    if (notifications.length > 0) {
+        notifications.forEach(notification => {
+            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            displayMessage(notification, 'bot', timestamp);
+        });
+    }
+}
+
 fetch('config.json')
     .then(response => response.json())
     .then(config => {
@@ -131,12 +142,18 @@ fetch('config.json')
         json.table.rows.forEach(row => {
             const question = row.c[0]?.v.toLowerCase().replace(/[.,/#!$%^&*;:{}=-_`~()]/g, "");
             const answer = row.c[1]?.v;
+            const notification = row.c[2]?.v;
+
             if (question && answer) {
                 dataMap[question] = answer;
                 suggestionsList.push(question);
             }
+            if (notification) {
+                notifications.push(notification);
+            }
         });
         loadChatHistory();
+        loadNotifications();
     })
     .catch(error => console.error('Error:', error));
 
@@ -288,4 +305,5 @@ document.getElementById('micButton').addEventListener('click', function () {
 window.onload = function () {
     loadChatHistory();
     typePlaceholder();
+    loadNotifications(); // Đảm bảo kiểm tra thông báo khi tải trang
 };
