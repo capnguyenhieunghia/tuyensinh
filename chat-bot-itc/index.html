@@ -20,6 +20,7 @@
     <script src="https://cse.google.com/cse.js?cx=3092bb157654b418d"></script>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=pSLGyR46"></script>
     <script src="https://crypto-js.googlecode.com/svn/tags/3.1.9-1/build/rollups/aes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 </head>
 
 <body>
@@ -30,14 +31,17 @@
             </div>
             <div class="messages" id="messages"></div>
             <div class="typing" id="typing"
-                style="display: none; margin-left: 10px; color: transparent; background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); background-clip: text; font-size: 14px;">CĐ ITC đang trả lời</div>
+                style="display: none; margin-left: 10px; color: transparent; background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); background-clip: text; font-size: 14px;">
+                CĐ ITC đang trả lời</div>
             <div class="input-area">
                 <div style="display: flex; justify-content: center;">
                     <input type="text" id="userInput" placeholder=" / Hiển thị gợi ý câu hỏi" />
-                    <button onclick="sendMessage(document.getElementById('userInput').value)"><i class="fa-regular fa-paper-plane"></i></button>
+                    <button onclick="sendMessage(document.getElementById('userInput').value)"><i
+                            class="fa-regular fa-paper-plane"></i></button>
                 </div>
                 <div style="display: flex; justify-content: center;">
-                    <button id="micButton" class="mic-effect" onclick="startDictation()"><i class="fa-solid fa-microphone"></i></button>
+                    <button id="micButton" class="mic-effect" onclick="startDictation()"><i
+                            class="fa-solid fa-microphone"></i></button>
                     <button onclick="openSearchModal()"><i class="fa-solid fa-search"></i></button>
                 </div>
             </div>
@@ -50,7 +54,7 @@
             </div>
         </div>
     </div>
-    <script src="js/chatbot.js"></script>
+    <script src="./js/script-bot.js"></script>
     <script src="js/mainbot.js"></script>
 </body>
 
