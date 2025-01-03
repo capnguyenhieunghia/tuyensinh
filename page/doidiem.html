@@ -52,7 +52,7 @@
             <option value="">Chọn trò chơi</option>
             <option value="1">Chém hoa quả</option>
             <option value="2">Đập chuột</option>
-            <option value="3">Trả lời câu hỏi</option>
+            <option value="3">Né sao</option>
         </select>
 
         <input type="number" id="pointsInput" placeholder="Nhập điểm" />
@@ -70,9 +70,9 @@
             let rewardText = '';
 
             if (selectedGame === "1") {
-                if (points >= 40 && points < 60) {
+                if (points >= 40 && points < 62) {
                     rewardText = 'Chúc mừng bạn đã nhận được: 1 chiếc bút ITC';
-                } else if (points >= 61 && points < 90) {
+                } else if (points >= 63 && points < 90) {
                     rewardText = 'Chúc mừng bạn đã nhận được: 1 Quạt ITC';
                 } else if (points >= 90 && points < 100) {
                     rewardText = 'Chúc mừng bạn đã nhận được: 1 Bình nước';
@@ -94,7 +94,7 @@
                     rewardText = 'Không có quà cho số điểm này!';
                 }
             } else if (selectedGame === "3") {
-                if (points >= 40 && points < 60) {
+                if (points >= 40 && points < 70) {
                     rewardText = 'Chúc mừng bạn đã nhận được: 1 chiếc bút ITC';
                 } else if (points >= 61 && points < 90) {
                     rewardText = 'Chúc mừng bạn đã nhận được: 1 Quạt ITC';
