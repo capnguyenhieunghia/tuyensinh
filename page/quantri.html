@@ -15,12 +15,14 @@
 
         body {
             position: relative;
-            background-image: url('../image/hinh-nen-cong-nghe.jpg');
+            background-image: url('../image/bg.jpg');
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: cover;
-
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
         }
 
         .cd {
@@ -33,17 +35,20 @@
         h3 {
             margin: 20px 5px;
             color: white;
-            border-bottom: dashed 1px white;
+            /* background: #fff2; */
+            text-align: end;
+            border-bottom: dashed 2px #fff9;
         }
 
         .card {
             position: relative;
-            background: #fff3;
+            background: #fff9;
             width: 200px;
             height: 100px;
             align-items: center;
             display: flex;
             padding: 5px;
+            transition: 1s ease;
             text-align: center;
             box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
         }
@@ -54,23 +59,39 @@
             top: 0;
             font-size: 12px;
             padding: 5px;
-            background-color: navy;
-            color: white;
+            background-color: #fff9;
+            ;
+            color: green;
         }
 
         .card:hover {
-            transform: scale(1.05);
-            transition: 1s ease;
+            /* transform: scale(1.05);
+            transition: 1s ease; */
+            background: #fff1;
         }
 
         .card a {
             text-decoration: none;
-            background-image: linear-gradient(to top, #fddb92 0%, #d1fdff 100%);
-            color: transparent;
-            background-clip: text;
+            color: navy;
             font-weight: bold;
             width: 100%;
             text-align: center;
+        }
+
+        #searchInput {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            background: #fff9;
+            border-radius: 5px;
+            outline: none;
+
+        }
+
+        #searchInput::placeholder {
+            color: navy;
         }
 
         @media (max-width: 600px) {
@@ -84,13 +105,17 @@
 
 <body>
     <div class="#"><a href="../index.html" style="color: #ec1d25;">Đăng xuất</a></div>
+    <input type="text" id="searchInput" placeholder="Tìm kiếm...">
     <h3>TRANG</h3>
+
+    <!-- Ô tìm kiếm -->
+
     <div class="cd">
         <div class="card">
             <div class="tt">Hoạt động</div><a href="../home.html">Trang người dùng</a>
         </div>
         <div class="card">
-            <div class="tt" style="color: yellow;">Đang phát triển </div><a href="./doidiem.html">Đổi điểm</a>
+            <div class="tt" style="color: navy;">Đang phát triển </div><a href="./doidiem.html">Đổi điểm</a>
         </div>
         <div class="card">
             <div class="tt">Hoạt động</div><a href="./dlsv.html">DỮ liệu sinh viên</a>
@@ -100,6 +125,7 @@
                 href="https://capnguyenhieunghia.github.io/assistant/">Chatbot</a>
         </div>
     </div>
+
     <h3>DỮ LIỆU</h3>
     <div class="cd">
         <div class="card"><a
@@ -112,7 +138,8 @@
                 href="https://docs.google.com/spreadsheets/d/1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY/edit?usp=sharing">File
                 câu hỏi</a></div>
     </div>
-    <H3>TRÒ CHƠI</H3>
+
+    <h3>TRÒ CHƠI</h3>
     <div class="cd">
         <div class="card">
             <div class="tt">Hoạt động</div><a href="../game/boctham.html">Bốc thăm trúng thưởng</a>
@@ -142,10 +169,28 @@
             <div class="tt">Hoạt động</div><a href="../game/caoso/index.html">Cào số</a>
         </div>
     </div>
+
     <p
         style="font-size: 10px; height: 0; width: 100%; margin: 0; text-align: center; color: gray; position: absolute; bottom: 0%;">
-        &copy; 2024 P. TS -
-        TT Trường Cao đẳng Công nghệ thông tin TP. HCM</p>
+        &copy; 2024 P. TS - TT Trường Cao đẳng Công nghệ thông tin TP. HCM</p>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.card');
+
+        searchInput.addEventListener('keyup', function () {
+            const filter = searchInput.value.toLowerCase();
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
