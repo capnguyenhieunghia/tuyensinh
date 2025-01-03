@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò Chơi Cào Trúng Thưởng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-image: url('https://khoinguonsangtao.vn/wp-content/uploads/2022/08/hinh-nen-vui-nhon-chu-be-nguoi-go-vui-ve-lam-powerpoint.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #scratch-card {
+            width: 300px;
+            height: 200px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background-color: #ccc;
+            margin: 0 auto;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 10px;
+        }
+
+        #reward {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            display: none;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #odds {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .caoso {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .chitay {
+            right: 50%;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="caoso">
+        <div class="chitay"><img src="../image/chitay.png" alt=""></div>
+        <div id="scratch-card">
+            <canvas id="scratchCanvas" width="300" height="200"></canvas>
+            <div id="reward">???</div>
+        </div>
+    </div>
+
+    <!-- <div id="result"></div> -->
+
+    <script>
+        const rewards = [
+            { name: "Bút ITC", odds: 0.35 },
+            { name: "Quạt ITC", odds: 0.05 },
+            { name: "Gấu Bông", odds: 0.0 },
+            { name: "Không Trúng", odds: 0.6 }
+        ];
+
+        const canvas = document.getElementById('scratchCanvas');
+        const ctx = canvas.getContext('2d');
+        const reward = document.getElementById('reward');
+
+        ctx.fillStyle = "#303030";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Hàm để chọn giải thưởng dựa trên tỉ lệ
+        function selectReward() {
+            const random = Math.random();
+            let cumulativeOdds = 0;
+
+            for (const reward of rewards) {
+                cumulativeOdds += reward.odds;
+                if (random < cumulativeOdds) {
+                    return reward.name;
+                }
+            }
+        }
+
+        const selectedReward = selectReward();
+        reward.textContent = selectedReward;
+
+        let isDrawing = false;
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            scratch(e);
+        });
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDrawing) {
+                scratch(e);
+            }
+        });
+        canvas.addEventListener('mouseup', () => {
+            isDrawing = false;
+            checkIfScratched();
+        });
+
+        function scratch(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ctx.clearRect(x - 20, y - 20, 20, 20);
+        }
+
+        function checkIfScratched() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let scratchedPixels = 0;
+
+            for (let i = 0; i < imageData.data.length; i += 4) {
+                if (imageData.data[i + 3] === 0) {
+                    scratchedPixels++;
+                }
+            }
+
+            // Nếu đã cào hết
+            if (scratchedPixels > (canvas.width * canvas.height) * 0.6) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                reward.style.display = 'block';
+                document.getElementById('result').textContent = `Bạn đã trúng: ${selectedReward}`;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

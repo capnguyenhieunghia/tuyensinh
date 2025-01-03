@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò Chơi Đạp Chuột</title>
+    <meta name="description" content="Trò chơi đập chuột cùng cao đẳng ITC">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        #gameContainer {
+            background-image: url('./image/anh-background-cay-xanh-hoat-hinh_095055870.jpg');
+            text-align: center;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #score {
+            font-size: 28px;
+            font-weight: bold;
+            color: #7a3e11;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        #timer {
+            font-size: 28px;
+            font-weight: bold;
+            color: #7a3e11;
+            margin-bottom: 20px;
+        }
+
+        #dateTime {
+            font-size: 20px;
+            color: #7a3e11;
+            margin-bottom: 20px;
+        }
+
+        #gameArea {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 5px;
+            width: 100%;
+            height: 80%;
+        }
+
+        .hole {
+            background-color: #8b4513;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s;
+        }
+
+        .hole:hover {
+            background-color: #7a3e10;
+        }
+
+        .mouse {
+            position: absolute;
+            width: 100%;
+            height: 80px;
+            background-image: url('./image/kapi2.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: transform 0.1s ease, top 0.5s ease;
+            animation: pop 0.5s forwards;
+            top: 100%;
+        }
+
+        @keyframes pop {
+            from {
+                top: 100%;
+            }
+
+            to {
+                top: 50%;
+            }
+        }
+
+        .mouse:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 600px) {
+
+            #score,
+            #timer,
+            #dateTime {
+                font-size: 24px;
+            }
+
+            .mouse {
+                width: 45px;
+                height: 45px;
+            }
+
+            #gameArea {
+                height: 65%;
+            }
+
+            .mouse {
+                background-size: cover;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="gameContainer">
+        <h2 style="color: #7a3e11; display: flex; justify-content: center; gap: 10px; align-items: center;">ĐẬP CHUỘT
+            ITC <img src="./image/logoitc.png" alt="" width="35px"></h2>
+        <div style="">
+            <div style="display: flex; justify-content: center; gap: 10px; font-size: 18px;">
+                <div id="score">Điểm: 0</div>
+                <div id="timer">Thời gian: 60</div>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <div id="dateTime" style="font-size: 12px;"></div>
+                <!-- <div><a href="doidiem.html"
+                        style="text-decoration: none; color: #7a3e10; border: #7a3e10 solid 1px;">Đổi
+                        điểm</a></div> -->
+            </div>
+        </div>
+        <div id="gameArea">
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+            <div class="hole"></div>
+        </div>
+    </div>
+    <p style="font-size: 11px; text-align: center; position: absolute; bottom: 0;">&copy; 2024 P. TS - TT Trường Cao
+        đẳng Công nghệ thông
+        tin TP. HCM
+    </p>
+    <script>
+        let score = 0;
+        let timeLeft = 60;
+        const scoreDisplay = document.getElementById('score');
+        const timerDisplay = document.getElementById('timer');
+        const dateTimeDisplay = document.getElementById('dateTime');
+        const holes = document.querySelectorAll('.hole');
+
+        function createMouse() {
+            const holeIndex = Math.floor(Math.random() * holes.length);
+            const selectedHole = holes[holeIndex];
+
+            const mouse = document.createElement('div');
+            mouse.className = 'mouse';
+            mouse.style.left = '50%';
+            mouse.style.transform = 'translate(-50%, -50%)';
+            selectedHole.appendChild(mouse);
+
+            mouse.addEventListener('click', () => {
+                score++;
+                scoreDisplay.textContent = 'Điểm: ' + score;
+                selectedHole.removeChild(mouse);
+            });
+
+            setTimeout(() => {
+                if (selectedHole.contains(mouse)) {
+                    selectedHole.removeChild(mouse);
+                }
+            }, 1000);
+        }
+
+        function startTimer() {
+            const timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = 'Thời gian: ' + timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Thời gian hết! Bạn đã ghi được ' + score + ' điểm.');
+                    location.reload();
+                }
+            }, 1000);
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            dateTimeDisplay.textContent = now.toLocaleString('vi-VN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+            });
+        }
+
+        setInterval(createMouse, 1500);
+        startTimer();
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Gọi hàm ngay lập tức để hiển thị thời gian ngay khi tải trang
+    </script>
+</body>
+
+</html>

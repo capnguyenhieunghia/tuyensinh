@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Check-in</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .check-in-itc {
+            border: solid red;
+            max-width: 500px;
+            height: 80%;
+            text-align: center;
+        }
+
+        #logo-frame {
+            border: 5px dashed #4CAF50;
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        #uploaded-image {
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        input[type="file"] {
+            margin: 20px;
+        }
+
+        #signature-canvas {
+            border: 1px solid #000;
+            width: 100%;
+            height: 200px;
+        }
+
+        /* #signature-instructions {
+            margin: 10px 0;
+        } */
+    </style>
+</head>
+
+<body>
+
+    <div class="check-in-itc">
+        <div id="logo-frame">
+            <img id="uploaded-image" src="" alt="Uploaded Image" />
+        </div>
+        <input type="file" accept="image/*" onchange="loadImage(event)" id="file-input" />
+        <div id="signature-instructions">Vui lòng ký tên bên dưới:</div>
+        <canvas id="signature-canvas"></canvas>
+    </div>
+
+    <script>
+        function loadImage(event) {
+            const image = document.getElementById('uploaded-image');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            image.style.display = 'block';
+            document.getElementById('file-input').style.display = 'none';
+            alert('Hãy chụp màn hình hình ảnh này!'); // Hiển thị thông báo alert
+        }
+
+        const canvas = document.getElementById('signature-canvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        function startDrawing(event) {
+            drawing = true;
+            ctx.beginPath();
+            ctx.moveTo(event.offsetX, event.offsetY);
+            document.getElementById('signature-instructions').style.display = 'none'; // Ẩn hướng dẫn
+        }
+
+        function draw(event) {
+            if (!drawing) return;
+            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            drawing = false;
+            ctx.closePath();
+        }
+    </script>
+
+</body>
+
+</html>

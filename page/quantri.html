@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            position: relative;
+            background-image: url('../image/hinh-nen-cong-nghe.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+
+        }
+
+        .cd {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        h3 {
+            margin: 20px 5px;
+            color: white;
+            border-bottom: dashed 1px white;
+        }
+
+        .card {
+            position: relative;
+            background: #fff3;
+            width: 200px;
+            height: 100px;
+            align-items: center;
+            display: flex;
+            padding: 5px;
+            text-align: center;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        }
+
+        .tt {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 12px;
+            padding: 5px;
+            background-color: navy;
+            color: white;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            transition: 1s ease;
+        }
+
+        .card a {
+            text-decoration: none;
+            background-image: linear-gradient(to top, #fddb92 0%, #d1fdff 100%);
+            color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 100%;
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="#"><a href="../index.html" style="color: #ec1d25;">Đăng xuất</a></div>
+    <h3>TRANG</h3>
+    <div class="cd">
+        <div class="card">
+            <div class="tt">Hoạt động</div><a href="../home.html">Trang người dùng</a>
+        </div>
+        <div class="card">
+            <div class="tt" style="color: yellow;">Đang phát triển </div><a href="./doidiem.html">Đổi điểm</a>
+        </div>
+        <div class="card">
+            <div class="tt">Hoạt động</div><a href="./dlsv.html">DỮ liệu sinh viên</a>
+        </div>
+        <div class="card">
+            <div class="tt" style="color: yellow;">Đang phát triển </div><a
+                href="https://capnguyenhieunghia.github.io/assistant/">Chatbot</a>
+        </div>
+    </div>
+    <h3>DỮ LIỆU</h3>
+    <div class="cd">
+        <div class="card"><a
+                href="https://docs.google.com/spreadsheets/d/1gamv9wS8nO9FnKfcDZVqh419ypcdlBX87Px4ssDnOOU/edit?usp=drive_link">Data
+                chatbox</a></div>
+        <div class="card"><a
+                href="https://docs.google.com/spreadsheets/d/1FwJtZwByjsBmpp46I2i0jyY-SzfzDEaOKEukctoHw2k/edit?usp=sharing">File
+                dữ liệu HSSV</a></div>
+        <div class="card"><a
+                href="https://docs.google.com/spreadsheets/d/1EcpSZ8XmuDuT-z7QGbdaJp-FHHbj-pi79ST8C_y4wBY/edit?usp=sharing">File
+                câu hỏi</a></div>
+    </div>
+    <H3>TRÒ CHƠI</H3>
+    <div class="cd">
+        <div class="card">
+            <div class="tt">Hoạt động</div><a href="../game/boctham.html">Bốc thăm trúng thưởng</a>
+        </div>
+        <div class="card">
+            <div class="tt">Hoạt động</div><a href="../game/dapchuot.html">Đập chuột</a>
+        </div>
+        <div class="card">
+            <div class="tt">Hoạt động</div><a href="../game/chemhoaqua.html">Trò chơi chém hoa quả</a>
+        </div>
+        <div class="card">
+            <div class="tt">Hoạt động</div><a href="../game/vq/index.html">Vòng quay may mắn</a>
+        </div>
+        <div class="card">
+            <div class="tt" style="color: red;">Tạm khóa🔒 </div><a href="">THCS</a>
+        </div>
+        <div class="card">
+            <div class="tt" style="color: red;">Tạm khóa🔒 </div><a href="">THPT</a>
+        </div>
+        <div class="card">
+            <div class="tt">Hoạt động</div><a href="../game/nesao.html">Né sao</a>
+        </div>
+        <div class="card">
+            <div class="tt">Hoạt động</div><a href="../game/mohopqua.html">Mở hộp quà</a>
+        </div>
+        <div class="card">
+            <div class="tt">Hoạt động</div><a href="../game/caoso/index.html">Cào số</a>
+        </div>
+    </div>
+    <p
+        style="font-size: 10px; height: 0; width: 100%; margin: 0; text-align: center; color: gray; position: absolute; bottom: 0%;">
+        &copy; 2024 P. TS -
+        TT Trường Cao đẳng Công nghệ thông tin TP. HCM</p>
+</body>
+
+</html>

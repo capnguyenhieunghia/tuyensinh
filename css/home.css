@@ -1,0 +1,549 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', Times, serif;
+    font-family: sans-serif;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    position: relative;
+    /* background-color: #FFFFFFD4; */
+}
+
+
+.crs-mb {
+    display: none;
+}
+
+/* all */
+/* Header */
+header {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    background-image: url('../image/bg.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+header .logo {
+    position: absolute;
+    top: 30%;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+
+}
+
+.logochu {
+    display: flex;
+    flex-direction: column;
+    font-size: 85px;
+    border-radius: 15px;
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    padding: 20px;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+}
+
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+.sd-mobile {
+    display: none;
+    padding: 5px;
+    background: #fff8;
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    width: 100%;
+}
+
+.sd-mb {
+    backdrop-filter: blur(20px);
+    padding: 5px 15px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+
+.sd-mb:hover {
+    background: linear-gradient(250deg, #ec1d25, #0d296b);
+    transition: 1s ease-in-out;
+    color: white;
+}
+
+.sd-mb a {
+    font-size: 12px;
+    text-decoration: none;
+    color: black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.sd-mb a i {
+    background: linear-gradient(250deg, #ec1d25, #0d296b);
+    color: transparent;
+    background-clip: text;
+}
+
+.chatbot {
+    text-align: end;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+header #welcome-message {
+    position: absolute;
+    top: 0;
+    padding: 10px;
+    left: 4%;
+    text-align: center;
+    font-weight: bold;
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    color: transparent;
+    background-clip: text;
+}
+
+.hd-trungbay {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    position: absolute;
+    bottom: 5%;
+}
+
+.nd-trungbay {
+    width: 300px;
+    height: 200px;
+    background: #fff1;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nd-trungbay a {
+    text-decoration: none;
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    color: transparent;
+    background-clip: text;
+    font-size: 20px;
+    background-position: center;
+}
+
+.nd-trungbay .tb-hinh {
+    width: 100%;
+    height: 80%;
+}
+
+.nd-trungbay img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+.nd-trungbay .tb-nd a {
+    text-align: center;
+}
+
+/* ndt */
+.nganhdaotao {
+    padding: 5px;
+}
+
+.nganhdt {
+    width: 80%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns on desktop */
+    gap: 10px;
+}
+
+.ndt {
+    perspective: 1000px;
+    border: 1px solid #ccc;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    align-items: center;
+}
+
+.ndt-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.ndt:hover .ndt-image-container {
+    transform: rotateY(180deg);
+
+}
+
+.ndt:hover .ndt-image-container {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50px;
+    filter: blur(0.1px);
+}
+
+
+.ndt-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Ensure images cover the area */
+    backface-visibility: hidden;
+    /* Hide back face during flip */
+}
+
+@media (max-width: 768px) {
+    .nganhdt {
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+    }
+}
+
+/*  */
+/* mini gmae */
+.mini-game {
+    background-position: center;
+    background-attachment: fixed;
+    padding: 20px 0 50px 0;
+    background-image: url('https://pub-static.fotor.com/assets/bg/ca5fa97f-7696-414b-bc87-9b5205b27575.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.game {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.gm {
+    height: auto;
+    position: relative;
+    width: 200px;
+    background: #fff1;
+    height: 150px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.gm:hover.gm p {
+    display: block;
+}
+
+.gm p {
+    position: absolute;
+    width: 100%;
+    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    color: transparent;
+    background-clip: text;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 0;
+    top: 80%;
+
+}
+
+.gm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gm:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* bậc đào tạo */
+
+.bacdaotao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+}
+
+.bdt {
+    display: flex;
+    align-items: center;
+    background-color: #FFFFFFD4;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 25px;
+    margin: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    transition: transform 0.2s;
+}
+
+.bdt-h:nth-child(1) {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.bdt-h:nth-child(2) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.bdt-h:nth-child(3) {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+}
+
+.bdt:hover {
+    transform: translateY(-2px);
+}
+
+.bdt-hinh {
+    flex-shrink: 0;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.bdt-hinh a {
+    text-decoration: none;
+    background: linear-gradient(250deg, #ec1d25, #0d296b);
+    color: transparent;
+    background-clip: text;
+}
+
+.bdt-hinh img {
+    width: 60px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.bdt-nd {
+    flex-grow: 1;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* maquee */
+marquee {
+    color: navy;
+    font-weight: bold;
+    width: 100%;
+    padding: 3px 0;
+    font-size: 13px;
+    margin: 0;
+}
+
+.container {
+    gap: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 500px;
+    background: #fff8;
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    border-radius: 8px;
+    transition: transform 0.2s;
+    margin: 20px 0;
+}
+
+/* #emailForm:hover {
+    transform: translateY(-5px);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
+} */
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.gmail-img {
+    max-width: 500px;
+    height: 100%;
+}
+
+.gmail-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#emailForm {
+    max-width: 500px;
+    height: 100%;
+    /* padding: 0 5px; */
+
+}
+
+input {
+    border-bottom: dashed 2px;
+}
+
+textarea {
+    border-bottom: dashed 2px;
+
+}
+
+input:focus,
+textarea:focus {
+    border-color: #301ecf;
+    outline: none;
+}
+
+#emailForm button {
+    background: navy;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    width: 100%;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+
+#emailForm button:hover {
+    background: linear-gradient(250deg, #ec1d25, #0d296b);
+    transform: translateY(-2px);
+}
+
+#emailForm button:active {
+    transform: translateY(0);
+}
+
+.tdp {
+    border-bottom: 3px dashed transparent;
+    border-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%) 1;
+    width: 20%;
+    font-size: 24px;
+    position: relative;
+    margin: 30px 0;
+    text-align: center;
+    background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+    font-weight: bold;
+    background-clip: text;
+    color: transparent;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+}
+
+/*  */
+/* Styles cho mobile */
+@media (max-width: 789px) {
+    .slideshow-container {
+        max-width: 100%;
+    }
+
+    .tdp {
+        width: 55%;
+        font-size: 18px;
+    }
+
+    .logochu {
+        font-size: 70px;
+    }
+
+    .crs-mb {
+        display: block;
+    }
+
+    header {
+        display: none;
+    }
+
+    #welcome-message {
+        font-size: 12px;
+        background: linear-gradient(250deg, #ec1d25, #0d296b);
+        color: transparent;
+        background-clip: text;
+    }
+
+    .gm {
+        width: 150px;
+        height: 120px;
+    }
+
+    .gm p {
+        font-size: 14px;
+        bottom: -11%;
+    }
+
+    .bdt-hinh {
+        flex-direction: unset;
+    }
+
+    .bdt {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .content h1 {
+        font-size: 16px;
+    }
+
+    .sd-mobile {
+        display: block;
+    }
+}
+
+/* Styles cho tablet */
+@media (min-width: 601px) and (max-width: 1024px) {}
+
+/* Styles cho laptop và desktop */
+@media (min-width: 1025px) {}
