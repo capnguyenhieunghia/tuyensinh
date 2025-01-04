@@ -20,6 +20,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             width: 100%;
             background-image: url('../image/background-tet-do-ruc-ro-removebg-preview.png');
             background-size: contain 300px;
@@ -123,6 +124,13 @@
                 opacity: 0;
             }
         }
+
+        @media (max-width: 789px) {
+            body {
+                display: none;
+
+            }
+        }
     </style>
 </head>
 
@@ -136,11 +144,11 @@
             <button id="generate">Hái Lì Xì</button>
         </div>
     </div>
-    <img src="../image/qrcode_capnguyenhieunghia.github.io.png" alt=""
+    <img src="../image/qr-dk.png" alt=""
         style="position: absolute; bottom: 1%; right: 1%; object-fit: contain; width: 130px;">
     <script>
         const prizes = ["Nhận Lì Xì", "Hẹn gặp lại", "Gấu bông", "Bình nước"];
-        const prizeRates = [20, 40, 20, 20];
+        const prizeRates = [5, 45, 25, 25];
         const envelopesContainer = document.getElementById('envelopes');
         let openedCount = 0;
 

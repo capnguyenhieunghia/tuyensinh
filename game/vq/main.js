@@ -13,9 +13,10 @@
         { text: 'Gấu bông ITC', chance: 0 }, // 5%
         { text: 'Check in nhận quà', chance: 10 }, // 10%
         { text: 'Bình nước ITC', chance: 0 }, // 5%
-        { text: 'Chúc bạn may mắn lần sau', chance: 58 }, // 30%
-        { text: 'Bút ITC', chance: 2 }, // 20%
-        { text: 'Quay lại lần nữa', chance: 30 } // 30%
+        { text: 'Chúc bạn may mắn lần sau', chance: 55 }, // 30%
+        { text: 'Bút ITC', chance: 10 }, // 20%
+        { text: 'Bìa xét tuyển', chance: 10 }, // 20%
+        { text: 'Quay lại lần nữa', chance: 15 } // 30%
     ];
 
     const totalChance = 100;
