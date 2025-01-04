@@ -169,7 +169,7 @@
             <div class="tt">Hoạt động</div><a href="../game/nesao.html">Né sao</a>
         </div>
         <div class="card">
-            <div class="tt">Laptop</div><a href="../game/mohopqua.html">Mở hộp quà</a>
+            <div class="tt">Hoạt động</div><a href="../game/mohopqua.html">Mở hộp quà</a>
         </div>
         <div class="card">
             <div class="tt">Hoạt động</div><a href="../game/caoso/index.html">Cào số</a>
@@ -182,23 +182,44 @@
     <p
         style="font-size: 10px; height: 0; width: 100%; margin: 0; text-align: center; color: gray; position: absolute; bottom: 0%;">
         &copy; 2024 P. TS - TT Trường Cao đẳng Công nghệ thông tin TP. HCM</p>
-
+    <div id="login-message"></div>
     <script>
-        const searchInput = document.getElementById('searchInput');
-        const cards = document.querySelectorAll('.card');
+        const timeLimit = 15 * 60 * 1000;
+        let inactivityTimer;
 
-        searchInput.addEventListener('keyup', function () {
-            const filter = searchInput.value.toLowerCase();
 
-            cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                if (text.includes(filter)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
+        function checkLogin() {
+            const username = getCookie('username');
+            const messageDiv = document.getElementById('login-message');
+
+            if (!username) {
+                window.location.href = '../index.html';
+            } else {
+
+                messageDiv.textContent = 'Chào mừng, ' + username + '!';
+                resetInactivityTimer();
+            }
+        }
+
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                alert('Bạn đã không hoạt động quá lâu. Vui lòng đăng nhập lại.');
+                window.location.href = 'index.html';
+            }, timeLimit);
+        }
+
+        document.addEventListener('mousemove', resetInactivityTimer);
+        document.addEventListener('keydown', resetInactivityTimer);
+        document.addEventListener('click', resetInactivityTimer);
+        document.addEventListener('DOMContentLoaded', checkLogin);
     </script>
 </body>
 

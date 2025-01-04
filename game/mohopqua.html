@@ -12,7 +12,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -101,7 +100,25 @@
             background-repeat: no-repeat;
             background-size: contain;
         }
-        
+
+        @media (max-width: 789px) {
+            .boxes {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .box {
+                width: 150px;
+                height: 150px;
+
+            }
+
+            h2 {
+                display: none;
+            }
+        }
     </style>
 </head>
 
