@@ -190,6 +190,7 @@ header #welcome-message {
 }
 
 .ndt {
+    border-radius: 10px;
     perspective: 1000px;
     border: 1px solid #ccc;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
