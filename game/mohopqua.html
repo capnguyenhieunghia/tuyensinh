@@ -166,36 +166,38 @@
 
     <!-- <div class="result" id="result"></div> -->
 </body>
-    <script>
-        function chooseGift(boxElement, boxNumber) {
-            const gifts = [
-                { name: "Bút ITC", probability: 50 },
-                { name: "Bình nước ITC", probability: 1 },
-                { name: "Quạt ITC", probability: 10 },
-                { name: "Gấu bông ITC", probability: 0 },
-                { name: "Chúc bạn may mắn lần sau", probability: 40 },
-            ];
+<script>
+    function chooseGift(boxElement, boxNumber) {
+        const gifts = [
+            { name: "Bút ITC", probability: 20 },
+            { name: "Bình nước ITC", probability: 2 },
+            { name: "Gấu bông ITC", probability: 2 },
+            { name: "Check in nhận quà", probability: 10 },
+            { name: "Bìa xét tuyển", probability: 26 },
+            { name: "Hẹn gặp lại", probability: 40 },
+            { name: "Bao lì xì", probability: 0 },
+        ];
 
-            const randomNum = Math.random() * 100;
-            let cumulativeProbability = 0;
-            let selectedGift = "Không có quà!";
+        const randomNum = Math.random() * 100;
+        let cumulativeProbability = 0;
+        let selectedGift = "Không có quà!";
 
-            for (const gift of gifts) {
-                cumulativeProbability += gift.probability;
-                if (randomNum <= cumulativeProbability) {
-                    selectedGift = gift.name;
-                    break;
-                }
+        for (const gift of gifts) {
+            cumulativeProbability += gift.probability;
+            if (randomNum <= cumulativeProbability) {
+                selectedGift = gift.name;
+                break;
             }
-
-            boxElement.classList.add('opened');
-            boxElement.querySelector('.back').innerText = selectedGift;
-
-            setTimeout(() => {
-                document.getElementById('result').innerText = `Bạn nhận được từ Hộp ${boxNumber}: ${selectedGift}`;
-            }, 1000);
         }
-    </script>
+
+        boxElement.classList.add('opened');
+        boxElement.querySelector('.back').innerText = selectedGift;
+
+        setTimeout(() => {
+            document.getElementById('result').innerText = `Bạn nhận được từ Hộp ${boxNumber}: ${selectedGift}`;
+        }, 1000);
+    }
+</script>
 
 
 </html>

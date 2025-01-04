@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .qr {
+            display: flex;
+            justify-content: center;
+            flex-direction: column-reverse;
+            align-items: center;
+            position: relative;
+            border: dashed 3px navy;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .qr img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .scan {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, rgba(255, 0, 0, 0.7), rgba(0, 0, 255, 0.7));
+            animation: scan-animation 2s infinite;
+        }
+
+        @keyframes scan-animation {
+            0% {
+                top: -50px;
+            }
+
+            50% {
+                top: 100%;
+            }
+
+            100% {
+                top: -50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="qr">
+        <img src="../image/qrcode_capnguyenhieunghia.github.io.png" alt="">
+        <div class="scan"></div>
+    </div>
+    <div style="position: absolute; text-align: center; width: 100%; top: 0;">
+        <h1 style="color: navy;">QUÉT MÃ QR THAM GIA TRÒ CHƠI VÀ VÔ SỐ QUÀ TỪ ITC</h1>
+    </div>
+</body>
+
+</html>

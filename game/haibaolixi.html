@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hái Bao Lì Xì</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('../image/background-tet-canh-mai-vang-khoe-sac.jpeg');
+            overflow: hidden;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+
+        .lixi {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-image: url('../image/background-tet-do-ruc-ro-removebg-preview.png');
+            background-size: contain 300px;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 80%;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: transparent;
+            background-clip: text;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+        }
+
+        .red-envelope {
+            width: 200px;
+            height: 250px;
+            background-image: url('../image/balixi.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 10px;
+            position: relative;
+            perspective: 1000px;
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .red-envelope.flip .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .flip-card-back {
+            background-image: url('../image/baoliximo-removebg-preview.png');
+            background-color: #e60000;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            color: #fa709a;
+        }
+
+        .petal {
+            position: fixed;
+            background-image: url('../image/pngtree-lucky-red-envelope-vietnamese-new-year-png-image_6011583.png');
+            background-size: cover;
+            z-index: 999;
+            opacity: 0.7;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="lixi">
+        <div
+            style="background-image: url('../image/logoitc.png'); background-position: center; background-repeat: no-repeat; background-size: contain 80px; display: flex; justify-content: center; flex-direction: column; width: 100%; align-items: center;">
+            <h1 style="text-align: center;">HÁI LÌ XÌ CÙNG ITC</h1>
+            <div id="envelopes"></div>
+            <button id="generate">Hái Lì Xì</button>
+        </div>
+    </div>
+    <img src="../image/qrcode_capnguyenhieunghia.github.io.png" alt=""
+        style="position: absolute; bottom: 1%; right: 1%; object-fit: contain; width: 130px;">
+    <script>
+        const prizes = ["Nhận Lì Xì", "Hẹn gặp lại", "Gấu bông", "Bình nước"];
+        const prizeRates = [20, 40, 20, 20];
+        const envelopesContainer = document.getElementById('envelopes');
+        let openedCount = 0;
+
+        function getRandomPrize() {
+            const totalWeight = prizeRates.reduce((acc, rate) => acc + rate, 0);
+            const randomNum = Math.random() * totalWeight;
+            let cumulativeWeight = 0;
+
+            for (let i = 0; i < prizeRates.length; i++) {
+                cumulativeWeight += prizeRates[i];
+                if (randomNum < cumulativeWeight) {
+                    return prizes[i];
+                }
+            }
+            return prizes[0];
+        }
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const size = Math.random() * 30 + 20; // Kích thước ngẫu nhiên
+            petal.style.width = size + 'px';
+            petal.style.height = size + 'px';
+            petal.style.left = Math.random() * window.innerWidth + 'px'; // Vị trí ngẫu nhiên
+            petal.style.top = '-50px'; // Bắt đầu từ trên cùng
+
+            // Thêm hiệu ứng rơi
+            const duration = Math.random() * 3 + 2; // Thời gian rơi ngẫu nhiên từ 2 đến 5 giây
+            petal.style.animationDuration = duration + 's'; // Gán thời gian animation
+
+            document.body.appendChild(petal);
+
+            // Xóa cánh hoa sau khi rơi xong
+            petal.addEventListener('animationend', () => {
+                petal.remove();
+            });
+        }
+
+        // Tạo cánh hoa mỗi 300ms
+        setInterval(createPetal, 300);
+
+        document.getElementById('generate').addEventListener('click', function () {
+            envelopesContainer.innerHTML = '';
+            openedCount = 0;
+
+            for (let i = 0; i < 3; i++) {
+                const envelope = document.createElement('div');
+                envelope.className = 'red-envelope';
+                envelope.style.opacity = 1;
+                envelope.style.transform = 'scale(1)';
+                envelope.innerHTML = `<div class="flip-card-inner">
+                                        <div class="flip-card-front">Lì Xì</div>
+                                        <div class="flip-card-back">${prizes[i]}</div>
+                                    </div>`;
+                envelopesContainer.appendChild(envelope);
+
+                setTimeout(() => {
+                    envelope.style.opacity = 1;
+                    envelope.style.transform = 'scale(1)';
+                }, i * 300);
+
+                envelope.addEventListener('click', function () {
+                    const prize = getRandomPrize();
+                    envelope.classList.toggle('flip');
+
+                    setTimeout(() => {
+                        envelope.querySelector('.flip-card-back').innerText = prize;
+                        openedCount++;
+
+                        if (openedCount === 3) {
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+                        }
+                    }, 300);
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

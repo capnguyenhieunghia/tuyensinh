@@ -1,115 +1,102 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logo Check-in</title>
+    <title>Check in ngay nhận quà liên tay</title>
     <style>
-        * {
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
 
-        body {
-            display: flex;
+        .qr-code {
+            border: dashed 4px navy;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Fullscreen modal styles */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            z-index: 1000;
         }
 
-        .check-in-itc {
-            border: solid red;
-            max-width: 500px;
-            height: 80%;
-            text-align: center;
+        #modal img {
+            max-width: 90%;
+            max-height: 90%;
         }
-
-        #logo-frame {
-            border: 5px dashed #4CAF50;
-            position: relative;
-            width: 100%;
-            height: 300px;
-            overflow: hidden;
-            background-color: white;
-        }
-
-        #uploaded-image {
-            max-width: 100%;
-            max-height: 100%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        input[type="file"] {
-            margin: 20px;
-        }
-
-        #signature-canvas {
-            border: 1px solid #000;
-            width: 100%;
-            height: 200px;
-        }
-
-        /* #signature-instructions {
-            margin: 10px 0;
-        } */
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 </head>
 
 <body>
+    <p style="font-size: 50px; position: absolute; bottom: 0%; right: 5%;">👇</p>
+    <h2 style="text-align: center;">CHECK-IN NHẬN QUÀ CÙNG ITC</h2>
+    <div
+        style="display: flex; justify-content: space-around; width: 100%; height: 100vh; align-items: center; flex-wrap: wrap; gap: 50px;">
+        <div class="qr-code" id="qr1"></div>
+    </div>
+    <div
+        style="display: flex; justify-content: space-around; width: 100%; height: 100vh; align-items: center; flex-wrap: wrap; gap: 50px;">
+        <div class="qr-code" id="qr2"></div>
+    </div>
 
-    <div class="check-in-itc">
-        <div id="logo-frame">
-            <img id="uploaded-image" src="" alt="Uploaded Image" />
-        </div>
-        <input type="file" accept="image/*" onchange="loadImage(event)" id="file-input" />
-        <div id="signature-instructions">Vui lòng ký tên bên dưới:</div>
-        <canvas id="signature-canvas"></canvas>
+    <!-- Modal for full-screen QR code display -->
+    <div id="modal">
+        <img id="modalImage" src="" alt="QR Code">
     </div>
 
     <script>
-        function loadImage(event) {
-            const image = document.getElementById('uploaded-image');
-            image.src = URL.createObjectURL(event.target.files[0]);
-            image.style.display = 'block';
-            document.getElementById('file-input').style.display = 'none';
-            alert('Hãy chụp màn hình hình ảnh này!'); // Hiển thị thông báo alert
-        }
+        $(document).ready(function () {
+            var qrcode1 = new QRCode("qr1", {
+                text: "https://www.facebook.com/itc.edu.vn?mibextid=ZbWKwL",
+                width: 200,
+                height: 200,
+            });
 
-        const canvas = document.getElementById('signature-canvas');
-        const ctx = canvas.getContext('2d');
-        let drawing = false;
+            var qrcode2 = new QRCode("qr2", {
+                text: "https://maps.app.goo.gl/tgbY7ot7ASEFeMGH8",
+                width: 200,
+                height: 200,
+            });
 
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mouseout', stopDrawing);
+            // Click event to display QR code in full screen
+            $('#qr1').click(function () {
+                $('#modalImage').attr('src', $('#qr1 canvas').get(0).toDataURL());
+                $('#modal').css('display', 'flex');
+            });
 
-        function startDrawing(event) {
-            drawing = true;
-            ctx.beginPath();
-            ctx.moveTo(event.offsetX, event.offsetY);
-            document.getElementById('signature-instructions').style.display = 'none'; // Ẩn hướng dẫn
-        }
+            $('#qr2').click(function () {
+                $('#modalImage').attr('src', $('#qr2 canvas').get(0).toDataURL());
+                $('#modal').css('display', 'flex');
+            });
 
-        function draw(event) {
-            if (!drawing) return;
-            ctx.lineTo(event.offsetX, event.offsetY);
-            ctx.stroke();
-        }
-
-        function stopDrawing() {
-            drawing = false;
-            ctx.closePath();
-        }
+            // Close modal when clicked
+            $('#modal').click(function () {
+                $(this).hide();
+            });
+        });
     </script>
-
 </body>
 
 </html>

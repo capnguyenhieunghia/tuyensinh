@@ -15,9 +15,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
             text-align: center;
-
+            height: 100vh;
+            padding: 5px 0 0 0;
         }
 
 
@@ -63,10 +63,10 @@
             font-size: 18px;
             color: #333;
             text-align: left;
-            background-color: #fff;
+            /* background-color: #fff; */
             border-radius: 8px;
             padding: 5px 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
         }
 
         .winner-item {
@@ -172,6 +172,8 @@
 
 <body>
     <h1>BỐC THĂM MAY MẮN</h1>
+    <img src="../image/qrcode_capnguyenhieunghia.github.io.png" alt=""
+        style="position: absolute; bottom: 1%; right: 1%; object-fit: contain; width: 150px; border: dashed navy 1px; background-color: #0d296b;">
     <div class="table-container">
         <table id="data-table">
             <tbody></tbody>
@@ -217,11 +219,13 @@
         const modalWinnersList = document.getElementById('modal-winners-list');
 
         const prizes = [
-            { name: "Giải nhất - Gấu bông ITC", probability: 0 },
-            { name: "Giải nhì - Bình nước", probability: 0.01 },
+            { name: "Giải nhất - Gấu bông ITC", probability: 0.05 },
+            { name: "Giải nhì - Bình nước", probability: 0.05 },
             { name: "Giải ba - Balo", probability: 0 },
-            { name: "Giải khuyến khích - Bút", probability: 0.49 },
-            { name: "Giải an ủi - Tùy tâm", probability: 0.5 }
+            { name: "Giải khuyến khích - Bút", probability: 0.5 },
+            { name: "Giải khuyến khích 1 - Lì xì", probability: 0.03 },
+            { name: "Giải khuyến khích 2 - Checkin nhận quà", probability: 0.07 },
+            { name: "Giải an ủi - Bìa xét tuyển", probability: 0.3 }
         ];
 
         // Load winners from cookies
