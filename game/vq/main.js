@@ -14,8 +14,8 @@
         { text: 'Check in nhận quà', chance: 10 }, // 10%
         { text: 'Bình nước ITC', chance: 0 }, // 5%
         { text: 'Chúc bạn may mắn lần sau', chance: 55 }, // 30%
-        { text: 'Bút ITC', chance: 10 }, // 20%
-        { text: 'Bìa xét tuyển', chance: 10 }, // 20%
+        { text: 'Bút ITC', chance: 10 }, // 20
+        
         { text: 'Quay lại lần nữa', chance: 15 } // 30%
     ];
 
